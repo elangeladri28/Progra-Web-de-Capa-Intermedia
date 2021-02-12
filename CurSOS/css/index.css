@@ -1,0 +1,35 @@
+body{
+
+}
+
+#carrito{
+    cursor: pointer;
+    width: 30px;
+    margin-left: 10px;
+}
+
+.mano-levantada{
+    margin-right: 1000px;
+   position: relative;
+   left: 200px;
+   top: -170px;
+   
+}
+
+.TextoIncial{
+    
+    position: relative;
+    left: -600px;
+    top: 100px;
+}
+
+.marquito{
+    margin-left: 450px;
+    margin-bottom:-100px ;
+}
+
+.carousel img{
+    object-fit: cover;
+    max-height: 500px;
+    
+}
