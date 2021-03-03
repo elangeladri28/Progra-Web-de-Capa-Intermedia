@@ -1,0 +1,21 @@
+body{
+
+}
+
+#carrito{
+    cursor: pointer;
+    width: 30px;
+    margin-left: 10px;
+}
+
+#Access{
+    margin-left: 10px;
+}
+
+.checked {
+    color: orange;
+  }
+
+@media screen and (max-width: 850px){
+    
+}

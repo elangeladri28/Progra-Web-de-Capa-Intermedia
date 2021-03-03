@@ -1,0 +1,19 @@
+body{
+
+}
+
+#carrito{
+    cursor: pointer;
+    width: 30px;
+    margin-left: 10px;
+}
+
+#Access{
+    margin-left: 10px;
+}
+
+.carousel img{
+    object-fit: cover;
+    max-height: 500px;
+    
+}
