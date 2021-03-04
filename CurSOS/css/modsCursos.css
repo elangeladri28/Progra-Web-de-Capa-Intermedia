@@ -1,21 +1,27 @@
-body{
-
-}
-
-#carrito{
+#carrito {
     cursor: pointer;
     width: 30px;
     margin-left: 10px;
 }
 
-#Access{
+#Access {
     margin-left: 10px;
 }
 
 .checked {
     color: orange;
-  }
+}
 
-@media screen and (max-width: 850px){
-    
+section {
+    padding: 10px 0;
+}
+
+#footer {
+    background: #323232 !important;
+}
+
+#footer a {
+    color: #ffffff;
+    text-decoration: none !important;
+    background-color: transparent;
 }

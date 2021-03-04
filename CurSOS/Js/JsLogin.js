@@ -1,8 +1,12 @@
 document.getElementById("btn__registrarse").addEventListener("click", register);
-document.getElementById("btn__iniciar-sesion").addEventListener("click", iniciar);
-window.addEventListener("resize",anchopagina);
+document
+    .getElementById("btn__iniciar-sesion")
+    .addEventListener("click", iniciar);
+window.addEventListener("resize", anchopagina);
 
-var contenedor_login_register = document.querySelector(".contenedor__login-register");
+var contenedor_login_register = document.querySelector(
+    ".contenedor__login-register"
+);
 
 var formulario_login = document.querySelector(".formulario__login");
 var formulario_register = document.querySelector(".formulario__register");
@@ -21,10 +25,10 @@ function anchopagina() {
         formulario_login.style.display = "block";
         formulario_register.style.display = "none";
         contenedor_login_register.style.left = "0";
-
     }
 }
 anchopagina();
+
 function iniciar() {
     if (window.innerWidth > 850) {
         formulario_register.style.display = "none";
@@ -42,7 +46,6 @@ function iniciar() {
 }
 
 function register() {
-
     if (window.innerWidth > 850) {
         formulario_register.style.display = "block";
         contenedor_login_register.style.left = "410px";

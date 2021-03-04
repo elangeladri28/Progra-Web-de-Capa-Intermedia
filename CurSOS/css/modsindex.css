@@ -1,19 +1,28 @@
-body{
-
-}
-
-#carrito{
+#carrito {
     cursor: pointer;
     width: 30px;
     margin-left: 10px;
 }
 
-#Access{
+#Access {
     margin-left: 10px;
 }
 
-.carousel img{
+.carousel img {
     object-fit: cover;
     max-height: 500px;
-    
+}
+
+section {
+    padding: 10px 0;
+}
+
+#footer {
+    background: #7952b3 !important;
+}
+
+#footer a {
+    color: #ffffff;
+    text-decoration: none !important;
+    background-color: transparent;
 }
