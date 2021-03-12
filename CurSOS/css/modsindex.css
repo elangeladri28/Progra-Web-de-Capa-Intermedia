@@ -12,7 +12,9 @@
     object-fit: cover;
     max-height: 500px;
 }
-
+.checked {
+    color: orange;
+}
 section {
     padding: 10px 0;
 }
