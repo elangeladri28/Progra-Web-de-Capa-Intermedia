@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '97d5434b1c6f04ebce796e61219f4d0aee5210e9',
+    'reference' => '003f04a141e83e8f7b476a031bfad8db52e329ca',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '97d5434b1c6f04ebce796e61219f4d0aee5210e9',
+      'reference' => '003f04a141e83e8f7b476a031bfad8db52e329ca',
     ),
     'nikic/fast-route' => 
     array (

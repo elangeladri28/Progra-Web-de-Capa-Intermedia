@@ -5,12 +5,16 @@
         private $dbPass = 'root';
         private $dbName = 'cursos';
         //conexion
-        public function conectionDB(){
-            $mysqlConnect = "mysql:host=$this->dbHost;dbname=$this->dbName";
-            $dbConexion = new PDO($mysqlConnect, $this->dbUser, $this->dbPass);
-            $dbConexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $dbConexion;
+
+        public function connectionDB() {
+            $mysqli = new mysqli($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName);
+            if ($mysqli->connect_errno) {
+                echo "Problema con la conexion a la base de datos";
+            }
+            return $mysqli;
         }
+        
+
         
         public function disconnect() {
             $mysqli = new mysqli($this->dbHost, $this->dbUser, $this->dbPassword, $this->dbName);

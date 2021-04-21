@@ -23,7 +23,7 @@
 
             try{
                 $db = new db();
-                $db = $db->conectionDB();
+                $db = $db->connectionDB();
                 $result = $db->query($sql);                
 
                 if (!$result) {
@@ -44,13 +44,13 @@
             $sql = "SELECT * FROM users WHERE id = ".$id."";
             try{
                 $db = new db();
-                $db = $db->conectionDB();
+                $db = $db->connectionDB();
                 $result = $db->query($sql);
 
                 if($result) {
                     // Recorremos los resultados devueltos
 			        $users = array();
-			        while( $users = $result->fetchAll(PDO::FETCH_OBJ)) {
+			        while( $users = $result->fetch_assoc()) {
                         return $users;
 			        }
                 }else {
@@ -71,13 +71,13 @@
     
             try{
                 $db = new db();
-                $db = $db->conectionDB();
+                $db = $db->connectionDB();
                 $result = $db->query($sql);
 
                 if($result) {
                     // Recorremos los resultados devueltos
 			        $users = array();
-			        while( $user = $result->fetchAll(PDO::FETCH_OBJ)) {
+			        while( $user = $result->fetch_assoc()) {
 				        $users[] = $user;
 			        }			
 			        return $users;
