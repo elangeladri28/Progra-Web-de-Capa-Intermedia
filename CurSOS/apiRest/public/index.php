@@ -1,20 +1,17 @@
-<?php
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+<?php 
 
+    use \Psr\Http\Message\ServerRequestInterface as Request;
+    use \Psr\Http\Message\ResponseInterface as Response;
 
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../src/config/db.php';
+    require '../vendor/autoload.php';
 
-$app = new \Slim\App;
+    header('Access-Control-Allow-Origin: *');
+    
+    $app = new \Slim\App;
 
-// $app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
-//     $name = $args['name'];
-//     $response->getBody()->write("Hello, $name");
-//     return $response;
-// });
+    //User routes
+    require '../src/routes/user.php';
 
-
-//Ruta clientes
-require __DIR__ . '/../src/rutas/clientes.php';
-$app->run();
+    // Run app
+    $app->run();
+?>
