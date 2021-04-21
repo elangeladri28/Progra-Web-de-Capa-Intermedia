@@ -1,84 +1,98 @@
 <?php
 
     class UserModel {
-        private $id;
-        private $email;
-        private $userPassword;
-        private $userName;
-        private $firstName;
-        private $secondName;
-        private $lastName;
-        private $birthday;
-        private $country;
-        private $state;
-        private $city;
-        private $postalCode;
-        private $profilePicture;
+        private $id_usuario;
+        private $rol;
+        private $usuario;
+        private $nombre;
+        private $apellidos;
+        private $correo;
+        private $contra;
+        private $avatar;
+        private $activo;
 
-        public function __construct($id, $email, $userPassword, $userName, $firstName, $secondName, $lastName) {
-            $this->id = $id;
-            $this->email = $email;
-            $this->userPassword = $userPassword;
-            $this->userName = $userName;
-            $this->firstName = $firstName;
-            $this->secondName = $secondName;
-            $this->lastName = $lastName;
+        public function __construct($id_usuario, $rol, $usuario, $nombre, $apellidos, $correo, $contra, $avatar,$activo) {
+            $this->id_usuario = $id_usuario;
+            $this->rol = $rol;
+            $this->usuario = $usuario;
+            $this->nombre = $nombre;
+            $this->apellidos = $apellidos;
+            $this->correo = $correo;
+            $this->contra = $contra;
+            $this->avatar = $avatar;
+            $this->activo = $activo;
         }
-
-        public function setId($id) {
-            $this->id = $id;
+       
+        public function setId($id_usuario) {
+            $this->id_usuario = $id_usuario;
         }
 
         public function getId() {
-            return $this->id;
+            return $this->id_usuario;
         }
 
-        public function getEmail() {
-            return $this->email;
+        public function setRol($rol) {
+            $this->rol = $rol;
         }
 
-        public function setEmail($email) {
-            $this->email = $email;
+        public function getRol() {
+            return $this->rol;
+        }
+        
+        public function setUsuario($usuario) {
+            $this->usuario = $usuario;
         }
 
-        public function getUserPassword() {
-            return $this->userPassword;
+        public function getUsuario() {
+            return $this->usuario;
         }
 
-        public function setUserPassword($userPassword) {
-            $this->userPassword = $userPassword;
+        public function setNombre($nombre) {
+            $this->nombre = $nombre;
         }
 
-        public function getUserName() {
-            return $this->userName;
+        public function getNombre() {
+            return $this->nombre;
         }
 
-        public function setUserName($userName) {
-            $this->userName = $userName;
+        public function setApellidos($apellidos) {
+            $this->apellidos = $apellidos;
         }
 
-        public function getFirstName() {
-            return $this->firstName;
+        public function getApellidos() {
+            return $this->apellidos;
         }
 
-        public function setFirstName($firstName) {
-            $this->firstName = $firstName;
+        public function setCorreo($correo) {
+            $this->correo = $correo;
         }
 
-        public function getSecondName() {
-            return $this->secondName;
+        public function getCorreo() {
+            return $this->correo;
         }
 
-        public function setSecondName($secondName) {
-            $this->secondName = $secondName;
+        public function setContra($contra) {
+            $this->contra = $contra;
         }
 
-        public function getLastName() {
-            return $this->lastName;
+        public function getContra() {
+            return $this->contra;
         }
 
-        public function setLastName($lastName) {
-            $this->lastName = $lastName;
+        public function setAvatar($avatar) {
+            $this->avatar = $avatar;
+        }
+
+        public function getAvatar() {
+            return $this->avatar;
+        }
+
+        public function setActivo($activo) {
+            $this->activo = $activo;
+        }
+
+        public function getActivo() {
+            return $this->activo;
         }
 
     }

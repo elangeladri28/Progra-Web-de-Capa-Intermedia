@@ -3,7 +3,8 @@ use cursos;
 CREATE TABLE IF NOT EXISTS Usuario (
 id_usuario INT AUTO_INCREMENT,
 rol BOOL DEFAULT TRUE, /* True para maestro, false para alumno*/
-usuario VARCHAR(50) NOT NULL,
+activo BOOL DEFAULT TRUE,
+usuario VARCHAR(50) UNIQUE NOT NULL,
 nombre VARCHAR(50) NULL,
 apellidos VARCHAR(50) NULL,
 correo VARCHAR(50) NOT NULL,
@@ -15,6 +16,7 @@ Constraint PK_Usuario PRIMARY KEY (id_usuario)
 CREATE TABLE IF NOT EXISTS Categoria(
 id_categoria INT AUTO_INCREMENT,
 categoria VARCHAR(50) NOT NULL,
+activo BOOL DEFAULT TRUE,
 Constraint PK_Categoria PRIMARY KEY (id_categoria)
 );
 
@@ -34,6 +36,7 @@ descripcion VARCHAR(255) NOT NULL,
 costo DOUBLE NOT NULL,
 foto BLOB NOT NULL,
 categoriaid INT NULL,
+activo BOOL DEFAULT TRUE,
 Constraint PK_Curso PRIMARY KEY (id_curso),
 Constraint FK_Curso FOREIGN KEY (categoriaid) REFERENCES Categoria(id_categoria)
 );
@@ -66,6 +69,7 @@ archivo BLOB NULL,
 img BLOB NULL,
 video BLOB NOT NULL,
 extra VARCHAR(255) NULL, /* Algun link o nota */
+activo BOOL DEFAULT TRUE,
 Constraint PK_Contenido PRIMARY KEY (id_contenido),
 Constraint FK_Contenido  FOREIGN KEY(cursoid) References Curso(id_curso)
 );
@@ -113,5 +117,9 @@ DROP TABLE Usuario;
 
 INSERT INTO Usuario(usuario, correo, contra ) values('PainChip','carlos@gmail.com','1234');
 SELECT * FROM Usuario;
+SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE id_usuario = 1
+SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE correo = 123@gmail.com and
+INSERT INTO Usuario(rol, usuario, nombre, apellidos, correo, contra)VALUES ( true, "Tanjiro", "Kamado", "Inosuke", "666@hotmail.com", "333666")
+contra = 123456
 SELECT * FROM comentariousuario;
 DELETE FROM Usuario WHERE id_usuario != 10;
