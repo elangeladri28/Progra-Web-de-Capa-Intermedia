@@ -1,0 +1,203 @@
+<html><head>
+<title>Schema Report for database: cursos</title>
+<style>
+        td,th {
+        text-align:left;
+        vertical-align:middle;
+        }
+        table {
+        border-collapse: collapse;
+        border: 1px solid;
+        }
+        caption, th, td {
+        padding: .2em .8em;
+        border: 1px solid #000000;
+        }
+        caption {
+        background: #D3D3D3;
+        font-weight: bold;
+        font-size: 1.1em;
+        }
+        th {
+        font-weight: bold;
+        background: #000000;
+        color: white;
+        }
+        td {
+        background: #FFFFFF;
+        }
+        </style>
+      </head>
+     <body>
+<h1>Schema Report for database: cursos</h1>
+<a id="home">Table List </a><br /><ul>
+<li><a href="#carrito">carrito </a></li>
+<li><a href="#categoria">categoria </a></li>
+<li><a href="#chatprivado">chatprivado </a></li>
+<li><a href="#comentariocurso">comentariocurso </a></li>
+<li><a href="#contenido">contenido </a></li>
+<li><a href="#contrata">contrata </a></li>
+<li><a href="#curso">curso </a></li>
+<li><a href="#historial">historial </a></li>
+<li><a href="#usuario">usuario </a></li>
+</ul>
+<a id="carrito"></a><table style="width:100%"><caption>Table: carrito </caption>
+<tr><td>Table Comments</td><td colspan="6"></td></tr>
+<tr><td colspan="7">Columns</td></tr>
+        <tr>
+        <th>Name</th>
+        <th>Data Type</th>
+        <th>Nullable</th>
+        <th>PK</th>
+        <th>FK</th>
+        <th>Default</th>
+        <th>Comment</th>
+        </tr>
+<tr><td>id_carrito</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Id del carrito</td></tr>
+<tr><td>cursoid</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Id del curso que compra</td></tr>
+<tr><td>usuarioid</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Id del usuario que esta comprando</td></tr>
+</table><a href="#home">Table List </a></br>
+<a id="categoria"></a><table style="width:100%"><caption>Table: categoria </caption>
+<tr><td>Table Comments</td><td colspan="6"></td></tr>
+<tr><td colspan="7">Columns</td></tr>
+        <tr>
+        <th>Name</th>
+        <th>Data Type</th>
+        <th>Nullable</th>
+        <th>PK</th>
+        <th>FK</th>
+        <th>Default</th>
+        <th>Comment</th>
+        </tr>
+<tr><td>id_categoria</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Id de la categoria</td></tr>
+<tr><td>categoria</td><td>VARCHAR(50)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Nombre de la categoria</td></tr>
+</table><a href="#home">Table List </a></br>
+<a id="chatprivado"></a><table style="width:100%"><caption>Table: chatprivado </caption>
+<tr><td>Table Comments</td><td colspan="6"></td></tr>
+<tr><td colspan="7">Columns</td></tr>
+        <tr>
+        <th>Name</th>
+        <th>Data Type</th>
+        <th>Nullable</th>
+        <th>PK</th>
+        <th>FK</th>
+        <th>Default</th>
+        <th>Comment</th>
+        </tr>
+<tr><td>id_cp</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Id del chatprivado</td></tr>
+<tr><td>mensaje</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>mensaje que se envia</td></tr>
+<tr><td>usuarioid</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Id del ususario que lo manda</td></tr>
+<tr><td>usuarioid2</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Id del ususario que lo recibe</td></tr>
+</table><a href="#home">Table List </a></br>
+<a id="comentariocurso"></a><table style="width:100%"><caption>Table: comentariocurso </caption>
+<tr><td>Table Comments</td><td colspan="6"></td></tr>
+<tr><td colspan="7">Columns</td></tr>
+        <tr>
+        <th>Name</th>
+        <th>Data Type</th>
+        <th>Nullable</th>
+        <th>PK</th>
+        <th>FK</th>
+        <th>Default</th>
+        <th>Comment</th>
+        </tr>
+<tr><td>id_comencurs</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Id del comentariocurso</td></tr>
+<tr><td>userid</td><td>INT</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Id del usuario que comenta</td></tr>
+<tr><td>comentario</td><td>VARCHAR(250)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Mensaje que publica</td></tr>
+<tr><td>cursoid</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Id del curso que comenta</td></tr>
+</table><a href="#home">Table List </a></br>
+<a id="contenido"></a><table style="width:100%"><caption>Table: contenido </caption>
+<tr><td>Table Comments</td><td colspan="6"></td></tr>
+<tr><td colspan="7">Columns</td></tr>
+        <tr>
+        <th>Name</th>
+        <th>Data Type</th>
+        <th>Nullable</th>
+        <th>PK</th>
+        <th>FK</th>
+        <th>Default</th>
+        <th>Comment</th>
+        </tr>
+<tr><td>id_contenido</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Id del contenido</td></tr>
+<tr><td>cursoid</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Id del curso referenciado</td></tr>
+<tr><td>nivel</td><td>INT</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Numero de nivel del curso</td></tr>
+<tr><td>archivo</td><td>BLOB</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td>Documento que anexe si lo desea</td></tr>
+<tr><td>img</td><td>BLOB</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td>Imagen que anexa si lo desea</td></tr>
+<tr><td>video</td><td>BLOB</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Video que debe subir</td></tr>
+<tr><td>extra</td><td>VARCHAR(255)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td>Link que anexa si lo desea</td></tr>
+</table><a href="#home">Table List </a></br>
+<a id="contrata"></a><table style="width:100%"><caption>Table: contrata </caption>
+<tr><td>Table Comments</td><td colspan="6"></td></tr>
+<tr><td colspan="7">Columns</td></tr>
+        <tr>
+        <th>Name</th>
+        <th>Data Type</th>
+        <th>Nullable</th>
+        <th>PK</th>
+        <th>FK</th>
+        <th>Default</th>
+        <th>Comment</th>
+        </tr>
+<tr><td>id_contrata</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Id de la tabla contrata</td></tr>
+<tr><td>ususarioid</td><td>INT</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Id del usuario que lo contrato</td></tr>
+<tr><td>cursoid</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Id del curso que contrato</td></tr>
+<tr><td>calificacion</td><td>DOUBLE</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td>Calificacion del curso terminado</td></tr>
+<tr><td>progreso</td><td>DOUBLE</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td>Progreso actual del usuario con el curso</td></tr>
+</table><a href="#home">Table List </a></br>
+<a id="curso"></a><table style="width:100%"><caption>Table: curso </caption>
+<tr><td>Table Comments</td><td colspan="6"></td></tr>
+<tr><td colspan="7">Columns</td></tr>
+        <tr>
+        <th>Name</th>
+        <th>Data Type</th>
+        <th>Nullable</th>
+        <th>PK</th>
+        <th>FK</th>
+        <th>Default</th>
+        <th>Comment</th>
+        </tr>
+<tr><td>id_curso</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Id del curso</td></tr>
+<tr><td>nombre</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Nombre del curso</td></tr>
+<tr><td>descripcion</td><td>VARCHAR(255)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Descripcion del curso</td></tr>
+<tr><td>costo</td><td>DOUBLE</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Costo del curso</td></tr>
+<tr><td>foto</td><td>BLOB</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Foto que anexa del curso</td></tr>
+<tr><td>categoriaid</td><td>INT</td><td>No</td><td>No</td><td>Yes</td><td>NULL</td><td>Id de la categoria del curso</td></tr>
+</table><a href="#home">Table List </a></br>
+<a id="historial"></a><table style="width:100%"><caption>Table: historial </caption>
+<tr><td>Table Comments</td><td colspan="6"></td></tr>
+<tr><td colspan="7">Columns</td></tr>
+        <tr>
+        <th>Name</th>
+        <th>Data Type</th>
+        <th>Nullable</th>
+        <th>PK</th>
+        <th>FK</th>
+        <th>Default</th>
+        <th>Comment</th>
+        </tr>
+<tr><td>id_historial</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Id del historial</td></tr>
+<tr><td>cursoid</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Id del curso que busco</td></tr>
+<tr><td>usuarioid</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Id del usuario que realizo la busqueda</td></tr>
+</table><a href="#home">Table List </a></br>
+<a id="usuario"></a><table style="width:100%"><caption>Table: usuario </caption>
+<tr><td>Table Comments</td><td colspan="6"></td></tr>
+<tr><td colspan="7">Columns</td></tr>
+        <tr>
+        <th>Name</th>
+        <th>Data Type</th>
+        <th>Nullable</th>
+        <th>PK</th>
+        <th>FK</th>
+        <th>Default</th>
+        <th>Comment</th>
+        </tr>
+<tr><td>id_usuario</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Id del usuario</td></tr>
+<tr><td>rol</td><td>TINYINT(1)</td><td>No</td><td>No</td><td>No</td><td>'1'</td><td>Rol del usuario 1:Alumno 0:Maestro</td></tr>
+<tr><td>usuario</td><td>VARCHAR(50)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Nombre/Nickname del Usuario</td></tr>
+<tr><td>nombre</td><td>VARCHAR(50)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td>Nombre real del usuario</td></tr>
+<tr><td>apellidos</td><td>VARCHAR(50)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td>Apellidos del usuario</td></tr>
+<tr><td>correo</td><td>VARCHAR(50)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Correo del ususario</td></tr>
+<tr><td>contra</td><td>VARCHAR(50)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Contraseña del usuario</td></tr>
+<tr><td>avatar</td><td>BLOB</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td>Imagen de avatar del usuario</td></tr>
+</table><a href="#home">Table List </a></br>
+</body></html>

@@ -29,7 +29,7 @@
 
 		$mysqli = connect();
 		
-		$result = $mysqli->query("INSERT INTO Usuario(usuario, correo, contra) values('".$usuario."','".$correo."','".$contraseña."');");
+		$result = $mysqli->query("INSERT INTO Usuario(usuario, correo, contra) values('".$usuario."','".$correo."','".$contraseña."')");
 		
 		if (!$result) {
 			echo "Problema al hacer un query: " . $mysqli->error;								
