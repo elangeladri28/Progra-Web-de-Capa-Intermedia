@@ -1,17 +1,17 @@
-body{
+body {
     background-image: url(https://t3.ftcdn.net/jpg/01/22/89/84/360_F_122898445_th5zUBYtFV6t1kbANjlJFUdNks8lBRNv.jpg);
     background-repeat: repeat-y;
     background-size: cover;
 }
 
-.contenedortodo{
+.contenedortodo {
     width: 100%;
     max-width: 800px;
     margin: auto;
     position: relative;
 }
 
-.cajatrasera{
+.cajatrasera {
     width: 100%;
     padding: 10px 20px;
     display: flex;
@@ -20,23 +20,23 @@ body{
     background-color: #7952b385;
 }
 
-.cajatrasera div{
+.cajatrasera div {
     margin: 100px 40px;
     color: white;
     transition: all 500ms;
 }
 
 .cajatrasera div p,
-.cajatrasera div button{
+.cajatrasera div button {
     margin-top: 30px;
 }
 
-.cajatrasera div h3{
+.cajatrasera div h3 {
     font-weight: 400;
     font-size: 26px;
 }
 
-.cajatrasera button{
+.cajatrasera button {
     padding: 10px 40px;
     border: 2px solid white;
     background: transparent;
@@ -48,12 +48,12 @@ body{
     transition: all 300ms;
 }
 
-.cajatrasera button:hover{
+.cajatrasera button:hover {
     background: white;
     color: #7952b3;
 }
 
-.contenedor__login-register{
+.contenedor__login-register {
     display: flex;
     align-items: center;
     width: 100%;
@@ -61,11 +61,10 @@ body{
     position: relative;
     top: -185px;
     left: 10px;
-
     transition: left 500ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
 }
 
-.contenedor__login-register form{
+.contenedor__login-register form {
     width: 100%;
     padding: 80px 20px;
     background: white;
@@ -73,14 +72,14 @@ body{
     border-radius: 20px;
 }
 
-.contenedor__login-register form h2{
+.contenedor__login-register form h2 {
     font-size: 30px;
-    text-align:  center;
+    text-align: center;
     margin-bottom: 20px;
     color: #7952b3;
 }
 
-.contenedor__login-register form input{
+.contenedor__login-register form input {
     width: 100%;
     margin-top: 20px;
     padding: 10px;
@@ -90,56 +89,50 @@ body{
     outline: none;
 }
 
-.contenedor__login-register form button{
+.contenedor__login-register form button {
     padding: 10px 40px;
-    margin-top:  40px;
+    margin-top: 40px;
     border: none;
-    font-size:  14px;
-    background: #7952b3 ;
+    font-size: 14px;
+    background: #7952b3;
     color: white;
     cursor: pointer;
     outline: none;
 }
 
-.formulario__login{
+.formulario__login {
     opacity: 1;
     display: block;
 }
 
-.formulario__register{
+.formulario__register {
     display: none;
 }
 
-#inputGroupSelect01{
+#inputGroupSelect01 {
     margin-top: 10px;
 }
 
-@media screen and (max-width: 850px){
-
-
-    body{
+@media screen and (max-width: 850px) {
+    body {
         margin-top: 50px;
     }
-    .cajatrasera{
+    .cajatrasera {
         max-width: 350px;
         height: 300px;
         flex-direction: column;
-        margin: auto    
+        margin: auto
     }
-
-    .cajatrasera div{
+    .cajatrasera div {
         margin: 0px;
         position: absolute;
     }
-
-    .contenedor__login-register{
+    .contenedor__login-register {
         top: -10px;
         left: -5px;
         margin: auto;
     }
-
-    .contenedor__login-register form{
+    .contenedor__login-register form {
         position: relative;
     }
-
 }

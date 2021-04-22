@@ -23,7 +23,7 @@
                 if (!$result) {
                     echo "Problema al hacer un query: " . $db->error;								
                 } else {
-                    echo '{"message" : { "status": "200" , "text": "Usuario creado satisfactoriamente." }';
+                    echo '{"message" : { "status": "200" , "text": "Usuario creado satisfactoriamente."}}';
                 }
 
                 $result = null;
@@ -170,7 +170,7 @@
                 echo '{"error" : {"text":'.$e->getMessage().'}';
             }    
         }
-        public static function getUserByEmailPassword($correo, $contra) {
+        public static function getUserByCorreoContra($correo, $contra) {
             $sql = "SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE correo = '".$correo."' and contra = '".$contra."' and activo = TRUE";
             try{
                 $db = new db();

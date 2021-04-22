@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" />
+
+    <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/modsLogin.css" />
+    <script type="text/javascript" src="../js/modelosJS/user.js"></script>
+
+
+
+</head>
+
+<body>
+    <br>
+    <div class="container" style="margin-top: 100px;">
+
+        <div class="contenedortodo">
+
+            <div class="cajatrasera">
+
+                <div class="cajatrasera-login">
+                    <h3>¿Ya tienes una cuenta?</h3>
+                    <p>Inicia sesión para entrar en la página</p>
+                    <button id="btn__iniciar-sesion">Iniciar sesión</button>
+                </div>
+
+                <div class="cajatrasera-register">
+                    <h3>¿Aún no tienes una cuenta?</h3>
+                    <p>Regístrate para que puedas iniciar sesión</p>
+                    <button id="btn__registrarse">Registrarse</button>
+                </div>
+
+            </div>
+            <div class="contenedor__login-register">
+                <form action="" class="formulario__login">
+                    <h2>Iniciar sesión</h2>
+                    <input id="User" type="text" placeholder="Username">
+                    <input id="Contra" type="password" placeholder="Contraseña">
+                    <button id="btnentra">Entrar</button>
+
+                </form>
+
+                <form action="" class="formulario__register">
+                    <h2>Registrarse</h2>
+                    <input id="User2" type="text" placeholder="Username">
+                    <input id="Name" type="text" placeholder="Nombre">
+                    <input id="Apellidos" type="text" placeholder="Apellidos">
+                    <input id="Email" type="email" placeholder="Email">
+                    <input id="Contra2" type="password" placeholder="Contraseña">
+
+                    <select class="custom-select" id="inputGroupSelect01">
+                        <option selected>Elige el tipo de usuario.</option>
+                        <option value="true">Alumno</option>
+                        <option value="false">Escuela</option>
+                    </select>
+
+                    <button id="btnregistra">Registrarse</button>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="../js/JsLogin.js"></script>
+    <script type="module">
+        import {
+            urlglobal
+        } from '../js/urlglobal.js'
+
+        $(document).ready(function() {
+            var listProducts = [];
+            var comosalio = 0;
+            $(".formulario__register").submit(function(e) {
+                e.preventDefault();
+            });
+            $(".formulario__login").submit(function(e) {
+                e.preventDefault();
+            });
+            $('#btnregistra').click(function() {
+                var usuario = new Usuario($('#User2').val(), $('#Name').val(), $('#Apellidos').val(), $('#Email').val(), $('#Contra2').val(), $('#inputGroupSelect01').val());
+                sendUser(usuario);
+
+                
+
+            });
+
+            function sendUser(Usuario) {
+                // Objeto en formato JSON el cual le enviaremos al webservice (PHP)
+                var dataToSend = {
+
+                    usuario: Usuario.nombreUsuario,
+                    nombre: Usuario.nombreReal,
+                    apellidos: Usuario.apellidoUsuario,
+                    correo: Usuario.correoUsuario,
+                    contra: Usuario.contraUsuario,
+                    rol: Usuario.rolUsuario
+
+                };
+                var aver = JSON.stringify(dataToSend);
+                $.ajax({
+                    url: urlglobal.url + "/addUser",
+                    async: true,
+                    type: 'POST',
+                    data: aver,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function() {
+                        alert("Se registro correctamente");
+                        window.location.reload();
+                    },
+                    error: function(x, y, z) {
+                        alert("Error en webservice: " + x + y + z);
+                    }
+                });
+            }
+
+        });
+    </script>
+</body>
+
+</html>

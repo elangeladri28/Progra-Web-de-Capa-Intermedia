@@ -9,11 +9,11 @@
     require 'C:/xampp/htdocs/Progra-Web-de-Capa-Intermedia/CurSOS/apiRest/src/models/user.php';
 
     //Busca por Correo y contraseña
-        $app->get('/getUserByEmailPassword', function(Request $request, Response $response){
+        $app->post('/getUserByCorreoContra', function(Request $request, Response $response){
             if($request->getParam('correo') && $request->getParam('password')) {
                 $correo = $request->getParam('correo');
                 $contra = $request->getParam('contra');
-                $user = UserController::getUserByEmailPassword($correo, $contra);
+                $user = UserController::getUserByCorreoContra($correo, $contra);
                 if($user){
                     echo json_encode($user);
                 }else{
@@ -24,7 +24,7 @@
             }
         });
     //Busca por Username
-        $app->get('/getUserByUsername', function(Request $request, Response $response){
+        $app->post('/getUserByUsername', function(Request $request, Response $response){
             if($request->getParam('usuario')) {
                 $username = $request->getParam('usuario');
                 $user = UserController::getUserByUsername($username);
@@ -66,13 +66,14 @@
 
             $user = new UserModel(null, $request->getParam('rol'), $request->getParam('usuario'), $request->getParam('nombre'), $request->getParam('apellidos'),$request->getParam('correo'),$request->getParam('contra'),null,null);
             UserController::addUser($user);
+            
 
         } else {
             echo '{"message" : { "status": "500" , "text": "Server error" }';
         }
     });
     //Modificar un usuario
-    $app->put('/modifyUser', function(Request $request, Response $response){
+    $app->post('/modifyUser', function(Request $request, Response $response){
 
         if($request->getParam('id_usuario') && $request->getParam('rol') && $request->getParam('usuario') && $request->getParam('nombre') && $request->getParam('apellidos') && $request->getParam('correo') && $request->getParam('contra')) {
 
@@ -85,7 +86,7 @@
         
     });
     //Eliminar un usuario por username
-    $app->put('/deleteUserByUsername', function(Request $request, Response $response){
+    $app->post('/deleteUserByUsername', function(Request $request, Response $response){
 
         if($request->getParam('usuario')) {
 
@@ -98,7 +99,7 @@
         
     });
         //Eliminar un usuario por id
-        $app->put('/deleteUserById', function(Request $request, Response $response){
+        $app->post('/deleteUserById', function(Request $request, Response $response){
 
             if($request->getParam('id_usuario')) {
     
