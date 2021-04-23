@@ -12,9 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/modsLogin.css" />
     <script type="text/javascript" src="../js/modelosJS/user.js"></script>
-
-
-
 </head>
 
 <body>
@@ -84,13 +81,48 @@
             $(".formulario__login").submit(function(e) {
                 e.preventDefault();
             });
+            $('#btnentra').click(function() {
+                var usuario = new Usuario($('#User').val(), null, null, null, $('#Contra').val(), null);
+                
+                getUser(usuario);
+                
+            });
             $('#btnregistra').click(function() {
                 var usuario = new Usuario($('#User2').val(), $('#Name').val(), $('#Apellidos').val(), $('#Email').val(), $('#Contra2').val(), $('#inputGroupSelect01').val());
-                sendUser(usuario);
-
-                
+                var contra = $('#Contra2').val();
+                if(validar_clave(contra)){
+                    sendUser(usuario);
+                }else{
+                    alert("La contraseña no aceptada");
+                }            
 
             });
+
+            function getUser(Usuario) {
+                // Objeto en formato JSON el cual le enviaremos al webservice (PHP)
+                var dataToSend = {
+                    usuario: Usuario.nombreUsuario,
+                    contra: Usuario.contraUsuario,
+                };
+                var aver = JSON.stringify(dataToSend);
+                debugger
+                $.ajax({
+                    url: urlglobal.url + "/getUserByUsuarioContra",
+                    async: true,
+                    type: 'POST',
+                    data: aver,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function() {
+                        alert("Logueado correctamente");
+                        window.location.assign("index.php");
+                    },
+                    error: function(x, y, z) {
+                        alert("Hubo un error");
+
+                    }
+                });
+            }
 
             function sendUser(Usuario) {
                 // Objeto en formato JSON el cual le enviaremos al webservice (PHP)
@@ -122,6 +154,31 @@
                 });
             }
 
+            function validar_clave(contrasenna) {
+                if (contrasenna.length >= 8) {
+                    debugger
+                    var mayuscula = false;
+                    var minuscula = false;
+                    var numero = false;
+                    var caracter_raro = false;
+
+                    for (var i = 0; i < contrasenna.length; i++) {
+                        if (contrasenna.charCodeAt(i) >= 65 && contrasenna.charCodeAt(i) <= 90) {
+                            mayuscula = true;
+                        } else if (contrasenna.charCodeAt(i) >= 97 && contrasenna.charCodeAt(i) <= 122) {
+                            minuscula = true;
+                        } else if (contrasenna.charCodeAt(i) >= 48 && contrasenna.charCodeAt(i) <= 57) {
+                            numero = true;
+                        } else {
+                            caracter_raro = true;
+                        }
+                    }
+                    if (mayuscula == true && minuscula == true && caracter_raro == true && numero == true) {
+                        return true;
+                    }
+                }
+                return false;
+            }
         });
     </script>
 </body>

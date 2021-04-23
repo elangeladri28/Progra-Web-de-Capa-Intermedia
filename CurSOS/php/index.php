@@ -10,24 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/modsindex.css">
-    <script>
-        $(document).ready(function() {
-            let searchParams = new URLSearchParams(window.location.search)
-            if (searchParams.has('Logueado')) // true
-            {
-                let param = searchParams.get('Logueado');
-                if (param == "Si") {
-                    $("#Login").remove();
-                } else {
-                    $("#imagenUser").remove();
-                    $("#NombreUser").remove();
-                }
-            } else {
-                $("#imagenUser").remove();
-                $("#NombreUser").remove();
-            }
-        });
-    </script>
 </head>
 
 <body>
@@ -48,7 +30,6 @@
             </div>
         </div>
     </header>
-
     <!-- Page Content -->
     <div class="container">
 

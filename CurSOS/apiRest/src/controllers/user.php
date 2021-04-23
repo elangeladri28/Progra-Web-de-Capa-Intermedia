@@ -34,18 +34,16 @@
 
         }
 
-        public static function modifyUser($user) {
+        public static function modifyUserbyUsername($user) {
             
-            $id_usuario =  $user->getId();
-            $userRol = $user->getRol();
             $Username = $user->getUsuario(); 
             $userNombre = $user->getNombre();
             $userApellido = $user->getApellidos();
             $userCorreo = $user->getCorreo();
             $userContra = $user->getContra();
-            $userAvatar = $user->getAvatar();
+            //$userAvatar = $user->getAvatar();
             
-            $sql = "UPDATE Usuario SET 
+            /*$sql = "UPDATE Usuario SET 
             rol = ".$userRol.",
             usuario = '".$Username."',
             nombre= '".$userNombre."',
@@ -53,7 +51,14 @@
             correo = '".$userCorreo."',
             contra = '".$userContra."',
             avatar = '".$userAvatar."'
-            WHERE id_usuario = ".$id_usuario."";
+            WHERE id_usuario = ".$id_usuario."";*/
+
+            $sql = "UPDATE Usuario SET 
+            nombre= '".$userNombre."',
+            apellidos = '".$userApellido."',
+            correo = '".$userCorreo."',
+            contra = '".$userContra."'
+            WHERE usuario = '".$Username."'";
             try{
                 $db = new db();
                 $db = $db->connectionDB();
@@ -62,7 +67,7 @@
                 if (!$result) {
                     echo "Problema al hacer un query: " . $db->error;								
                 } else {
-                    echo '{"message" : { "status": "200" , "text": "Usuario modificado satisfactoriamente." }';
+                    echo '{"message" : { "status": "200" , "text": "Usuario modificado satisfactoriamente." }}';
                 }
 
                 $result = null;
@@ -85,7 +90,7 @@
                 if (!$result) {
                     echo "Problema al hacer un query: " . $db->error;								
                 } else {
-                    echo '{"message" : { "status": "200" , "text": "Usuario eliminado satisfactoriamente." }';
+                    echo '{"message" : { "status": "200" , "text": "Usuario eliminado satisfactoriamente." }}';
                 }
 
                 $result = null;
@@ -109,7 +114,7 @@
                 if (!$result) {
                     echo "Problema al hacer un query: " . $db->error;								
                 } else {
-                    echo '{"message" : { "status": "200" , "text": "Usuario eliminado satisfactoriamente." }';
+                    echo '{"message" : { "status": "200" , "text": "Usuario eliminado satisfactoriamente." }}';
                 }
 
                 $result = null;
@@ -119,7 +124,9 @@
             }
         }
         
-        public static function getUserById($id) {
+        public static function getUserById($user) {
+            $id = $user->getId();
+            
             $sql = "SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE id_usuario = ".$id." and activo = TRUE";
             try{
                 $db = new db();
@@ -145,7 +152,8 @@
             }    
         }
 
-        public static function getUserByUsername($Username) {
+        public static function getUserByUsername($user) {
+            $Username = $user->getUsuario(); 
             $sql = "SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE Usuario = '".$Username."' and activo = TRUE";
             try{
                 $db = new db();
@@ -170,8 +178,12 @@
                 echo '{"error" : {"text":'.$e->getMessage().'}';
             }    
         }
-        public static function getUserByCorreoContra($correo, $contra) {
-            $sql = "SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE correo = '".$correo."' and contra = '".$contra."' and activo = TRUE";
+        public static function getUserByUsuarioContra($user) {
+
+            $username = $user->getUsuario();
+            $contra = $user->getContra();
+
+            $sql = "SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE usuario = '".$username."' and contra = '".$contra."' and activo = TRUE";
             try{
                 $db = new db();
                 $db = $db->connectionDB();

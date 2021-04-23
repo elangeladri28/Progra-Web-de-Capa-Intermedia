@@ -9,11 +9,10 @@
     require 'C:/xampp/htdocs/Progra-Web-de-Capa-Intermedia/CurSOS/apiRest/src/models/user.php';
 
     //Busca por Correo y contraseña
-        $app->post('/getUserByCorreoContra', function(Request $request, Response $response){
-            if($request->getParam('correo') && $request->getParam('password')) {
-                $correo = $request->getParam('correo');
-                $contra = $request->getParam('contra');
-                $user = UserController::getUserByCorreoContra($correo, $contra);
+        $app->post('/getUserByUsuarioContra', function(Request $request, Response $response){
+            if($request->getParam('usuario') && $request->getParam('contra')) {
+                $user = new UserModel(null, null, $request->getParam('usuario'), null, null,null,$request->getParam('contra'),null,null);
+                $user = UserController::getUserByUsuarioContra($user);
                 if($user){
                     echo json_encode($user);
                 }else{
@@ -29,6 +28,7 @@
                 $username = $request->getParam('usuario');
                 $user = UserController::getUserByUsername($username);
                 if($user) {
+
                     echo json_encode($user);
                 } else {
                     echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." }';
@@ -67,18 +67,17 @@
             $user = new UserModel(null, $request->getParam('rol'), $request->getParam('usuario'), $request->getParam('nombre'), $request->getParam('apellidos'),$request->getParam('correo'),$request->getParam('contra'),null,null);
             UserController::addUser($user);
             
-
         } else {
             echo '{"message" : { "status": "500" , "text": "Server error" }';
         }
     });
     //Modificar un usuario
-    $app->post('/modifyUser', function(Request $request, Response $response){
+    $app->post('/modifyUserbyUsername', function(Request $request, Response $response){
 
-        if($request->getParam('id_usuario') && $request->getParam('rol') && $request->getParam('usuario') && $request->getParam('nombre') && $request->getParam('apellidos') && $request->getParam('correo') && $request->getParam('contra')) {
+        if($request->getParam('nombre') && $request->getParam('apellidos') && $request->getParam('correo') && $request->getParam('contra')) {
 
-            $user = new UserModel($request->getParam('id_usuario'), $request->getParam('rol'), $request->getParam('usuario'), $request->getParam('nombre'), $request->getParam('apellidos'),$request->getParam('correo'),$request->getParam('contra'), $request->getParam('avatar'),null);
-            UserController::modifyUser($user);
+            $user = new UserModel(null, null, $request->getParam('usuario'), $request->getParam('nombre'), $request->getParam('apellidos'),$request->getParam('correo'),$request->getParam('contra'), null, null);
+            UserController::modifyUserbyUsername($user);
 
         } else {
             echo '{"message" : { "status": "500" , "text": "Server error" }';

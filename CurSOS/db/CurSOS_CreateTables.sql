@@ -117,9 +117,8 @@ DROP TABLE Usuario;
 
 INSERT INTO Usuario(usuario, correo, contra ) values('PainChip','carlos@gmail.com','1234');
 SELECT * FROM Usuario;
-SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE id_usuario = 1
-SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE correo = 123@gmail.com and
-INSERT INTO Usuario(rol, usuario, nombre, apellidos, correo, contra)VALUES ( true, "Tanjiro", "Kamado", "Inosuke", "666@hotmail.com", "333666")
-contra = 123456
+SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE id_usuario = 1;
+SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE correo = "123@gmail.com" ;
+INSERT INTO Usuario(rol, usuario, nombre, apellidos, correo, contra)VALUES ( true, "Tanjiro", "Kamado", "Inosuke", "666@hotmail.com", "333666");
 SELECT * FROM comentariousuario;
 DELETE FROM Usuario WHERE id_usuario != 10;
