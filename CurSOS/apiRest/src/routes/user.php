@@ -39,7 +39,6 @@
                 $username = $request->getParam('usuario');
                 $user = UserController::getUserByUsername($username);
                 if($user) {
-
                     echo json_encode($user);
                 } else {
                     echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." }';

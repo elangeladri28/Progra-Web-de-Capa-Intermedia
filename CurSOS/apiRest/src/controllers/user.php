@@ -153,8 +153,8 @@
         }
 
         public static function getUserByUsername($user) {
-            $Username = $user->getUsuario(); 
-            $sql = "CALL `cursos`.`getUserByUsername`('".$Username."');";
+             
+            $sql = "CALL getUserByUsername('".$user."');";
             try{
                 $db = new db();
                 $db = $db->connectionDB();
@@ -175,7 +175,9 @@
                 $db = null;
     
             }catch(PDOException $e){
+
                 echo '{"error" : {"text":'.$e->getMessage().'}';
+                
             }    
         }
         public static function getUserByUsuarioContra($user) {

@@ -429,13 +429,19 @@
                 data: aver,
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
-                success: function() {
-                    var obj = JSON.parse(data);
-                    $('#Usuario').val() = obj.Usuario;
-                    $('#Nombre').val() = obj.nombre;
-                    $('#Apellidos').val() = obj.apellidos;
-                    $('#Email').val() = obj.correo;
-                    $('#Contraseña').val() = contra;
+                success: function(data) {
+
+                    document.getElementById("Usuario").value = data.usuario;
+                    document.getElementById('Usuario').disabled = true;
+                    document.getElementById("Nombre").value = data.nombre;
+                    document.getElementById('Nombre').disabled = true;
+                    document.getElementById("Apellidos").value = data.apellidos;
+                    document.getElementById('Apellidos').disabled = true;
+                    document.getElementById("Email").value = data.correo;
+                    document.getElementById('Email').disabled = true;
+                    document.getElementById("Contraseña").value = data.contra;
+                    document.getElementById("Contraseña").setAttribute("type", "text"); 
+                    document.getElementById('Contraseña').disabled = true;
                     
                 },
                 error: function(x, y, z) {
