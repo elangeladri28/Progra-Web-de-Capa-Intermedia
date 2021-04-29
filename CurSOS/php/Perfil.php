@@ -15,7 +15,6 @@
     <script type="text/javascript" src="../js/modelosJS/user.js"></script>
 
     <script>
-
         $(function() {
             $("#upload_link").on('click', function(e) {
                 e.preventDefault();
@@ -54,6 +53,13 @@
 
                 <h5>Facebook</h5>
                 <button type="button" class="btn btn-primary">Inicia sesion en Facebook</button>
+                <br><br><br>
+
+                <h5>OtroPerfil</h5>
+                <div class="mb-3">
+                    <input id="BuscaPersona" type="text" class="form-control" placeholder="PerfilABuscar">
+                </div>
+                <button id="buscalochico" type="button" class="btn btn-primary">Buscar</button>
             </div>
 
             <div class="col-lg-9 ">
@@ -75,7 +81,7 @@
                     <div class="col-lg-6">
                         <h4 class="my-4">Apellidos</h4>
                         <div class="mb-3">
-                            <input id="Apellidos" type="text" class="form-control"  placeholder="Betancourt">
+                            <input id="Apellidos" type="text" class="form-control" placeholder="Betancourt">
                         </div>
 
                         <h4 class="my-4">Email</h4>
@@ -351,19 +357,33 @@
         urlglobal
     } from '../js/urlglobal.js'
 
-    $(document).ready(function() {        
+    $(document).ready(function() {
         $("#ModifyUser").submit(function(e) {
-                e.preventDefault();
-            });
+            e.preventDefault();
+        });
         $('#ModifyUser').click(function() {
             //nombreUsuario, nombreReal, apellidoUsuario, correoUsuario, contraUsuario, rolUsuario
             var usuario = new Usuario($('#Usuario').val(), $('#Nombre').val(), $('#Apellidos').val(), $('#Email').val(), $('#Contraseña').val(), null);
             var contra = $('#Contraseña').val();
-                if(validar_clave(contra)){
-                    ModifyUser(usuario);
-                }else{
-                    alert("La contraseña no aceptada");
-                }                        
+            if (validar_clave(contra)) {
+                ModifyUser(usuario);
+            } else {
+                alert("La contraseña no aceptada");
+            }
+
+        });
+        $("#buscalochico").submit(function(e) {
+            e.preventDefault();
+        });
+        $('#buscalochico').click(function() {
+            //nombreUsuario, nombreReal, apellidoUsuario, correoUsuario, contraUsuario, rolUsuario
+            var usuario = new Usuario($('#BuscaPersona').val(), null, null, null, null, null);
+            var vacio = $('#BuscaPersona').val();
+            if (vacio !== "") {
+                BuscaUser(usuario);
+            } else {
+                alert("La contraseña no aceptada");
+            }
 
         });
 
@@ -389,6 +409,34 @@
                 success: function() {
                     alert("Se modifico correctamente");
                     window.location.reload();
+                },
+                error: function(x, y, z) {
+                    alert("Error en webservice: " + x + y + z);
+                }
+            });
+        }
+
+        function BuscaUser(Usuario) {
+            // Objeto en formato JSON el cual le enviaremos al webservice (PHP)
+            var dataToSend = {
+                usuario: Usuario.nombreUsuario
+            };
+            var aver = JSON.stringify(dataToSend);
+            $.ajax({
+                url: urlglobal.url + "/getUserByUsername",
+                async: true,
+                type: 'POST',
+                data: aver,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function() {
+                    var obj = JSON.parse(data);
+                    $('#Usuario').val() = obj.Usuario;
+                    $('#Nombre').val() = obj.nombre;
+                    $('#Apellidos').val() = obj.apellidos;
+                    $('#Email').val() = obj.correo;
+                    $('#Contraseña').val() = contra;
+                    
                 },
                 error: function(x, y, z) {
                     alert("Error en webservice: " + x + y + z);

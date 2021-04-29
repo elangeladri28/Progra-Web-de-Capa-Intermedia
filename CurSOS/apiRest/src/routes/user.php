@@ -13,8 +13,19 @@
             if($request->getParam('usuario') && $request->getParam('contra')) {
                 $user = new UserModel(null, null, $request->getParam('usuario'), null, null,null,$request->getParam('contra'),null,null);
                 $user = UserController::getUserByUsuarioContra($user);
-                if($user){
+                if($user){      
+                    session_start();
+                    $_SESSION['id_usuario'] = $user['id_usuario'];
+                    $_SESSION['rol'] = $user['rol']; 
+                    $_SESSION['usuario'] = $user['usuario'];
+                    $_SESSION['nombre'] = $user['nombre'];
+                    $_SESSION['apellidos'] = $user['apellidos'];
+                    $_SESSION['correo'] = $user['correo'];
+                    $_SESSION['contra'] = $user['contra'];
+                    $_SESSION['avatar'] = $user['avatar'];
+                    $_SESSION['activo'] = $user['activo'];              
                     echo json_encode($user);
+                    
                 }else{
                     echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." }';
                 }
@@ -110,5 +121,3 @@
             }
             
         });
-
-?>

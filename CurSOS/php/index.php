@@ -16,6 +16,7 @@
     <?php
         include 'navbar.php';
     ?>
+    
     <header class="py-5 mb-5" style="background-color: #eee;
      background-image: url(https://www.incimages.com/uploaded_files/image/1920x1080/getty_933383882_2000133420009280345_410292.jpg); 
      height: 500px;">

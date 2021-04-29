@@ -154,7 +154,7 @@
 
         public static function getUserByUsername($user) {
             $Username = $user->getUsuario(); 
-            $sql = "SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE Usuario = '".$Username."' and activo = TRUE";
+            $sql = "CALL `cursos`.`getUserByUsername`('".$Username."');";
             try{
                 $db = new db();
                 $db = $db->connectionDB();
@@ -183,7 +183,7 @@
             $username = $user->getUsuario();
             $contra = $user->getContra();
 
-            $sql = "SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE usuario = '".$username."' and contra = '".$contra."' and activo = TRUE";
+            $sql = "SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar, activo FROM Usuario WHERE usuario = '".$username."' and contra = '".$contra."' and activo = TRUE";
             try{
                 $db = new db();
                 $db = $db->connectionDB();
@@ -195,6 +195,7 @@
 			        while( $users = $result->fetch_assoc()) {
                         return $users;
 			        }
+
                 }else {
                     echo $sql;
                     return null;

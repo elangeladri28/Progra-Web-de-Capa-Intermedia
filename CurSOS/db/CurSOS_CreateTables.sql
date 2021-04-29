@@ -9,6 +9,7 @@ nombre VARCHAR(50) NULL,
 apellidos VARCHAR(50) NULL,
 correo VARCHAR(50) NOT NULL,
 contra VARCHAR(50) NOT NULL,
+f_creacion DATETIME DEFAULT NOW(),
 avatar BLOB NULL,
 Constraint PK_Usuario PRIMARY KEY (id_usuario)
 );

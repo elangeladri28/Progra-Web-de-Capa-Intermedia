@@ -118,7 +118,7 @@
                         window.location.assign("index.php");
                     },
                     error: function(x, y, z) {
-                        alert("Hubo un error");
+                        alert("Contraseña incorrecta");
 
                     }
                 });

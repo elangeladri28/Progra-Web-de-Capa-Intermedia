@@ -14,22 +14,17 @@
     <link rel="stylesheet" href="../css/modsindex.css">
     <script>
         $(document).ready(function() {
-            let searchParams = new URLSearchParams(window.location.search)
-            if (searchParams.has('Logueado')) // true
-            {
-                let param = searchParams.get('Logueado');
-                if (param == "Si") {
-                    $("#Login").remove();
-                } else {
-                    $("#imagenUser").remove();
-                    $("#NombreUser").remove();
-                    $("#LogOut").remove();
-                }
-            } else {
+
+            <?php session_start();
+            if (isset($_SESSION['correo'])) { ?>
+                var texto = <?php echo json_encode($_SESSION['usuario']) ?>;
+                $("#Login").remove();
+                document.getElementById("NombreUser").innerHTML = texto;   
+            <?php } else { ?>
                 $("#imagenUser").remove();
                 $("#NombreUser").remove();
                 $("#LogOut").remove();
-            }
+            <?php } ?>
         });
     </script>
 </head>
@@ -63,9 +58,7 @@
             </ul>
             <form action="#" class="form-inline my-2 my-lg-0">
                 <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button onclick="revisabusqueda()" class="btn btn-success my-2 my-sm-0" type="submit"><img
-                        src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png"
-                        width="20" height="20" alt=""></button>
+                <button onclick="revisabusqueda()" class="btn btn-success my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
             </form>
             <a href="vendiendo.html"><img id="carrito" src="https://image.flaticon.com/icons/png/512/34/34568.png" alt=""></a>
 
