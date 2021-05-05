@@ -33,13 +33,14 @@
 
         <div class="row">
             <div class="col-lg-3 border-right">
-                <img id="imagen" src="..\imagenes\unknown.png" alt="" width="150px" style="display: block; margin-left: auto; margin-right: auto; width:50%; border-radius: 50%;">
+                <img id="imagen" src="<?php echo $_SESSION['profilePicture'] ?>" alt="" width="150px" style="display: block; margin-left: auto; margin-right: auto; width:50%; border-radius: 50%;">
                 <br>
-                <input type="file" id="upload">
-                <h6 style="text-align: center;"> <a href="" id="upload_link"> Cambiar Foto </a>
-                </h6>
-                <h1 class="my-4" style="text-align: center;">Carlos Betancourt</h1>
-                <br>
+                <form class="col-10" action="../Js/subir-imagen.php" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <input type="file" class="form-control" name="foto" id="InputImageSettings">
+                    </div>
+                    <button id="btn-update-image" type="submit" class="col-12 btn btn-primary" style="margin-bottom: 20px ;">Update image</button>
+                </from>
                 <div class="border-bottom"></div>
                 <br>
                 <br>
@@ -362,7 +363,8 @@
             e.preventDefault();
         });
         $('#ModifyUser').click(function() {
-            //nombreUsuario, nombreReal, apellidoUsuario, correoUsuario, contraUsuario, rolUsuario
+            var foto = $('input[name="image"]')[0].files[0];
+            
             var usuario = new Usuario($('#Usuario').val(), $('#Nombre').val(), $('#Apellidos').val(), $('#Email').val(), $('#Contraseña').val(), null);
             var contra = $('#Contraseña').val();
             if (validar_clave(contra)) {

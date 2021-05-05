@@ -1,12 +1,12 @@
-var Usuario = function(nombreUsuario, nombreReal, apellidoUsuario, correoUsuario, contraUsuario, rolUsuario) {
+var Usuario = function(idUsuario, rolUsuario, nombreUsuario, nombreReal, apellidoUsuario, correoUsuario, contraUsuario, avatarUsuario, activoUsuario) {
+
+    this.idUsuario = idUsuario;
+    this.rolUsuario = rolUsuario;
     this.nombreUsuario = nombreUsuario;
     this.nombreReal = nombreReal;
     this.apellidoUsuario = apellidoUsuario;
     this.correoUsuario = correoUsuario;
     this.contraUsuario = contraUsuario;
-    this.rolUsuario = rolUsuario;
-
-};
-Usuario.prototype = {
-
+    this.avatarUsuario = avatarUsuario;
+    this.activoUsuario = activoUsuario;
 };

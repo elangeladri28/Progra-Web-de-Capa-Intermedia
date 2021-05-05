@@ -13,7 +13,7 @@
             if($request->getParam('usuario') && $request->getParam('contra')) {
                 $user = new UserModel(null, null, $request->getParam('usuario'), null, null,null,$request->getParam('contra'),null,null);
                 $user = UserController::getUserByUsuarioContra($user);
-                if($user){      
+                if($user){
                     session_start();
                     $_SESSION['id_usuario'] = $user['id_usuario'];
                     $_SESSION['rol'] = $user['rol']; 
@@ -23,14 +23,13 @@
                     $_SESSION['correo'] = $user['correo'];
                     $_SESSION['contra'] = $user['contra'];
                     $_SESSION['avatar'] = $user['avatar'];
-                    $_SESSION['activo'] = $user['activo'];              
+                    $_SESSION['activo'] = $user['activo'];  
                     echo json_encode($user);
-                    
                 }else{
-                    echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." }';
+                    echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';
                 }
             } else {
-                echo '{"message" : { "status": "500" , "text": "Server error" }';
+                echo '{"message" : { "status": "500" , "text": "Server error" } }';
             }
         });
     //Busca por Username
@@ -39,12 +38,13 @@
                 $username = $request->getParam('usuario');
                 $user = UserController::getUserByUsername($username);
                 if($user) {
+
                     echo json_encode($user);
                 } else {
-                    echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." }';
+                    echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';
                 }
             } else {
-                echo '{"message" : { "status": "400" , "text": "Bad Request" }';
+                echo '{"message" : { "status": "400" , "text": "Bad Request" } }';
             }
         });
     //Busca por ID
@@ -54,10 +54,10 @@
                 if($user) {
                     echo json_encode($user);
                 } else {
-                    echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." }';
+                    echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';
                 }
             } else {
-                echo '{"message" : { "status": "400" , "text": "Bad Request" }';
+                echo '{"message" : { "status": "400" , "text": "Bad Request" } }';
             }
         });
     //Busca todos los usuarios
@@ -67,7 +67,7 @@
                 echo json_encode($users);
                 //echo '{"message" : { "status": "200" , "text": "Satisfactory process" }';
             } else {
-                echo '{"message" : { "status": "500" , "text": "Sin usuarios registrados." }';
+                echo '{"message" : { "status": "500" , "text": "Sin usuarios registrados." } }';
             }
         });
     //Agrega un usuario
@@ -78,19 +78,19 @@
             UserController::addUser($user);
             
         } else {
-            echo '{"message" : { "status": "500" , "text": "Server error" }';
+            echo '{"message" : { "status": "500" , "text": "Server error" } }';
         }
     });
     //Modificar un usuario
     $app->post('/modifyUserbyUsername', function(Request $request, Response $response){
 
-        if($request->getParam('nombre') && $request->getParam('apellidos') && $request->getParam('correo') && $request->getParam('contra')) {
+        if($request->getParam('nombre') && $request->getParam('apellidos') && $request->getParam('correo') && $request->getParam('contra') && $request->getParam('avatar')) {
 
-            $user = new UserModel(null, null, $request->getParam('usuario'), $request->getParam('nombre'), $request->getParam('apellidos'),$request->getParam('correo'),$request->getParam('contra'), null, null);
+            $user = new UserModel(null, null, $request->getParam('usuario'), $request->getParam('nombre'), $request->getParam('apellidos'),$request->getParam('correo'),$request->getParam('contra'), $request->getParam('avatar'), null);
             UserController::modifyUserbyUsername($user);
 
         } else {
-            echo '{"message" : { "status": "500" , "text": "Server error" }';
+            echo '{"message" : { "status": "500" , "text": "Server error" } }';
         }
         
     });
@@ -103,12 +103,12 @@
             UserController::deleteUserByUsername($user);
 
         } else {
-            echo '{"message" : { "status": "500" , "text": "Server error" }';
+            echo '{"message" : { "status": "500" , "text": "Server error" } }';
         }
         
     });
-        //Eliminar un usuario por id
-        $app->post('/deleteUserById', function(Request $request, Response $response){
+    //Eliminar un usuario por id
+    $app->post('/deleteUserById', function(Request $request, Response $response){
 
             if($request->getParam('id_usuario')) {
     
@@ -116,7 +116,9 @@
                 UserController::deleteUserById($user);
     
             } else {
-                echo '{"message" : { "status": "500" , "text": "Server error" }';
+                echo '{"message" : { "status": "500" , "text": "Server error" } }';
             }
             
-        });
+    });
+
+?>

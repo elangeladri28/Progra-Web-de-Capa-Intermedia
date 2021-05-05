@@ -82,13 +82,14 @@
                 e.preventDefault();
             });
             $('#btnentra').click(function() {
-                var usuario = new Usuario($('#User').val(), null, null, null, $('#Contra').val(), null);
+                //idUsuario, rolUsuario, nombreUsuario, nombreReal, apellidoUsuario, correoUsuario, contraUsuario, avatarUsuario, activoUsuario
+                var usuario = new Usuario(null, null,$('#User').val(), null, null, null, $('#Contra').val(), null, null);
                 
                 getUser(usuario);
                 
             });
             $('#btnregistra').click(function() {
-                var usuario = new Usuario($('#User2').val(), $('#Name').val(), $('#Apellidos').val(), $('#Email').val(), $('#Contra2').val(), $('#inputGroupSelect01').val());
+                var usuario = new Usuario(null,  $('#inputGroupSelect01').val(), $('#User2').val(), $('#Name').val(), $('#Apellidos').val(), $('#Email').val(), $('#Contra2').val(),null,null);
                 var contra = $('#Contra2').val();
                 if(validar_clave(contra)){
                     sendUser(usuario);

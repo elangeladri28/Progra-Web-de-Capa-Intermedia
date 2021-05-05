@@ -6,6 +6,7 @@
 
         public static function addUser($user) {
             
+            $imageDefault = "../imagenes/DefaultUser.png";
             $userRol = $user->getRol();
             $Username = $user->getUsuario(); 
             $userNombre = $user->getNombre();
@@ -13,8 +14,8 @@
             $userCorreo = $user->getCorreo();
             $userContra = $user->getContra();
             
-            $sql = "INSERT INTO Usuario(rol, usuario, nombre, apellidos, correo, contra) 
-            VALUES ( ".$userRol.",'".$Username."','".$userNombre."','".$userApellido."','".$userCorreo."','".$userContra."')";
+            $sql = "INSERT INTO Usuario(rol, usuario, nombre, apellidos, correo, contra, avatar) 
+            VALUES ( ".$userRol.",'".$Username."','".$userNombre."','".$userApellido."','".$userCorreo."','".$userContra."','".$imageDefault."')";
             try{
                 $db = new db();
                 $db = $db->connectionDB();
@@ -42,16 +43,6 @@
             $userCorreo = $user->getCorreo();
             $userContra = $user->getContra();
             //$userAvatar = $user->getAvatar();
-            
-            /*$sql = "UPDATE Usuario SET 
-            rol = ".$userRol.",
-            usuario = '".$Username."',
-            nombre= '".$userNombre."',
-            apellidos = '".$userApellido."',
-            correo = '".$userCorreo."',
-            contra = '".$userContra."',
-            avatar = '".$userAvatar."'
-            WHERE id_usuario = ".$id_usuario."";*/
 
             $sql = "UPDATE Usuario SET 
             nombre= '".$userNombre."',
