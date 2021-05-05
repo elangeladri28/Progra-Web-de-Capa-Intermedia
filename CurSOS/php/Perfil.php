@@ -33,7 +33,7 @@
 
         <div class="row">
             <div class="col-lg-3 border-right">
-            <br>
+                <br>
                 <h4 style="text-align: center;"><?php echo $_SESSION['usuario'] ?></h4>
                 <br>
                 <img id="imagen" src="<?php echo $_SESSION['avatar'] ?>" alt="" width="150px" style="display: block; margin-left: auto; margin-right: auto; width:50%; border-radius: 50%;">
@@ -43,27 +43,27 @@
                         <input type="file" class="form-control" name="foto" id="InputImageSettings">
                     </div>
                     <button id="btn-update-image" type="submit" class="col-12 btn btn-primary" style="margin-bottom: 20px ;">Update image</button>
-                </from>
-                <div class="border-bottom"></div>
-                <br>
-                <br>
-                <h4 style="text-align: center;">Redes Sociales</h4>
-                <br>
-                <h5>Twitter</h5>
-                <a href="https://twitter.com/elangeladri28">@Painchip</a>
+                    </from>
+                    <div class="border-bottom"></div>
+                    <br>
+                    <br>
+                    <h4 style="text-align: center;">Redes Sociales</h4>
+                    <br>
+                    <h5>Twitter</h5>
+                    <a onclick="alert('Proximamente')">@Painchip</a>
 
-                <br>
-                <br>
+                    <br>
+                    <br>
 
-                <h5>Facebook</h5>
-                <button type="button" class="btn btn-primary" onclick="alert('Proximamente')">Inicia sesion en Facebook</button>
-                <br><br><br>
+                    <h5>Facebook</h5>
+                    <button type="button" class="btn btn-primary" onclick="alert('Proximamente')">Inicia sesion en Facebook</button>
+                    <br><br><br>
 
-                <h5>OtroPerfil</h5>
-                <div class="mb-3">
-                    <input id="BuscaPersona" type="text" class="form-control" placeholder="PerfilABuscar">
-                </div>
-                <button id="buscalochico" type="button" class="btn btn-primary">Buscar</button>
+                    <h5>OtroPerfil</h5>
+                    <div class="mb-3">
+                        <input id="BuscaPersona" type="text" class="form-control" placeholder="PerfilABuscar">
+                    </div>
+                    <button id="buscalochico" type="button" class="btn btn-primary">Buscar</button>
             </div>
 
             <div class="col-lg-9 ">
@@ -366,23 +366,39 @@
             e.preventDefault();
         });
         $('#ModifyUser').click(function() {
-            var foto = $('input[name="image"]')[0].files[0];
 
-            var usuario = new Usuario($('#Usuario').val(), $('#Nombre').val(), $('#Apellidos').val(), $('#Email').val(), $('#Contraseña').val(), null);
-            var contra = $('#Contraseña').val();
-            if (validar_clave(contra)) {
-                ModifyUser(usuario);
+            var foto = $('input[name="foto"]')[0].files[0];
+            if ($('#Nombre').val() == "" || $('#Apellidos').val() == "" || $('#Email').val() == "" || $('#Contraseña').val() == "") {
+                alert("Asegurese de llenar todos los campos permitidos");
             } else {
-                alert("La contraseña no aceptada");
+                if (foto == null) {
+                    var usuario = new Usuario(null, null, $('#Usuario').val(), $('#Nombre').val(), $('#Apellidos').val(), $('#Email').val(), $('#Contraseña').val(), null, null);
+                    var contra = $('#Contraseña').val();
+                    if (validar_clave(contra)) {
+                        ModifyUser(usuario);
+                    } else {
+                        alert("La contraseña no aceptada");
+                    }
+                } else {
+                    var usuario = new Usuario(null, null, $('#Usuario').val(), $('#Nombre').val(), $('#Apellidos').val(), $('#Email').val(), $('#Contraseña').val(), foto, null);
+                    var contra = $('#Contraseña').val();
+                    if (validar_clave(contra)) {
+                        ModifyUser(usuario);
+                    } else {
+                        alert("La contraseña no aceptada");
+                    }
+                }
+
             }
+
 
         });
         $("#buscalochico").submit(function(e) {
             e.preventDefault();
         });
         $('#buscalochico').click(function() {
-            //nombreUsuario, nombreReal, apellidoUsuario, correoUsuario, contraUsuario, rolUsuario
-            var usuario = new Usuario($('#BuscaPersona').val(), null, null, null, null, null);
+
+            var usuario = new Usuario(null, null, $('#BuscaPersona').val(), null, null, null, null, null, null);
             var vacio = $('#BuscaPersona').val();
             if (vacio !== "") {
                 BuscaUser(usuario);

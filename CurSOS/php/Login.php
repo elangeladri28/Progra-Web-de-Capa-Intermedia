@@ -54,8 +54,8 @@
 
                     <select class="custom-select" id="inputGroupSelect01">
                         <option selected>Elige el tipo de usuario.</option>
-                        <option value="true">Alumno</option>
-                        <option value="false">Escuela</option>
+                        <option value="false">Alumno</option>
+                        <option value="true">Escuela</option>
                     </select>
 
                     <button id="btnregistra">Registrarse</button>
