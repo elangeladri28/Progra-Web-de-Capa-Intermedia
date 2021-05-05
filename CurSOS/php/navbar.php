@@ -53,7 +53,7 @@
                     <a class="nav-link" href="#">Mensajes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Perfil.php">Perfil</a>
+                    <a class="nav-link" href="Perfil.php"> Mi Perfil</a>
                 </li>
             </ul>
             <form action="#" class="form-inline my-2 my-lg-0">
@@ -63,7 +63,7 @@
             <a href="vendiendo.html"><img id="carrito" src="https://image.flaticon.com/icons/png/512/34/34568.png" alt=""></a>
 
             <a id="Login" class="btn btn-outline-light" href="Login.php" role="button" style="margin-left: 10px;">Acceder</a>
-            <img id="imagenUser" src="<?php echo json_encode($_SESSION['avatar']) ?>" alt="ImagenPerfil" width="50" height="30" style="padding-left: 10px; padding-right: 10px;">
+            <img id="imagenUser" src="<?php echo $_SESSION['avatar'] ?>" alt="ImagenPerfil" width="50" height="30" style="padding-left: 10px; padding-right: 10px;">
             <a id="NombreUser" style="color: #ecfdf9">Username</a>
             <a id="LogOut" class="btn btn-outline-light" href="Login.php" role="button" style="margin-left: 10px;">Cerrar Sesion</a>
         </div>

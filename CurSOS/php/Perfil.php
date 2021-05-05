@@ -33,7 +33,10 @@
 
         <div class="row">
             <div class="col-lg-3 border-right">
-                <img id="imagen" src="<?php echo $_SESSION['profilePicture'] ?>" alt="" width="150px" style="display: block; margin-left: auto; margin-right: auto; width:50%; border-radius: 50%;">
+            <br>
+                <h4 style="text-align: center;"><?php echo $_SESSION['usuario'] ?></h4>
+                <br>
+                <img id="imagen" src="<?php echo $_SESSION['avatar'] ?>" alt="" width="150px" style="display: block; margin-left: auto; margin-right: auto; width:50%; border-radius: 50%;">
                 <br>
                 <form class="col-10" action="../Js/subir-imagen.php" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
@@ -53,7 +56,7 @@
                 <br>
 
                 <h5>Facebook</h5>
-                <button type="button" class="btn btn-primary">Inicia sesion en Facebook</button>
+                <button type="button" class="btn btn-primary" onclick="alert('Proximamente')">Inicia sesion en Facebook</button>
                 <br><br><br>
 
                 <h5>OtroPerfil</h5>
@@ -69,12 +72,12 @@
                     <div class="col-lg-6">
                         <h4 class="my-4">Nombre(s)</h4>
                         <div class="mb-3">
-                            <input id="Nombre" type="text" class="form-control" placeholder="Carlos">
+                            <input id="Nombre" type="text" class="form-control" placeholder="<?php echo $_SESSION['nombre'] ?>">
                         </div>
 
                         <h4 class="my-4">Usuario</h4>
                         <div class="mb-3">
-                            <input id="Usuario" type="text" class="form-control" placeholder="PainChip" value="PainChip" disabled>
+                            <input id="Usuario" type="text" class="form-control" value="<?php echo $_SESSION['usuario'] ?>" disabled>
                         </div>
 
                     </div>
@@ -82,17 +85,17 @@
                     <div class="col-lg-6">
                         <h4 class="my-4">Apellidos</h4>
                         <div class="mb-3">
-                            <input id="Apellidos" type="text" class="form-control" placeholder="Betancourt">
+                            <input id="Apellidos" type="text" class="form-control" placeholder="<?php echo $_SESSION['apellidos'] ?>">
                         </div>
 
                         <h4 class="my-4">Email</h4>
                         <div class="mb-3">
-                            <input id="Email" type="email" class="form-control" placeholder="carnallostes@gmail.com">
+                            <input id="Email" type="email" class="form-control" placeholder="<?php echo $_SESSION['correo'] ?>">
                         </div>
 
                         <h4 class="my-4">Contraseña</h4>
                         <div class="mb-3">
-                            <input id="Contraseña" type="password" class="form-control" placeholder="Contraseña">
+                            <input id="Contraseña" type="password" class="form-control" placeholder="<?php echo $_SESSION['contra'] ?>">
                         </div>
                     </div>
                 </div>
@@ -364,7 +367,7 @@
         });
         $('#ModifyUser').click(function() {
             var foto = $('input[name="image"]')[0].files[0];
-            
+
             var usuario = new Usuario($('#Usuario').val(), $('#Nombre').val(), $('#Apellidos').val(), $('#Email').val(), $('#Contraseña').val(), null);
             var contra = $('#Contraseña').val();
             if (validar_clave(contra)) {
@@ -442,9 +445,9 @@
                     document.getElementById("Email").value = data.correo;
                     document.getElementById('Email').disabled = true;
                     document.getElementById("Contraseña").value = data.contra;
-                    document.getElementById("Contraseña").setAttribute("type", "text"); 
+                    document.getElementById("Contraseña").setAttribute("type", "text");
                     document.getElementById('Contraseña').disabled = true;
-                    
+
                 },
                 error: function(x, y, z) {
                     alert("Error en webservice: " + x + y + z);
