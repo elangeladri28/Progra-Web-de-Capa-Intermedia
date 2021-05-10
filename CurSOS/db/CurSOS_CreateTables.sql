@@ -98,6 +98,7 @@ id_cp INT AUTO_INCREMENT,
 mensaje VARCHAR(255) NOT NULL,
 usuarioid INT NOT NULL,
 usuarioid2 INT NOT NULL,
+fechamensaje DATETIME NULL,
 Constraint PK_chatPrivado PRIMARY KEY (id_cp),
 Constraint FK_chatPrivado FOREIGN KEY (usuarioid) REFERENCES Usuario(id_usuario),
 Constraint FK_chatPrivado2  FOREIGN KEY (usuarioid2) REFERENCES Usuario(id_usuario)
@@ -122,3 +123,41 @@ SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM 
 INSERT INTO Usuario(rol, usuario, nombre, apellidos, correo, contra)VALUES ( true, "Tanjiro", "Kamado", "Inosuke", "666@hotmail.com", "333666");
 SELECT * FROM comentariousuario;
 DELETE FROM Usuario WHERE id_usuario != 10;
+Select * from chatPrivado;
+INSERT INTO `cursos`.`chatprivado`(`id_cp`,`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
+VALUES(null,"QueOnda",1,2,now());
+INSERT INTO `cursos`.`chatprivado`(`id_cp`,`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
+VALUES(null,"QuechingaosQuieres",2,1,now());
+
+
+SET GLOBAL log_bin_trust_function_creators = 1;
+DELIMITER //
+CREATE TRIGGER FechaMensajeEnviado
+AFTER INSERT
+   ON chatPrivado FOR EACH ROW
+BEGIN
+  declare idmensaje INT;
+  SELECT id_cp FROM INSERTED into idmensaje;
+  UPDATE chatPrivado SET fechamensaje = now() WHERE id_cp = idmensaje;
+END; //
+
+DELIMITER ;
+
+DROP TRIGGER FechaMensajeEnviado;
+
+DROP function IF EXISTS `TraerIDPersonaChateas`;
+
+DELIMITER $$
+USE `cursos`$$
+CREATE FUNCTION `TraerIDPersonaChateas` (nombre VARCHAR(255))
+RETURNS INTEGER
+BEGIN
+	DECLARE suid INT;
+	SET suid = (Select id_usuario from Usuario where usuario = nombre);
+	RETURN suid;
+END$$
+
+DELIMITER ;
+
+Select TraerIDPersonaChateas('PainChip');
+
