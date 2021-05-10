@@ -30,7 +30,7 @@
                 $result = null;
                 $db = null;
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'}}';
             }
 
         }
@@ -64,7 +64,7 @@
                 $result = null;
                 $db = null;
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'}}';
             }
         }
         public static function deleteUserById($user) {
@@ -87,7 +87,7 @@
                 $result = null;
                 $db = null;
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'}}';
             }
         }
 
@@ -111,7 +111,7 @@
                 $result = null;
                 $db = null;
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'}}';
             }
         }
         
@@ -139,7 +139,7 @@
                 $db = null;
     
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'}}';
             }    
         }
 
@@ -167,7 +167,7 @@
     
             }catch(PDOException $e){
 
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'}}';
                 
             }    
         }
@@ -198,7 +198,7 @@
                 $db = null;
     
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'}}';
             }    
         }        
 
@@ -226,7 +226,7 @@
                 $db = null;
     
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'}}';
             }
         }
     }
