@@ -190,7 +190,7 @@
 			        }
 
                 }else {
-                    echo $sql;
+                   
                     return null;
                 }
     

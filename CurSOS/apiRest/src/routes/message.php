@@ -21,4 +21,32 @@ $app->post('/getPersonasChateas', function (Request $request, Response $response
         echo '{"message" : { "status": "500" , "text": "Server error" } }';
     }
 });
+//Busca los mensajes del chat que quieres
+$app->post('/getChatEntero', function (Request $request, Response $response) {
+    if ($request->getParam('idusuario') && $request->getParam('idusuario2')) {
+        $mensaje = new MessageModel(null, $request->getParam('idusuario'), $request->getParam('idusuario2'), null);
+        $mensajeschat = MessageController::getChatEntero($mensaje);
+        if ($mensajeschat != null) {
+            echo json_encode($mensajeschat);
+        } else {
+            echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';
+        }
+    } else {
+        echo '{"message" : { "status": "500" , "text": "Server error" } }';
+    }
+});
+//Busca los mensajes del chat que quieres
+$app->post('/TraerIDPersonaChateas', function (Request $request, Response $response) {
+    if ($request->getParam('username')) {
+        
+        $mensajeschat = MessageController::TraerIDPersonaChateas($request->getParam('username'));
+        if ($mensajeschat != null) {
+            echo json_encode($mensajeschat);
+        } else {
+            echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';
+        }
+    } else {
+        echo '{"message" : { "status": "500" , "text": "Server error" } }';
+    }
+});
 ?>
