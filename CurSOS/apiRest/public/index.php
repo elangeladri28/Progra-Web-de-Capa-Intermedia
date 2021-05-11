@@ -21,6 +21,9 @@
     //User routes
     require '../src/routes/user.php';
 
+    //Message routes
+    require '../src/routes/message.php';
+
     // Run app
     $app->run();
 ?>

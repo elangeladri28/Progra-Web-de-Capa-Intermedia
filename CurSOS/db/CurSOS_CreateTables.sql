@@ -161,7 +161,7 @@ DELIMITER ;
 
 Select TraerIDPersonaChateas('PainChip');
 
-Select * from chatPrivado Where (usuarioid = 1 and usuarioid2 = 2) or (usuarioid = 2 and usuarioid2 = 1) order by fechamensaje;
+CALL `cursos`.`TraerChatEntero`(1, 2);
 
 
 

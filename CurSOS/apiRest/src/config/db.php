@@ -13,9 +13,7 @@
             }
             return $mysqli;
         }
-        
-
-        
+                
         public function disconnect() {
             $mysqli = new mysqli($this->dbHost, $this->dbUser, $this->dbPassword, $this->dbName);
             mysqli_close($mysqli);

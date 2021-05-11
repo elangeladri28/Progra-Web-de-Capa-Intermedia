@@ -12,7 +12,7 @@
 
 
     <link rel="stylesheet" href="../css/modsMensajes.css" />
-    <script type="text/javascript" src="../js/modelosJS/user.js"></script>
+    <script type="text/javascript" src="../js/modelosJS/message.js"></script>
 
 </head>
 
@@ -70,20 +70,133 @@
     <br>
 </body>
 
-<script>
-    $(function() {
-        $(".conversation").on('click', function() {
-            $('.conversation.active').attr("class", "conversation"); //eliminas chat activo
-            let mensajes = document.getElementById('chat-message-list'); //limpias el chat de mensajes
-            while (mensajes.firstChild) {
-                mensajes.removeChild(mensajes.firstChild);
-            }
-            $(this).attr("class", "conversation active"); //conviertes activo el que seleccionaste
-            let usuarioChat = $(this).children("div").text(); //obtienes el username del que seleccionaste
+<script type="module">
+    import {
+        urlglobal
+    } from '../js/urlglobal.js'
 
-            alert(usuarioChat);
+    $(document).ready(function() {
+        $(function() {
+            $(".conversation").on('click', function() {
+                $('.conversation.active').attr("class", "conversation"); //eliminas chat activo
+                let mensajes = document.getElementById('chat-message-list'); //limpias el chat de mensajes
+                while (mensajes.firstChild) {
+                    mensajes.removeChild(mensajes.firstChild);
+                }
+                $(this).attr("class", "conversation active"); //conviertes activo el que seleccionaste
+                let usuarioChat = $(this).children("div").text(); //obtienes el username del que seleccionaste
 
+                alert(usuarioChat);
+
+            });
         });
+        let idactual = <?php echo $_SESSION['id_usuario'] ?>;
+        var usuario = new Mensaje(null, idactual, null, null);
+        debugger
+        BuscaChats(usuario);
+
+        function BuscaChats(Mensaje) {
+            // Objeto en formato JSON el cual le enviaremos al webservice (PHP)
+            var dataToSend = {
+                idusuario: Mensaje.idUsuario
+            };
+            var aver = JSON.stringify(dataToSend);
+            $.ajax({
+                url: urlglobal.url + "/getPersonasChateas",
+                async: true,
+                type: 'POST',
+                data: aver,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    let mensajes = document.getElementById('conversation-list'); //limpias el chat de con quien chateas
+                    while (mensajes.firstChild) {
+                        mensajes.removeChild(mensajes.firstChild);
+                    }
+                    let mensajes = document.getElementById('chat-message-list'); //limpias el chat de mensajes
+                    while (mensajes.firstChild) {
+                        mensajes.removeChild(mensajes.firstChild);
+                    }
+                    var muestrame = Object.keys(data).length; //Obtienes el numero de chats
+                    debugger
+                    for (var i = 0; i < muestrame; i++) {
+                        if (i = 0) { //el primero
+                            // build the new query
+                            var html = '<div class="conversation active">';
+                            html += '<img src="../imagenes/andre.jpg" width="40px" alt="" />';
+                            html += '<div class="title-text">' + data[i].usuario + '</div>';
+                            html += '</div>';
+                            $('#conversation-list').append(html);
+
+
+
+                        } else {
+                            var html = '<div class="conversation">';
+                            html += '<img src="../imagenes/andre.jpg" width="40px" alt="" />';
+                            html += '<div class="title-text">' + data[i].usuario + '</div>';
+                            html += '</div>';
+                            $('#conversation-list').append(html);
+                        }
+
+                    }
+
+
+                },
+                error: function(x, y, z) {
+                    alert("Error en webservice: " + x + y + z);
+                }
+            });
+        }
+
+        function TraerMensajes(Mensaje) {
+            var dataToSend = {
+                idusuario: Mensaje.idUsuario
+            };
+            $.ajax({
+                url: urlglobal.url + "/getPersonasChateas",
+                async: true,
+                type: 'POST',
+                data: aver,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    let mensajes = document.getElementById('conversation-list'); //limpias el chat de con quien chateas
+                    while (mensajes.firstChild) {
+                        mensajes.removeChild(mensajes.firstChild);
+                    }
+                    let mensajes = document.getElementById('chat-message-list'); //limpias el chat de mensajes
+                    while (mensajes.firstChild) {
+                        mensajes.removeChild(mensajes.firstChild);
+                    }
+                    var muestrame = Object.keys(data).length; //Obtienes el numero de chats
+                    debugger
+                    for (var i = 0; i < muestrame; i++) {
+                        if (i = 0) { //el primero
+                            // build the new query
+                            var html = '<div class="conversation active">';
+                            html += '<img src="../imagenes/andre.jpg" width="40px" alt="" />';
+                            html += '<div class="title-text">' + data[i].usuario + '</div>';
+                            html += '</div>';
+                            $('#conversation-list').append(html);
+
+
+
+                        } else {
+                            var html = '<div class="conversation">';
+                            html += '<img src="../imagenes/andre.jpg" width="40px" alt="" />';
+                            html += '<div class="title-text">' + data[i].usuario + '</div>';
+                            html += '</div>';
+                            $('#conversation-list').append(html);
+                        }
+
+                    }
+                },
+                error: function(x, y, z) {
+                    alert("Error en webservice: " + x + y + z);
+                }
+            });
+        }
+
     });
 </script>
 

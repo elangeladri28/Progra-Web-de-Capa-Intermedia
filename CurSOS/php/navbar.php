@@ -16,7 +16,7 @@
                             <a class="nav-link" href="#">Categorias</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Mensajes</a>
+                            <a class="nav-link" href="mensajes.php">Mensajes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Perfil.php"> Mi Perfil</a>
