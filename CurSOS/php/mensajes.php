@@ -156,7 +156,6 @@
                 usuario2.idUsuario2 = resultado;
                 if (resultado != null) {
                     debugger
-                    resultado = null;
                     TraerMensajes(usuario2);
                 }
 
