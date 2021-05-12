@@ -43,7 +43,7 @@
             </div>
             <!-- PersonasConlasqueHasChateado -->
             <div id="new-message-container">
-                <a href="">+</a>
+                <a id="nuevouser" href="">+</a>
             </div>
 
             <div id="chat-title"></div>
@@ -76,13 +76,42 @@
     } from '../js/urlglobal.js'
 
     $(document).ready(function() {
-
-        let idactual = <?php echo $_SESSION['id_usuario'] ?>;
-        let elusuario = "<?php echo $_SESSION['usuario'] ?>";
+        var banderaentro = false;
+        var idactual = <?php echo $_SESSION['id_usuario'] ?>;
+        var elusuario = "<?php echo $_SESSION['usuario'] ?>";
         var usuario = new Mensaje(null, idactual, null, null);
         var usuario2 = new Mensaje(null, null, null, null);
         var resultado;
         var nombrecito;
+        //Prompt Nuevo Usuario
+        $("body").on("click", "#nuevouser", function() {
+            var retVal = prompt("Ingrese el nombre de usuario : ", "");
+            if (retVal != null) {
+                TraerIdUsuario(retVal);
+                event.preventDefault();
+                setTimeout(() => {
+                    debugger
+                    if (resultado != null) {
+                        var retVal2 = prompt("Ingrese el mensaje : ", "your message");
+                        if (retVal2 != null) {
+
+                            usuario2.idUsuario = idactual;
+                            usuario2.idUsuario2 = resultado;
+                            usuario2.mensajito = retVal2
+                            debugger
+                            MandarMensaje(usuario2);
+                            debugger
+                            window.location.reload();
+                        }
+
+                    } else {
+                        alert("Este Usuario no existe");
+                    }
+
+                }, 2000);
+                banderaentro = true;
+            }
+        });
         //Buscas los chats que tienes
         function testCallBack() {
             BuscaChats(usuario);
@@ -127,14 +156,20 @@
                 usuario2.idUsuario2 = resultado;
                 if (resultado != null) {
                     debugger
+                    resultado = null;
                     TraerMensajes(usuario2);
                 }
 
             }, 2000);
 
         }
+
         debugger
-        testCallBack();
+        if (!banderaentro) {
+            testCallBack();
+        }
+
+
 
 
         //Pones los mensajes del chat activo
@@ -239,7 +274,13 @@
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function(data) {
-                    resultado = parseInt(data.resultado);
+                    if (data.resultado == null) {
+                        resultado = data.resultado;
+                    } else {
+                        resultado = parseInt(data.resultado);
+                    }
+
+                    debugger
                 },
                 error: function(x, y, z) {
                     alert("Error en webservice: " + x + y + z);
