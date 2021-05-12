@@ -59,7 +59,7 @@
             </div>
             <!-- Mensajes de la conversacion -->
             <div id="chat-form">
-                <img src="https://pic.onlinewebfonts.com/svg/img_375473.png" alt="Añadir Archivo" width="30px" onclick="alert('hola');">
+                <img src="https://pic.onlinewebfonts.com/svg/img_375473.png" alt="Añadir Archivo" width="30px">
                 <input id="MensajeAEnviar" type="text" placeholder="Escribe un mensaje">
             </div>
 
@@ -105,16 +105,29 @@
             testCallBack2();
 
         });
+        $("body").on("click", "img", function() {
+            usuario2.mensajito = document.getElementById("MensajeAEnviar").value;
+            usuario2.idUsuario2 = resultado;
+            debugger
+            MandarMensaje(usuario2);
+            $("#MensajeAEnviar").val('');
+            let mensajes = document.getElementById('chat-message-list'); //limpias el chat de mensajes
+            while (mensajes.firstChild) {
+                mensajes.removeChild(mensajes.firstChild);
+            }
+            testCallBack2();
+            debugger
+        });
 
         function testCallBack2() {
-            resultado = TraerIdUsuario(nombrecito);
-
+            TraerIdUsuario(nombrecito);
+            debugger
             setTimeout(() => {
                 usuario2.idUsuario = idactual;
                 usuario2.idUsuario2 = resultado;
                 if (resultado != null) {
                     debugger
-                    TraerMensajes(usuario2)
+                    TraerMensajes(usuario2);
                 }
 
             }, 2000);
@@ -192,14 +205,14 @@
                         if (data[i].usuario == elusuario) { //de ser iguales, el es quien envio el mensaje
                             // agrega el html del mensaje 
                             var html = '<div class="message-row you-message">';
-                            html += '<div class="message-text">'+data[i].mensaje +'</div>';
+                            html += '<div class="message-text">' + data[i].mensaje + '</div>';
                             html += '</div>';
                             $('#chat-message-list').append(html);
 
                         } else { //de no serlo, el es quien recibio el mensaje
                             // agrega el html del mensaje
                             var html = '<div class="message-row other-message">';
-                            html += '<div class="message-text">'+data[i].mensaje  +'</div>';
+                            html += '<div class="message-text">' + data[i].mensaje + '</div>';
                             html += '</div>';
                             $('#chat-message-list').append(html);
                         }
@@ -213,7 +226,7 @@
         }
 
         function TraerIdUsuario(nombreuser) {
-            var resultado;
+
             var dataToSend = {
                 username: nombreuser
             };
@@ -227,13 +240,6 @@
                 contentType: 'application/json; charset=utf-8',
                 success: function(data) {
                     resultado = parseInt(data.resultado);
-                    usuario2.idUsuario = idactual;
-                    usuario2.idUsuario2 = resultado;
-                    if (resultado != null) {
-                        debugger
-                        TraerMensajes(usuario2)
-                    }
-
                 },
                 error: function(x, y, z) {
                     alert("Error en webservice: " + x + y + z);
@@ -242,6 +248,30 @@
 
         }
 
+        function MandarMensaje(Mensaje) {
+            var dataToSend = {
+                idusuario: Mensaje.idUsuario,
+                idusuario2: Mensaje.idUsuario2,
+                mensaje: Mensaje.mensajito
+            };
+            var aver = JSON.stringify(dataToSend);
+            debugger
+            $.ajax({
+                url: urlglobal.url + "/addMandarMensaje",
+                async: true,
+                type: 'POST',
+                data: aver,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function() {
+                    alert("Mensaje Enviado Correctamente");
+
+                },
+                error: function(x, y, z) {
+                    alert("Error en webservice: " + x + y + z);
+                }
+            });
+        }
 
     });
 </script>

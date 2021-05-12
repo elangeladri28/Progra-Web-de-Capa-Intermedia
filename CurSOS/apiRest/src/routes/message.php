@@ -49,4 +49,13 @@ $app->post('/TraerIDPersonaChateas', function (Request $request, Response $respo
         echo '{"message" : { "status": "500" , "text": "Server error" } }';
     }
 });
+//Enviar un Mensaje
+$app->post('/addMandarMensaje', function (Request $request, Response $response) {
+    if ($request->getParam('idusuario') && $request->getParam('idusuario2') && $request->getParam('mensaje')) {
+        $mensaje = new MessageModel(null, $request->getParam('idusuario'), $request->getParam('idusuario2'), $request->getParam('mensaje'));
+        MessageController::addMandarMensaje($mensaje);
+    } else {
+        echo '{"message" : { "status": "500" , "text": "Server error" } }';
+    }
+});
 ?>

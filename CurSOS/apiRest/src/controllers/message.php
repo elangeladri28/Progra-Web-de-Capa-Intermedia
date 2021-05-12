@@ -90,4 +90,29 @@ class MessageController
             echo '{"error" : {"text":' . $e->getMessage() . '}}';
         }
     }
+    public static function addMandarMensaje($chat)
+    {
+        $idusuario = $chat->getidusuario();
+        $idusuario2 = $chat->getidusuario2();
+        $mensajee = $chat->getmensaje();
+
+        $sql = "INSERT INTO `cursos`.`chatprivado`(`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
+        VALUES('" . $mensajee . "'," . $idusuario . "," . $idusuario2 . ",now());";
+
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
+
+            if (!$result) {
+                echo "Problema al hacer un query: " . $db->error;
+            } else {
+                echo '{"message" : { "status": "200" , "text": "Mensaje enviado satisfactoriamente."}}';
+            }
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
 }
