@@ -16,7 +16,7 @@
     <script src="jquery-3.5.1.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/modsUser.css">
+    <link rel="stylesheet" href="../css/modsCreate.css">
     <script>
 
     </script>
@@ -40,9 +40,14 @@
                         Categorías
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="cursos.html">Software</a>
                         <a class="dropdown-item" href="cursos.html">Marketing</a>
-                        <a class="dropdown-item" href="cursos.html">Design</a>
+                        <a class="dropdown-item" href="cursos.html">Diseño y UX</a>
+                        <a class="dropdown-item" href="cursos.html">Crecimiento Profesional</a>
+                        <a class="dropdown-item" href="cursos.html">Ingles</a>
+                        <a class="dropdown-item" href="cursos.html">Startups</a>
+                        <a class="dropdown-item" href="cursos.html">Desarrollo e Ingeniería</a>
+                        <a class="dropdown-item" href="cursos.html">Negocios y Emprendimiento</a>
+                        <a class="dropdown-item" href="cursos.html">Contenido Digital</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -73,11 +78,63 @@
 
 
     <!-- Page Content -->
-    <div class="container">
+    <div class="noticiamarco">
+        <h1 style="text-align: center;">Nuevo Curso</h1>
 
+        <form>
+            <h4>Tipo de Curso:</h4>
+            <div class="form-group" style="margin-right: 20px; margin-left: 5px;">
+                <select class="form-control" id="exampleFormControlSelect1">
+                    <option>Marketing</option>
+                    <option>Diseño y UX</option>
+                    <option>Crecimiento Profesional</option>
+                    <option>Ingles</option>
+                    <option>Startups</option>
+                    <option>Desarrollo e Ingeniería</option>
+                    <option>Negocios y Emprendimiento</option>
+                    <option>Contenido Digital</option>
+
+                </select>
+            </div>
+            <h4>Titulo:</h4>
+            <div class="form-group" style="margin-right: 20px; margin-left: 5px;">
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Titulo">
+            </div>
+            <h4>Precio:</h4>
+            <div class="form-group" style="margin-right: 20px; margin-left: 5px;">
+                <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Titulo" min="0">
+            </div>
+            <h4>Descripcion:</h4>
+            <div class="form-group" style="margin-right: 20px; margin-left: 5px;">
+                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Descripcion"
+                    rows="4"></textarea>
+            </div>
+        </form>
+
+        <h4>Miniatura:</h4>
+        <form>
+            <label>Agregar Imagen</label>
+            <div class="form-group-imagen1">
+                <input type="file" class="form-control-file" id="Archivo1">
+            </div>
+
+
+
+        </form>
+        <h4 style="margin-top: 10px;">Videos:</h4>
+        <form style="margin-bottom: 50px;">
+            <div class="form-group-video">
+                <label for="Archivo1">Agregar vídeo</label>
+                <input type="file" class="form-control-file" id="Archivo1">
+            </div>
+        </form>
+        <button type="button" class="btn btn-success" style="">Añadir Curso</button>
     </div>
+    <!--Marco-->
 
-    
+
     <br>
     <section id="footer">
         <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
