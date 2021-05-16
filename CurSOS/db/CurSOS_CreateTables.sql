@@ -116,19 +116,14 @@ DROP TABLE ComentarioUsuario;
 DROP TABLE Categoria;
 DROP TABLE Usuario;
 
-INSERT INTO Usuario(usuario, correo, contra ) values('PainChip','carlos@gmail.com','1234');
 SELECT * FROM Usuario;
-SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE id_usuario = 1;
-SELECT id_usuario, rol, usuario, nombre, apellidos, correo, contra, avatar FROM Usuario WHERE correo = "123@gmail.com" ;
-INSERT INTO Usuario(rol, usuario, nombre, apellidos, correo, contra)VALUES ( true, "Tanjiro", "Kamado", "Inosuke", "666@hotmail.com", "333666");
 SELECT * FROM comentariousuario;
-DELETE FROM Usuario WHERE id_usuario != 10;
+
 Select * from chatPrivado;
 INSERT INTO `cursos`.`chatprivado`(`id_cp`,`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
 VALUES(null,"QueOnda",1,2,now());
 INSERT INTO `cursos`.`chatprivado`(`id_cp`,`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
 VALUES(null,"QuechingaosQuieres",2,1,now());
-
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 DELIMITER //
@@ -145,23 +140,13 @@ DELIMITER ;
 
 DROP TRIGGER FechaMensajeEnviado;
 
-DROP function IF EXISTS `TraerIDPersonaChateas`;
+Select TraerIDPersonaChateas('PainChip') as resultado;
 
-DELIMITER $$
-USE `cursos`$$
-CREATE FUNCTION `TraerIDPersonaChateas` (nombre VARCHAR(255))
-RETURNS INTEGER
-BEGIN
-	DECLARE suid INT;
-	SET suid = (Select id_usuario from Usuario where usuario = nombre);
-	RETURN suid;
-END$$
+CALL `cursos`.`getChatEntero`(1, 2);
 
-DELIMITER ;
+CALL `cursos`.`getPersonasChateas`(1);
 
-Select TraerIDPersonaChateas('PainChip');
 
-CALL `cursos`.`TraerChatEntero`(1, 2);
 
 
 
