@@ -29,7 +29,7 @@ include 'navbar.php';
         <form>
             <h4>Nombre del Curso:</h4>
             <div class="form-group" style="margin-right: 20px; margin-left: 5px;">
-                <input type="text" class="form-control" id="nombrecurso" aria-describedby="emailHelp" placeholder="Titulo">
+                <input type="text" class="form-control" id="nombrecurso" placeholder="Titulo">
             </div>
             <h4>Categoria:</h4>
             <div class="form-group" style="margin-right: 20px; margin-left: 5px;">
@@ -71,7 +71,7 @@ include 'navbar.php';
             </div>
             <h4>Precio:</h4>
             <div class="form-group" style="margin-right: 20px; margin-left: 5px;">
-                <input type="number" class="form-control" id="preciocurso" aria-describedby="emailHelp" placeholder="Titulo" min="0">
+                <input type="number" class="form-control" id="preciocurso" placeholder="Precio" min="0">
             </div>
             <h4>Descripcion:</h4>
             <div class="form-group" style="margin-right: 20px; margin-left: 5px;">
@@ -97,8 +97,6 @@ include 'navbar.php';
         <br>
     </div>
     <!--Marco-->
-
-    <br>
     <?php
     include 'footer.php';
     ?>
@@ -116,15 +114,23 @@ include 'navbar.php';
         //Obtenemos la información del curso
         $('#btn-crearcurso').on('click', (event) => {
             event.preventDefault();
-            var categorie = document.getElementById("categorias").selectedIndex;
-            let categoriavalue = document.getElementsByTagName("option")[categorie].value;
+            if ($('#nombrecurso').val() == "" || $('#descripcioncurso').val() == "" ||
+                $('#preciocurso').val() == "" || $('input[name="imagencurso"]')[0].files[0] == null ||
+                $('input[name="videocurso"]')[0].files[0] == null || document.getElementById("categorias").selectedIndex == null) {
+                    debugger
+                    alert("Asegurate que los campos este completos");
+                } else {
+                var categorie = document.getElementById("categorias").selectedIndex;
+                let categoriavalue = document.getElementsByTagName("option")[categorie].value;
 
-            var fotocurso = $('input[name="imagencurso"]')[0].files[0];
-            var videocurso = $('input[name="videocurso"]')[0].files[0];
-            debugger
-            let cursoData = new Curso(null, $('#nombrecurso').val(), $('#descripcioncurso').val(), $('#preciocurso').val(), fotocurso, videocurso, categoriavalue, null, null);
+                var fotocurso = $('input[name="imagencurso"]')[0].files[0];
+                var videocurso = $('input[name="videocurso"]')[0].files[0];
+                debugger
+                let cursoData = new Curso(null, $('#nombrecurso').val(), $('#descripcioncurso').val(), $('#preciocurso').val(), fotocurso, videocurso, categoriavalue, null, null);
 
-            crearCurso(cursoData);
+                crearCurso(cursoData);
+            }
+
 
         });
         $('#btn-crearcategoria').on('click', (event) => {
@@ -201,23 +207,22 @@ include 'navbar.php';
             var dataToSendJson = JSON.stringify(dataToSend);
             debugger
             //Mandamos la info a la BD
-            // promise.then(() => {
-            //     $.ajax({
-            //         url: GLOBAL.url + "/addCourse",
-            //         async: true,
-            //         type: 'POST',
-            //         data: dataToSendJson,
-            //         dataType: 'json',
-            //         contentType: 'application/json; charset=utf-8',
-            //         success: function(data) {
-            //             console.log(data);
-            //         },
-            //         error: function(x, y, z) {
-            //             alert("Error en la api: " + x + y + z);
-            //         }
-            //     });
-            // });
-
+            promise.then(() => {
+                $.ajax({
+                    url: urlglobal.url + "/addCurso",
+                    async: true,
+                    type: 'POST',
+                    data: dataToSendJson,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function(data) {
+                        alert("Curso agregado correctamente");
+                    },
+                    error: function(x, y, z) {
+                        alert("Error agregando curso");
+                    }
+                });
+            });
         }
 
         function getCategorias() {
