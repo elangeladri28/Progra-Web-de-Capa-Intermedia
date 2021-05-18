@@ -419,12 +419,12 @@
                 contra: Usuario.contraUsuario
 
             };
-            var aver = JSON.stringify(dataToSend);
+            var dataToSendJson = JSON.stringify(dataToSend);
             $.ajax({
                 url: urlglobal.url + "/modifyUserbyUsername",
                 async: true,
                 type: 'POST',
-                data: aver,
+                data: dataToSendJson,
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function() {
@@ -442,12 +442,12 @@
             var dataToSend = {
                 usuario: Usuario.nombreUsuario
             };
-            var aver = JSON.stringify(dataToSend);
+            var dataToSendJson = JSON.stringify(dataToSend);
             $.ajax({
                 url: urlglobal.url + "/getUserByUsername",
                 async: true,
                 type: 'POST',
-                data: aver,
+                data: dataToSendJson,
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function(data) {

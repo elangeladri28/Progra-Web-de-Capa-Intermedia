@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/modsCreate.css">
     <script type="text/javascript" src="../js/modelosJS/categories.js"></script>
+    <script type="text/javascript" src="../js/modelosJS/curso.js"></script>
 
 
 </head>
@@ -82,14 +83,14 @@ include 'navbar.php';
         <form style="margin-bottom: 50px;">
             <div class="form-group-imagen">
                 <label for="imagencurso">Agregar miniatura</label>
-                <input type="file" class="form-control-file" id="imagencurso">
+                <input type="file" accept=".jpg,.png" class="form-control-file" name="imagencurso" id="imagencurso">
             </div>
         </form>
         <h4 style="margin-top: 10px;">Videos:</h4>
         <form style="margin-bottom: 50px;">
             <div class="form-group-video">
                 <label for="videocurso">Agregar vídeo</label>
-                <input type="file" class="form-control-file" id="videocurso">
+                <input type="file" accept=".mp4" class="form-control-file" name="videocurso" id="videocurso">
             </div>
         </form>
         <center><button id="btn-crearcurso" type="button" class="btn btn-success">Añadir Curso</button></center>
@@ -115,93 +116,108 @@ include 'navbar.php';
         //Obtenemos la información del curso
         $('#btn-crearcurso').on('click', (event) => {
             event.preventDefault();
-            let courseInformation = new CourseInformation($('#InputTitle').val(), $('#InputShortDescription').val(), $('#InputLongDescription').val(), $("#InputCategory option:selected").text(), "", $('#InputPrice').val());
+            var categorie = document.getElementById("categorias").selectedIndex;
+            let categoriavalue = document.getElementsByTagName("option")[categorie].value;
 
-            createCourse(courseInformation);
+            var fotocurso = $('input[name="imagencurso"]')[0].files[0];
+            var videocurso = $('input[name="videocurso"]')[0].files[0];
+            debugger
+            let cursoData = new Curso(null, $('#nombrecurso').val(), $('#descripcioncurso').val(), $('#preciocurso').val(), fotocurso, videocurso, categoriavalue, null, null);
+
+            crearCurso(cursoData);
 
         });
         $('#btn-crearcategoria').on('click', (event) => {
             event.preventDefault();
-            
-            let categoriaInformation = new Categoria(null, $('#NombreCategoria').val(), $('#DescripcionCategoria').val(), null);
+
+            let categoriaData = new Categoria(null, $('#NombreCategoria').val(), $('#DescripcionCategoria').val(), null);
             $('#NombreCategoria').val("");
             $('#DescripcionCategoria').val("");
-            addCategoria(categoriaInformation);
+            addCategoria(categoriaData);
 
         });
 
         //Funcion CreamosCurso
         function crearCurso(ElCurso) {
-            var courseData = {
-                courseTitle: newCourse.courseTitle,
-                shortDescription: newCourse.shortDescription,
-                longDescription: newCourse.longDescription,
-                categorie: newCourse.categorie,
-                price: newCourse.price
+            var dataToSend = {
+                nombre: ElCurso.nombre,
+                descripcion: ElCurso.descripcion,
+                costo: ElCurso.costo,
+                foto: ElCurso.foto,
+                video: ElCurso.video,
+                categoriaid: ElCurso.categoriaid
             };
-
-            var courseDataJson = JSON.stringify(courseData)
-            //Mandamos la info a la BD
+            //Agregamos la imagen del curso
+            // Create an FormData object 
+            var imageCourse = document.getElementById('imagencurso');
+            var myFormData = new FormData();
+            myFormData.append('foto', imageCourse.files[0]);
+            debugger
             var promise = $.ajax({
-                url: GLOBAL.url + "/addCourse",
-                async: true,
                 type: 'POST',
-                data: courseDataJson,
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
+                enctype: 'multipart/form-data',
+                url: "../Js/subir-imagen-curso.php",
+                data: myFormData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 800000,
                 success: function(data) {
-                    console.log(data);
+                    dataToSend.foto = data;
+                    alert("Imagen agregada");
+                    debugger
                 },
-                error: function(x, y, z) {
-                    alert("Error en la api: " + x + y + z);
+                error: function(data) {
+                    console.log(data);
+                    debugger
                 }
             });
-            //Agregamos la imagen del curso
-            promise.then(() => {
-
-                var imageCourse = document.getElementById('miniature-course');
-                var myFormData = new FormData();
-                myFormData.append('foto', imageCourse.files[0]);
-
-                $.ajax({
-                    url: "../services/upload-miniature.php",
-                    async: true,
-                    type: 'POST',
-                    data: myFormData,
-                    dataType: 'json',
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                        console.log(data);
-                    },
-                    error: function(x, y, z) {
-                        alert("Error en la api: " + x + y + z);
-                    }
-                });
-            });
+            var videoCourse = document.getElementById('videocurso');
+            var myFormData2 = new FormData();
+            myFormData2.append('video', videoCourse.files[0]);
             //Agregamos el video del curso
             promise.then(() => {
 
-                var imageCourse = document.getElementById('miniature-course');
-                var myFormData = new FormData();
-                myFormData.append('foto', imageCourse.files[0]);
-
                 $.ajax({
-                    url: "../services/upload-miniature.php",
-                    async: true,
                     type: 'POST',
-                    data: myFormData,
-                    dataType: 'json',
+                    enctype: 'multipart/form-data',
+                    url: "../Js/subir-video-curso.php",
+                    data: myFormData2,
                     processData: false,
                     contentType: false,
+                    cache: false,
+                    timeout: 800000,
                     success: function(data) {
-                        console.log(data);
+                        dataToSend.video = data;
+                        alert("Video agregado");
+                        debugger
                     },
-                    error: function(x, y, z) {
-                        alert("Error en la api: " + x + y + z);
+                    error: function(data) {
+                        console.log(data);
+                        debugger
                     }
                 });
             });
+            var dataToSendJson = JSON.stringify(dataToSend);
+            debugger
+            //Mandamos la info a la BD
+            // promise.then(() => {
+            //     $.ajax({
+            //         url: GLOBAL.url + "/addCourse",
+            //         async: true,
+            //         type: 'POST',
+            //         data: dataToSendJson,
+            //         dataType: 'json',
+            //         contentType: 'application/json; charset=utf-8',
+            //         success: function(data) {
+            //             console.log(data);
+            //         },
+            //         error: function(x, y, z) {
+            //             alert("Error en la api: " + x + y + z);
+            //         }
+            //     });
+            // });
+
         }
 
         function getCategorias() {

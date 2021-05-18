@@ -109,7 +109,7 @@ Constraint FK_chatPrivado2  FOREIGN KEY (usuarioid2) REFERENCES Usuario(id_usuar
 DROP TABLE chatPrivado;
 DROP TABLE Carrito;
 DROP TABLE Historial;
-DROP TABLE Leccion;
+DROP TABLE Contenido;
 DROP TABLE Contrata;
 DROP TABLE ComentarioCurso;
 DROP TABLE Curso;
@@ -148,17 +148,12 @@ CALL `cursos`.`getChatEntero`(1, 2);
 
 CALL `cursos`.`getPersonasChateas`(1);
 
-INSERT INTO `cursos`.`categoria`
-(`id_categoria`,
-`categoria`,
-`descripcion`,
-`activo`)
-VALUES
-(null,
-'PHP',
-'Cursos de PHP',
-1);
+INSERT INTO `cursos`.`categoria`(`id_categoria`,`categoria`,`descripcion`,`activo`)
+VALUES(null,'PHP2','Cursos de PHP2',1);
+SELECT id_categoria AS LastID FROM categoria WHERE id_categoria = @@Identity;
 
+INSERT INTO `cursos`.`curso`(`nombre`,`descripcion`,`costo`,`foto`,`video`,`categoriaid`)
+VALUES(<{nombre: }>,<{descripcion: }>,<{costo: }>,<{foto: }>,<{video: }>,<{categoriaid: }>);
 
 TRUNCATE TABLE categoria;
 Delete from categoria where id_categoria != 10;

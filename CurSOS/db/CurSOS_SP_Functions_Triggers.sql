@@ -40,3 +40,11 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- Views
+CREATE VIEW LasCategorias
+AS
+SELECT `categoria`.`id_categoria`,
+    `categoria`.`categoria`,
+    `categoria`.`descripcion`,
+    `categoria`.`activo`
+FROM `cursos`.`categoria`;
