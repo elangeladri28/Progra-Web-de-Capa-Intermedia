@@ -24,7 +24,7 @@ include 'navbar.php';
 
     <!-- Page Content -->
     <div class="noticiamarco">
-        <h1 style="text-align: center;">Nuevo Curso</h1>
+        <h1 style="text-align: center;">Nueva Leccion</h1>
 
         <form>
             <h4>Nombre del Curso:</h4>
@@ -137,8 +137,8 @@ include 'navbar.php';
 
         });
         $('#btn-crearleccion').on('click', (event) => {
-            window.location.assign("CreateLeccion.php");
-
+            window.location.assign("index.php");
+            
         });
         $('#btn-crearcategoria').on('click', (event) => {
             event.preventDefault();
