@@ -24,7 +24,7 @@ class MessageController
                 return $personas;
             } else {
 
-                return json_encode("No existen Chats en la BBDD.");;
+                return json_encode("No existen Chats en la BBDD.");
             }
 
             $result = null;

@@ -47,10 +47,13 @@
                             <a class="nav-link" href="#">Categorias</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Mensajes</a>
+                            <a class="nav-link" href="mensajes.php">Mensajes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Perfil.php"> Mi Perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Create.php"> Crear Curso</a>
                         </li>
                     </ul>
                     <form action="#" class="form-inline my-2 my-lg-0">
@@ -79,12 +82,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Categorias</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Mensajes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Perfil.php"> Mi Perfil</a>
-                    </li>
+
                 </ul>
                 <form action="#" class="form-inline my-2 my-lg-0">
                     <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

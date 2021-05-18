@@ -6,7 +6,7 @@
 
         public static function addUser($user) {
             
-            $imageDefault = "../imagenes/DefaultUser.png";
+            $imageDefault = "../imagenes/Perfil/DefaultUser.png";
             $userRol = $user->getRol();
             $Username = $user->getUsuario(); 
             $userNombre = $user->getNombre();

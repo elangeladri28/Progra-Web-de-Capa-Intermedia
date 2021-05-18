@@ -24,6 +24,10 @@
     //Message routes
     require '../src/routes/message.php';
 
+    
+    //Message routes
+    require '../src/routes/categories.php';
+
     // Run app
     $app->run();
 ?>

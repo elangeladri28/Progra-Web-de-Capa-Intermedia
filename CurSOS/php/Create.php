@@ -11,12 +11,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/modsCreate.css">
+    <script type="text/javascript" src="../js/modelosJS/categories.js"></script>
+
+
 </head>
+<?php
+include 'navbar.php';
+?>
 
 <body>
-    <?php
-    include 'navbar.php';
-    ?>
+
     <!-- Page Content -->
     <div class="noticiamarco">
         <h1 style="text-align: center;">Nuevo Curso</h1>
@@ -29,13 +33,41 @@
             <h4>Categoria:</h4>
             <div class="form-group" style="margin-right: 20px; margin-left: 5px;">
                 <select class="form-control" id="categorias">
-                    <option value="1">Marketing</option>
-                    <option value="2">Diseño y UX</option>
-                    <option value="3">Crecimiento Profesional</option>
-                    <option value="4">Ingles</option>
-                </select>
-            </div>
 
+                </select>
+
+            </div>
+            <center><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                    Crear Categoria
+                </button></center>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Crear Categoria</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="NombreCategoria" class="form-label">Category name</label>
+                                <input type="text" class="form-control" id="NombreCategoria">
+                            </div>
+                            <div class="mb-3">
+                                <label for="DescripcionCategoria" class="form-label">Category description</label>
+                                <input type="text" class="form-control" id="DescripcionCategoria">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="btn-crearcategoria" data-dismiss="modal">Agregar Categoria</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <h4>Precio:</h4>
             <div class="form-group" style="margin-right: 20px; margin-left: 5px;">
                 <input type="number" class="form-control" id="preciocurso" aria-describedby="emailHelp" placeholder="Titulo" min="0">
@@ -60,7 +92,7 @@
                 <input type="file" class="form-control-file" id="videocurso">
             </div>
         </form>
-        <center><button type="button" class="btn btn-success" style="">Añadir Curso</button></center>
+        <center><button id="btn-crearcurso" type="button" class="btn btn-success">Añadir Curso</button></center>
         <br>
     </div>
     <!--Marco-->
@@ -75,19 +107,31 @@
     import {
         urlglobal
     } from '../js/urlglobal.js'
+    var courseInformation;
 
     $(document).ready(function() {
-        //Obtenemos la información del curso
-        $('#btn-create-course').on('click', (event) => {
-            event.preventDefault();
 
-            courseInformation = new CourseInformation($('#InputTitle').val(), $('#InputShortDescription').val(), $('#InputLongDescription').val(), $("#InputCategory option:selected").text(), "", $('#InputPrice').val());
+        getCategorias();
+        //Obtenemos la información del curso
+        $('#btn-crearcurso').on('click', (event) => {
+            event.preventDefault();
+            let courseInformation = new CourseInformation($('#InputTitle').val(), $('#InputShortDescription').val(), $('#InputLongDescription').val(), $("#InputCategory option:selected").text(), "", $('#InputPrice').val());
 
             createCourse(courseInformation);
 
         });
+        $('#btn-crearcategoria').on('click', (event) => {
+            event.preventDefault();
+            
+            let categoriaInformation = new Categoria(null, $('#NombreCategoria').val(), $('#DescripcionCategoria').val(), null);
+            $('#NombreCategoria').val("");
+            $('#DescripcionCategoria').val("");
+            addCategoria(categoriaInformation);
+
+        });
+
         //Funcion CreamosCurso
-        function createCourse(newCourse) {
+        function crearCurso(ElCurso) {
             var courseData = {
                 courseTitle: newCourse.courseTitle,
                 shortDescription: newCourse.shortDescription,
@@ -158,6 +202,55 @@
                     }
                 });
             });
+        }
+
+        function getCategorias() {
+            $.ajax({
+                url: urlglobal.url + "/getCategorias",
+                async: true,
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(datos) {
+                    for (let dato of datos) {
+                        var category = new Categoria(dato.id_categoria, dato.categoria, null, null)
+                        $('#categorias').append($('<option>', {
+                            value: category.id_categoria,
+                            text: category.categoria
+                        }));
+                    }
+                },
+                error: function(x, y, z) {
+                    alert("Error en la api: " + x + y + z);
+                }
+            })
+        }
+        //funcion agregar categoria
+        function addCategoria(laCategoria) {
+            var categoryData = {
+                categoria: laCategoria.categoria,
+                descripcion: laCategoria.descripcion
+            };
+
+            var categoryDataJson = JSON.stringify(categoryData);
+            debugger
+            $.ajax({
+                url: urlglobal.url + "/addCategoria",
+                async: true,
+                type: 'POST',
+                data: categoryDataJson,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    alert("Categoria Agregada Exitosamente");
+                    $('#categorias').empty();
+                    getCategorias();
+                },
+                error: function(x, y, z) {
+                    alert("Error en la api: " + x + y + z);
+                }
+            });
+
         }
     });
 </script>

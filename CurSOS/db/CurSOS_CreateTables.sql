@@ -15,7 +15,8 @@ Constraint PK_Usuario PRIMARY KEY (id_usuario)
 
 CREATE TABLE IF NOT EXISTS Categoria(
 id_categoria INT AUTO_INCREMENT,
-categoria VARCHAR(50) NOT NULL,
+categoria VARCHAR(50) UNIQUE NOT NULL,
+descripcion VARCHAR(255) NOT NULL,
 activo BOOL DEFAULT TRUE,
 Constraint PK_Categoria PRIMARY KEY (id_categoria)
 );
@@ -35,8 +36,10 @@ nombre VARCHAR(255) NOT NULL,
 descripcion VARCHAR(255) NOT NULL,
 costo DOUBLE NOT NULL,
 foto VARCHAR(255) NOT NULL,
+video VARCHAR(255) NOT NULL,
 categoriaid INT NULL,
 activo BOOL DEFAULT TRUE,
+fechaCreado datetime default now(),
 Constraint PK_Curso PRIMARY KEY (id_curso),
 Constraint FK_Curso FOREIGN KEY (categoriaid) REFERENCES Categoria(id_categoria)
 );
@@ -48,7 +51,6 @@ cursoid INT NOT NULL,
 Constraint PK_ComentarioCurso PRIMARY KEY (id_comencurs),
 Constraint FK_ComentarioCurso FOREIGN KEY (comenuserid) REFERENCES ComentarioUsuario(id_cu),
 Constraint FK_ComentarioCurso2 FOREIGN KEY (cursoid) REFERENCES Curso(id_curso)
-
 );
 
 CREATE TABLE IF NOT EXISTS Contrata(
@@ -61,17 +63,17 @@ Constraint PK_Contrata PRIMARY KEY (id_contrata),
 Constraint FK_Contrata  FOREIGN KEY(cursoid) References Curso(id_curso)
 );
 
-CREATE TABLE IF NOT EXISTS Contenido(
-id_contenido INT AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS Leccion( 
+id_leccion INT AUTO_INCREMENT,
 cursoid INT NOT NULL,
 nivel INT NOT NULL,
 archivo VARCHAR(255) NULL,
-img BLOB NULL,
+img  VARCHAR(255) NULL,
 video VARCHAR(255) NOT NULL,
 extra VARCHAR(255) NULL, /* Algun link o nota */
 activo BOOL DEFAULT TRUE,
-Constraint PK_Contenido PRIMARY KEY (id_contenido),
-Constraint FK_Contenido  FOREIGN KEY(cursoid) References Curso(id_curso)
+Constraint PK_Leccion PRIMARY KEY (id_leccion),
+Constraint FK_Leccion  FOREIGN KEY(cursoid) References Curso(id_curso)
 );
 
 
@@ -104,11 +106,10 @@ Constraint FK_chatPrivado FOREIGN KEY (usuarioid) REFERENCES Usuario(id_usuario)
 Constraint FK_chatPrivado2  FOREIGN KEY (usuarioid2) REFERENCES Usuario(id_usuario)
 );
 
-
 DROP TABLE chatPrivado;
 DROP TABLE Carrito;
 DROP TABLE Historial;
-DROP TABLE Contenido;
+DROP TABLE Leccion;
 DROP TABLE Contrata;
 DROP TABLE ComentarioCurso;
 DROP TABLE Curso;
@@ -118,6 +119,7 @@ DROP TABLE Usuario;
 
 SELECT * FROM Usuario;
 SELECT * FROM comentariousuario;
+Select * FROM LasCategorias;
 
 Select * from chatPrivado;
 INSERT INTO `cursos`.`chatprivado`(`id_cp`,`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
@@ -146,7 +148,20 @@ CALL `cursos`.`getChatEntero`(1, 2);
 
 CALL `cursos`.`getPersonasChateas`(1);
 
+INSERT INTO `cursos`.`categoria`
+(`id_categoria`,
+`categoria`,
+`descripcion`,
+`activo`)
+VALUES
+(null,
+'PHP',
+'Cursos de PHP',
+1);
 
+
+TRUNCATE TABLE categoria;
+Delete from categoria where id_categoria != 10;
 
 
 
