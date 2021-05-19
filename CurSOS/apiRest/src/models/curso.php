@@ -10,8 +10,9 @@
         private $categoriaid;
         private $activo;
         private $fechaCreado;
+        private $usuid;
 
-        public function __construct($id_curso, $nombre, $descripcion, $costo, $foto, $video, $categoriaid, $activo, $fechaCreado) {
+        public function __construct($id_curso, $nombre, $descripcion, $costo, $foto, $video, $categoriaid, $activo, $fechaCreado, $usuid) {
             $this->id_curso = $id_curso;
             $this->nombre = $nombre;
             $this->descripcion = $descripcion;
@@ -21,6 +22,7 @@
             $this->categoriaid = $categoriaid;
             $this->activo = $activo;
             $this->fechaCreado = $fechaCreado;
+            $this->usuid = $usuid;
         }
        
         public function setid_curso($id_curso) {
@@ -93,6 +95,13 @@
 
         public function getfechaCreado() {
             return $this->fechaCreado;
+        }
+        public function setusuid($usuid) {
+            $this->usuid = $usuid;
+        }
+
+        public function getusuid() {
+            return $this->usuid;
         }
 
     }

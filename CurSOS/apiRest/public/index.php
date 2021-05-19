@@ -24,9 +24,14 @@
     //Message routes
     require '../src/routes/message.php';
 
-    
-    //Message routes
+    //Categories routes
     require '../src/routes/categories.php';
+
+    //Course routes
+    require '../src/routes/curso.php';
+
+    //Lesson routes
+    require '../src/routes/leccion.php';
 
     // Run app
     $app->run();

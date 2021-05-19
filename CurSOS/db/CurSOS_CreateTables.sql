@@ -21,18 +21,9 @@ activo BOOL DEFAULT TRUE,
 Constraint PK_Categoria PRIMARY KEY (id_categoria)
 );
 
-CREATE TABLE IF NOT EXISTS ComentarioUsuario(
-id_cu INT AUTO_INCREMENT,
-comentario VARCHAR(250) NOT NULL,
-usuid INT NOT NULL,
-Constraint PK_ComentarioUsuario PRIMARY KEY (id_cu),
-Constraint FK_ComentarioUsuario FOREIGN KEY (usuid) REFERENCES Usuario(id_usuario)
-
-);
-
 CREATE TABLE IF NOT EXISTS Curso(
 id_curso INT AUTO_INCREMENT,
-nombre VARCHAR(255) NOT NULL,
+nombre VARCHAR(255) UNIQUE NOT NULL,
 descripcion VARCHAR(255) NOT NULL,
 costo DOUBLE NOT NULL,
 foto VARCHAR(255) NOT NULL,
@@ -40,17 +31,20 @@ video VARCHAR(255) NOT NULL,
 categoriaid INT NULL,
 activo BOOL DEFAULT TRUE,
 fechaCreado datetime default now(),
+usuid INT NOT NULL,
 Constraint PK_Curso PRIMARY KEY (id_curso),
-Constraint FK_Curso FOREIGN KEY (categoriaid) REFERENCES Categoria(id_categoria)
+Constraint FK_Curso FOREIGN KEY (categoriaid) REFERENCES Categoria(id_categoria),
+Constraint FK_Curso2 FOREIGN KEY (usuid) REFERENCES Usuario(id_usuario)
 );
 
 CREATE TABLE IF NOT EXISTS ComentarioCurso(
 id_comencurs INT AUTO_INCREMENT,
-comenuserid INT NOT NULL,
 cursoid INT NOT NULL,
+comentario VARCHAR(255) NOT NULL,
+usuid INT NOT NULL,
 Constraint PK_ComentarioCurso PRIMARY KEY (id_comencurs),
-Constraint FK_ComentarioCurso FOREIGN KEY (comenuserid) REFERENCES ComentarioUsuario(id_cu),
-Constraint FK_ComentarioCurso2 FOREIGN KEY (cursoid) REFERENCES Curso(id_curso)
+Constraint FK_ComentarioCurso2 FOREIGN KEY (cursoid) REFERENCES Curso(id_curso),
+Constraint FK_ComentarioCurso3 FOREIGN KEY (usuid) REFERENCES Usuario(id_usuario)
 );
 
 CREATE TABLE IF NOT EXISTS Contrata(
@@ -65,13 +59,15 @@ Constraint FK_Contrata  FOREIGN KEY(cursoid) References Curso(id_curso)
 
 CREATE TABLE IF NOT EXISTS Leccion( 
 id_leccion INT AUTO_INCREMENT,
+nombre VARCHAR(255) NOT NULL,
 cursoid INT NOT NULL,
 nivel INT NOT NULL,
 archivo VARCHAR(255) NULL,
-img  VARCHAR(255) NULL,
+foto  VARCHAR(255) NULL,
 video VARCHAR(255) NOT NULL,
 extra VARCHAR(255) NULL, /* Algun link o nota */
 activo BOOL DEFAULT TRUE,
+fechaCreado datetime default now(),
 Constraint PK_Leccion PRIMARY KEY (id_leccion),
 Constraint FK_Leccion  FOREIGN KEY(cursoid) References Curso(id_curso)
 );
@@ -109,7 +105,7 @@ Constraint FK_chatPrivado2  FOREIGN KEY (usuarioid2) REFERENCES Usuario(id_usuar
 DROP TABLE chatPrivado;
 DROP TABLE Carrito;
 DROP TABLE Historial;
-DROP TABLE Contenido;
+DROP TABLE Leccion;
 DROP TABLE Contrata;
 DROP TABLE ComentarioCurso;
 DROP TABLE Curso;
@@ -119,13 +115,21 @@ DROP TABLE Usuario;
 
 SELECT * FROM Usuario;
 SELECT * FROM comentariousuario;
+SELECT * FROM curso;
 Select * FROM LasCategorias;
+Select * FROM LosCursos WHERE usuid = 1;
+Select * FROM LosCursos ORDER BY fechaCreado ASC LIMIT 3;
+Select * FROM LasLecciones WHERE id_leccion = 1;
 
 Select * from chatPrivado;
 INSERT INTO `cursos`.`chatprivado`(`id_cp`,`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
 VALUES(null,"QueOnda",1,2,now());
 INSERT INTO `cursos`.`chatprivado`(`id_cp`,`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
 VALUES(null,"QuechingaosQuieres",2,1,now());
+
+INSERT INTO `cursos`.`leccion`(`id_leccion`,`cursoid`,`nivel`,`archivo`,`foto`,`video`,`extra`,`activo`,`fechaCreado`)VALUES
+(null ,<{cursoid: }>,<{nivel: }>,<{archivo: }>,<{foto: }>,<{video: }>,<{extra: }>,1,now());
+
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 DELIMITER //

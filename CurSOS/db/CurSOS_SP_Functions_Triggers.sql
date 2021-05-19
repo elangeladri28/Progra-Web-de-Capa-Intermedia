@@ -31,6 +31,7 @@ END$$
 DELIMITER ;
 
 -- Funciones
+SET GLOBAL log_bin_trust_function_creators = 1;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` FUNCTION `TraerIDPersonaChateas`(nombre VARCHAR(255)) RETURNS int
 BEGIN
@@ -39,12 +40,17 @@ BEGIN
 	RETURN suid;
 END$$
 DELIMITER ;
-
 -- Views
-CREATE VIEW LasCategorias
-AS
-SELECT `categoria`.`id_categoria`,
-    `categoria`.`categoria`,
-    `categoria`.`descripcion`,
-    `categoria`.`activo`
-FROM `cursos`.`categoria`;
+use cursos;
+
+CREATE VIEW LasCategorias AS    
+SELECT `categoria`.`id_categoria`, `categoria`.`categoria`,`categoria`.`descripcion`, `categoria`.`activo` FROM `cursos`.`categoria`;
+
+CREATE VIEW LosCursos AS    
+SELECT `curso`.`id_curso`,`curso`.`nombre`,`curso`.`descripcion`,`curso`.`costo`,`curso`.`foto`,`curso`.`video`,`curso`.`categoriaid`,`curso`.`activo`,`curso`.`fechaCreado`,`curso`.`usuid`FROM `cursos`.`curso`;
+
+CREATE VIEW LasLecciones AS    
+SELECT `leccion`.`id_leccion`,`leccion`.`cursoid`,`leccion`.`nivel`,`leccion`.`archivo`,`leccion`.`foto`,`leccion`.`video`,`leccion`.`extra`,`leccion`.`activo`,`leccion`.`fechaCreado`FROM `cursos`.`leccion`;
+
+Drop VIEW LasCategorias;
+

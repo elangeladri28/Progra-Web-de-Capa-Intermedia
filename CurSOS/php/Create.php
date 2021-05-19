@@ -94,8 +94,8 @@ include 'navbar.php';
             </div>
         </form>
         <center>
-        <button id="btn-crearcurso" type="button" class="btn btn-success">Añadir Curso</button>
-        <button id="btn-crearleccion" type="button" class="btn btn-success">Añadir Leccion</button>
+            <button id="btn-crearcurso" type="button" class="btn btn-success">Añadir Curso</button>
+            <button id="btn-crearleccion" type="button" class="btn btn-success">Añadir Leccion</button>
         </center>
         <br>
     </div>
@@ -109,10 +109,9 @@ include 'navbar.php';
     import {
         urlglobal
     } from '../js/urlglobal.js'
-    var courseInformation;
 
     $(document).ready(function() {
-
+        var idactual = <?php echo $_SESSION['id_usuario'] ?>;
         getCategorias();
         //Obtenemos la información del curso
         $('#btn-crearcurso').on('click', (event) => {
@@ -120,16 +119,16 @@ include 'navbar.php';
             if ($('#nombrecurso').val() == "" || $('#descripcioncurso').val() == "" ||
                 $('#preciocurso').val() == "" || $('input[name="imagencurso"]')[0].files[0] == null ||
                 $('input[name="videocurso"]')[0].files[0] == null || document.getElementById("categorias").selectedIndex == null) {
-                    debugger
-                    alert("Asegurate que los campos este completos");
-                } else {
+                debugger
+                alert("Asegurate que los campos este completos");
+            } else {
                 var categorie = document.getElementById("categorias").selectedIndex;
                 let categoriavalue = document.getElementsByTagName("option")[categorie].value;
 
                 var fotocurso = $('input[name="imagencurso"]')[0].files[0];
                 var videocurso = $('input[name="videocurso"]')[0].files[0];
                 debugger
-                let cursoData = new Curso(null, $('#nombrecurso').val(), $('#descripcioncurso').val(), $('#preciocurso').val(), fotocurso, videocurso, categoriavalue, null, null);
+                let cursoData = new Curso(null, $('#nombrecurso').val(), $('#descripcioncurso').val(), $('#preciocurso').val(), fotocurso, videocurso, categoriavalue, null, null, idactual);
 
                 crearCurso(cursoData);
             }
@@ -158,7 +157,8 @@ include 'navbar.php';
                 costo: ElCurso.costo,
                 foto: ElCurso.foto,
                 video: ElCurso.video,
-                categoriaid: ElCurso.categoriaid
+                categoriaid: ElCurso.categoriaid,
+                usuid: ElCurso.usuid
             };
             //Agregamos la imagen del curso
             // Create an FormData object 
@@ -190,8 +190,8 @@ include 'navbar.php';
             myFormData2.append('video', videoCourse.files[0]);
             //Agregamos el video del curso
             promise.then(() => {
-
-                $.ajax({
+                debugger
+                var promise2 = $.ajax({
                     type: 'POST',
                     enctype: 'multipart/form-data',
                     url: "../Js/subir-video-curso.php",
@@ -210,25 +210,26 @@ include 'navbar.php';
                         debugger
                     }
                 });
-            });
-            var dataToSendJson = JSON.stringify(dataToSend);
-            debugger
-            //Mandamos la info a la BD
-            promise.then(() => {
-                $.ajax({
-                    url: urlglobal.url + "/addCurso",
-                    async: true,
-                    type: 'POST',
-                    data: dataToSendJson,
-                    dataType: 'json',
-                    contentType: 'application/json; charset=utf-8',
-                    success: function(data) {
-                        alert("Curso agregado correctamente");
-                    },
-                    error: function(x, y, z) {
-                        alert("Error agregando curso");
-                    }
+                //Mandamos la info a la BD
+                promise2.then(() => {
+                    var dataToSendJson = JSON.stringify(dataToSend);
+                    debugger
+                    $.ajax({
+                        url: urlglobal.url + "/addCurso",
+                        async: true,
+                        type: 'POST',
+                        data: dataToSendJson,
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function(data) {
+                            alert("Curso agregado correctamente");
+                        },
+                        error: function() {
+                            alert("Error agregando curso, posiblemente ya exista uno con el mismo nombre");
+                        }
+                    });
                 });
+
             });
         }
 
