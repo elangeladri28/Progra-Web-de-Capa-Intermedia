@@ -8,12 +8,22 @@ require 'C:/xampp/htdocs/Progra-Web-de-Capa-Intermedia/CurSOS/apiRest/src/contro
 require 'C:/xampp/htdocs/Progra-Web-de-Capa-Intermedia/CurSOS/apiRest/src/models/leccion.php';
 
 //Busca las lecciones existentes
-$app->post('/getLecciones', function (Request $request, Response $response) {
-    $lecciones = LeccionController::getLecciones($request->getParam('cursoid'));
+$app->post('/getLeccionesCurso', function (Request $request, Response $response) {
+    $lecciones = LeccionController::getLeccionesCurso($request->getParam('cursoid'));
     if ($lecciones != null) {
         echo json_encode($lecciones);
     }else {
         return json_encode("No existen Lecciones en la BBDD.");
+    }
+});
+
+//Busca las leccion especifica
+$app->post('/getLeccionEspecifica', function (Request $request, Response $response) {
+    $leccion = LeccionController::getLeccionEspecifica($request->getParam('leccionid'));
+    if ($leccion != null) {
+        echo json_encode($leccion);
+    }else {
+        return json_encode("No existe esta leccion en la BBDD.");
     }
 });
 

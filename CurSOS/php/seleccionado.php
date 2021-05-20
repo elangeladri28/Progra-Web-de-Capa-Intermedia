@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="../css/modsCursos.css">
 
     <script type="text/javascript" src="../js/modelosJS/carrito.js"></script>
+    <script type="text/javascript" src="../js/modelosJS/leccion.js"></script>
+    <script type="text/javascript" src="../js/modelosJS/contrata.js"></script>
 
 </head>
 
@@ -33,8 +35,8 @@
                     </div>
                     <div class="card-body">
                         <br><br>
-                        <button id="ComprarCurso" href="#" class="btn btn-success" style="margin-right:15px;" disabled>Añadir al carrito</button>
-                        <button id="CursoCertificado" href="../imagenes/Certificado.docx" download="Certificado" class="btn btn-success pruebame" disabled>Obtener Certificado</button>
+                        <button id="ComprarCurso" class="btn btn-success" style="margin-right:15px;" disabled>Añadir al carrito</button>
+                        <button id="CursoCertificado" class="btn btn-success" disabled>Obtener Certificado</button>
                     </div>
                 </div>
                 <!-- /.card -->
@@ -62,11 +64,8 @@
 
 
             <div class="col-lg-3">
-                <h1 class="my-4">Material de Trabajo</h1>
-                <div class="list-group">
-                    <a href="../imagenes/PRUEBA_1.pdf" download="PRUEBA_1" class="list-group-item active">Prueba 1</a>
-                    <a href="#" class="list-group-item">Prueba 2</a>
-                    <a href="#" class="list-group-item">Prueba 3</a>
+                <h1 class="my-4">Lecciones</h1>
+                <div id="laslecciones" class="list-group">
                 </div>
             </div>
             <!-- /.col-lg-3 -->
@@ -87,6 +86,8 @@
     import {
         urlglobal
     } from '../js/urlglobal.js'
+
+    var SeleccionoLeccion = false; //True significa que si esta contratado, podemos traer lecciones
     $(document).ready(function() {
         let searchParams = new URLSearchParams(window.location.search) //Busca si fue mandado algun parametro
         var idDelCurso = searchParams.get('idcurso'); //Revisa el valor del id del curso
@@ -130,17 +131,24 @@
         if (isset($_SESSION['id_usuario'])) { ?>
 
             var idactual = <?php echo $_SESSION['id_usuario'] ?>;
+            var nombreactual = <?php echo json_encode($_SESSION['nombre']) ?>;
             var CarritoData = new Carrito(null, idDelCurso, idactual)
             RevisaCarro(CarritoData);
-            
 
-        <?php } else { ?>
 
         <?php } ?>
-
         $('#ComprarCurso').on('click', (event) => {
-
             AgregaEnCarrito(idDelCurso);
+        });
+        $('#CursoCertificado').on('click', (event) => {
+            window.location.href = "../Diplomaservice/DiplomaGenerate.php?user="+nombreactual;
+        });
+        $("body").on("click", ".botonLeccion", function() {
+            let queLeccionEs = $(this).attr("idLeccion");
+            debugger
+            SeleccionoLeccion = true;
+            RevisaSiYaTienesLasLecciones(idDelCurso);
+            SeleccionaLaLeccion(queLeccionEs);
         });
 
         function RevisaCarro(CarritoData) {
@@ -150,7 +158,7 @@
             };
             var dataToSendJson = JSON.stringify(dataToSend);
             debugger
-            $.ajax({
+            var promise = $.ajax({
                 url: urlglobal.url + "/getRevisaCarrito",
                 async: true,
                 type: 'POST',
@@ -162,18 +170,40 @@
                     if (muestrame > 0) {
                         debugger
                         alert("Este curso ya esta en el carrito");
-                    } else {
-                        debugger
-                        $('#ComprarCurso').removeAttr("disabled");
                     }
-
                 },
                 error: function() {
                     debugger
                     alert("Error revisando el Carrito");
                 }
             });
+            promise.then(() => {
+                $.ajax({
+                    url: urlglobal.url + "/RevisaEstaContratado",
+                    async: true,
+                    type: 'POST',
+                    data: dataToSendJson,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function(data) {
+                        debugger
+                        let numero = parseInt(data.resultado);
+                        if (numero > 0) {
+                            debugger
+                            // alert("Este curso ya esta contratado");
+                            getLeccionesCurso(idDelCurso);
+                        } else {
+                            debugger
+                            $('#ComprarCurso').removeAttr("disabled");
+                        }
 
+                    },
+                    error: function() {
+                        debugger
+                        alert("Error revisando Contratacion");
+                    }
+                });
+            });
         };
 
         function AgregaEnCarrito(idDelCurso) {
@@ -193,7 +223,7 @@
                 success: function(data) {
                     debugger
                     alert("Curso agregado al Carrito");
-                    window.location.reload();
+                    $('#ComprarCurso').attr("disabled", true);
                 },
                 error: function() {
                     debugger
@@ -202,6 +232,140 @@
             });
 
         };
+
+        function getLeccionesCurso(idDelCurso) {
+            var dataToSend = {
+                cursoid: idDelCurso
+            };
+            var dataToSendJson = JSON.stringify(dataToSend);
+            debugger
+            var promise = $.ajax({
+                url: urlglobal.url + "/getLeccionesCurso",
+                async: true,
+                type: 'POST',
+                data: dataToSendJson,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(datos) {
+                    for (let dato of datos) {
+                        debugger
+                        var html = '<button class="list-group-item botonLeccion" idLeccion="' + dato.id_leccion + '">' + dato.nombre + '</button>';
+                        $('#laslecciones').append(html);
+                    }
+                },
+                error: function() {
+                    debugger
+                    alert("Error trayendo lecciones");
+                }
+            });
+            promise.then(() => {
+                RevisaSiYaTienesLasLecciones(idDelCurso);
+            });
+        };
+
+        function SeleccionaLaLeccion(idDeLaLeccion) {
+            var dataToSend = {
+                leccionid: idDeLaLeccion
+            };
+            var dataToSendJson = JSON.stringify(dataToSend);
+            debugger
+            $.ajax({
+                url: urlglobal.url + "/getLeccionEspecifica",
+                async: true,
+                type: 'POST',
+                data: dataToSendJson,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(datos) {
+                    let cursitoData = document.getElementById('cursoData');
+                    while (cursitoData.firstChild) {
+                        cursitoData.removeChild(cursitoData.firstChild);
+                    }
+                    debugger
+                    var html = '<div class="embed-responsive embed-responsive-16by9">';
+                    html += '<video controls><source src="' + datos.video + '" type="video/mp4"></video>';
+                    html += '</div>';
+                    html += '<div class="card-body">';
+                    html += '<h3 class="card-title">' + datos.nombre + '</h3>';
+                    html += '<p class="card-text">' + datos.extra + '</p>';
+                    html += '<h2 class="udlite-heading-xl styles--audience__title--1Sob_">Archivo asociado</h2>';
+                    html += '<ul class="styles--audience__list--3NCqY">';
+                    html += '<li>';
+                    html += '<a href="' + datos.archivo + '" download="Archivo">Prueba 1</a>';
+                    html += '</li>';
+                    html += '</ul>';
+                    html += '</div>';
+                    $('#cursoData').append(html);
+                },
+                error: function() {
+                    debugger
+                    alert("Error trayendo la leccion");
+                }
+            });
+
+        };
+
+        function RevisaSiYaTienesLasLecciones(idDelCurso) {
+            var dataToSend2 = {
+                usuarioid: idactual, //IdDelUsuarioQueVasARevisar
+                cursoid: idDelCurso //IdDelCursoARevisar
+            };
+            var dataToSendJson2 = JSON.stringify(dataToSend2);
+            debugger
+            var LeccionesVistas;
+            var promise2 = $.ajax({
+                url: urlglobal.url + "/RevisaSiYaTienesLasLecciones",
+                async: true,
+                type: 'POST',
+                data: dataToSendJson2,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    let numero = parseInt(data.resultado);
+                    if (numero > 0) {
+                        LeccionesVistas = 1; //significa que ya completo el curso
+                        $('#CursoCertificado').removeAttr("disabled");
+                        debugger
+                    } else {
+                        LeccionesVistas = 0; //le faltan lecciones
+
+                        alert("Todavia no completa el curso")
+                        debugger
+                    }
+
+                },
+                error: function() {
+                    alert("Error revisando");
+                }
+            });
+            promise2.then(() => {
+                debugger
+                if (LeccionesVistas = 0 && SeleccionoLeccion) {
+                    var dataToSend2 = {
+                        usuarioid: idactual, //IdDelUsuarioQueVasARevisar
+                        cursoid: idDelCurso //IdDelCursoARevisar
+                    };
+                    var dataToSendJson2 = JSON.stringify(dataToSend2);
+                    debugger
+                    $.ajax({
+                        url: urlglobal.url + "/aumentaSuProgreso",
+                        async: true,
+                        type: 'POST',
+                        data: dataToSendJson3,
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function(data) {
+                            alert("ProgresoAumentado");
+                        },
+                        error: function() {
+                            alert("Error aumentando contador");
+                        }
+                    });
+                }
+            });
+
+        }
+
     });
 </script>
 

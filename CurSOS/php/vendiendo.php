@@ -205,38 +205,44 @@ include 'footer.php';
 
         function AgregarContratado() {
             var muestrame = cursosarray.length;
+            var salimos = 0;
             debugger
             for (let i = 0; i < muestrame; i++) {
                 var dataToSend = {
                     cursoid: cursosarray[i].cursoid,
-                    ususarioid: cursosarray[i].usuarioid
+                    usuarioid: cursosarray[i].usuarioid
                 };
                 var dataToSendJson = JSON.stringify(dataToSend);
 
                 debugger
 
-                // $.ajax({
-                //     url: urlglobal.url + "/AgregaContrata",
-                //     async: true,
-                //     type: 'POST',
-                //     data: dataToSendJson,
-                //     dataType: 'json',
-                //     contentType: 'application/json; charset=utf-8',
-                //     success: function(datos) {
-                //         let carro = document.getElementById('insertarAlCarro'); //limpias el chat de con quien chateas
-                //         while (carro.firstChild) {
-                //             carro.removeChild(carro.firstChild);
-                //         }
-                //         preciototal = 0;
-                //         getCarritoPersona(idactual);
-                //         debugger
-                //     },
-                //     error: function() {
-                //         alert("Error eliminando del carro");
-                //         debugger
-                //     }
-                // });
+                var promise = $.ajax({
+                    url: urlglobal.url + "/AgregaContrata",
+                    async: true,
+                    type: 'POST',
+                    data: dataToSendJson,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function(datos) {
+                        salimos += 1;
+                    },
+                    error: function() {
+                        alert("Error contratando curso");
+                        debugger
+                    }
+                });
+                promise.then(() => {
+                    if (salimos = muestrame) {
+                        let carro = document.getElementById('insertarAlCarro'); //limpias el chat de con quien chateas
+                        while (carro.firstChild) {
+                            carro.removeChild(carro.firstChild);
+                        }
+                        preciototal = 0;
+                        getCarritoPersona(idactual);
+                    }
+                });
             };
+
 
         }
 

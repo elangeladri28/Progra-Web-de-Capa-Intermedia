@@ -52,6 +52,7 @@ id_contrata INT AUTO_INCREMENT,
 usuarioid INT NOT NULL,
 cursoid INT NOT NULL,
 calificacioncurso DOUBLE NULL,
+contadorLecciones INT DEFAULT 0,
 progreso DOUBLE NULL,
 Constraint PK_Contrata PRIMARY KEY (id_contrata),
 Constraint FK_Contrata  FOREIGN KEY(cursoid) References Curso(id_curso),
@@ -78,6 +79,7 @@ CREATE TABLE IF NOT EXISTS Historial(
 id_historial INT AUTO_INCREMENT,
 cursoid INT NOT NUll,
 usuarioid INT NOT NULL,
+fechaBuscado datetime default now(),
 Constraint PK_Historial PRIMARY KEY (id_historial),
 Constraint FK_Historial  FOREIGN KEY (usuarioid) REFERENCES Usuario(id_usuario),
 Constraint FK_Historial2  FOREIGN KEY (cursoid) REFERENCES Curso(id_curso)
@@ -120,6 +122,10 @@ Select * FROM LasCategorias;
 Select * FROM LosCursos WHERE usuid = 1;
 Select * FROM LosCursos ORDER BY fechaCreado ASC LIMIT 3;
 Select * FROM LasLecciones WHERE id_leccion = 1;
+Select * from Contrata;
+Select * from Carrito;
+Truncate table Contrata;
+Truncate table Carrito;
 
 Select * from chatPrivado;
 INSERT INTO `cursos`.`chatprivado`(`id_cp`,`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
@@ -130,21 +136,10 @@ VALUES(null,"QuechingaosQuieres",2,1,now());
 
 
 SET GLOBAL log_bin_trust_function_creators = 1;
-DELIMITER //
-CREATE TRIGGER FechaMensajeEnviado
-AFTER INSERT
-   ON chatPrivado FOR EACH ROW
-BEGIN
-  declare idmensaje INT;
-  SELECT id_cp FROM INSERTED into idmensaje;
-  UPDATE chatPrivado SET fechamensaje = now() WHERE id_cp = idmensaje;
-END; //
 
-DELIMITER ;
-
-DROP TRIGGER FechaMensajeEnviado;
 
 Select TraerIDPersonaChateas('PainChip') as resultado;
+Select RevisaEstaContratado(1,1) as resultado;
 
 CALL `cursos`.`getChatEntero`(1, 2);
 
@@ -158,6 +153,7 @@ SELECT id_categoria AS LastID FROM categoria WHERE id_categoria = @@Identity;
 
 TRUNCATE TABLE categoria;
 Delete from categoria where id_categoria != 10;
+
 
 
 

@@ -32,62 +32,92 @@ class ContrataController
             echo '{"error" : {"text":' . $e->getMessage() . '}}';
         }
     }
-    // public static function getRevisaCarrito($losDatos)
-    // {
+    public static function RevisaEstaContratado($losDatos)
+    {
 
-    //     $cursoid = $losDatos->getcursoid();
-    //     $usuarioid = $losDatos->getusuarioid();
-    //     $sql = "Select * from ElCarrito Where usuarioid = " . $usuarioid . " and cursoid = " . $cursoid . ";";
+        $cursoid = $losDatos->getcursoid();
+        $usuarioid = $losDatos->getusuarioid();
+        $sql = "Select RevisaEstaContratado(" . $usuarioid . "," . $cursoid . ") as resultado;";
 
-    //     try {
-    //         $db = new db();
-    //         $db = $db->connectionDB();
-    //         $result = $db->query($sql);
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
 
-    //         if ($result) {
+            if ($result) {
 
-    //             $carrito = $result->fetch_assoc();
+                $respuesta = $result->fetch_assoc();
 
-    //             return $carrito;
-    //         } else {
+                return $respuesta;
+            } else {
 
-    //             return json_encode("No esta el curso en el carrito.");
-    //         }
+                return json_encode("No esta contratado el curso.");
+            }
 
-    //         $result = null;
-    //         $db = null;
-    //     } catch (PDOException $e) {
-    //         echo '{"error" : {"text":' . $e->getMessage() . '}}';
-    //     }
-    // }
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
+    public static function RevisaSiYaTienesLasLecciones($losDatos)
+    {
 
-    // public static function EliminaCursoCarro($losDatos)
-    // {
-    //     $id_carrito = $losDatos->getid_carrito();
-    //     $sql = "Delete from Carrito where id_carrito = " . $id_carrito . ";";
+        $cursoid = $losDatos->getcursoid();
+        $usuarioid = $losDatos->getusuarioid();
+        $sql = "Select RevisaSiYaTienesLasLecciones(" . $usuarioid . "," . $cursoid . ") as resultado;";
 
-    //     try {
-    //         $db = new db();
-    //         $db = $db->connectionDB();
-    //         $result = $db->query($sql);
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
 
-    //         if (!$result) {
-    //             echo "Problema al hacer un query: " . $db->error;
-    //         } else {
-    //             echo '{"message" : { "status": "200" , "text": "Eliminado del carro exitosamente."}}';
-    //         }
-    //         $result = null;
-    //         $db = null;
-    //     } catch (PDOException $e) {
-    //         echo '{"error" : {"text":' . $e->getMessage() . '}}';
-    //     }
-    // }
+            if ($result) {
+
+                $respuesta = $result->fetch_assoc();
+
+                return $respuesta;
+            } else {
+
+                return json_encode("Error");
+            }
+
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
+
+    public static function aumentaSuProgreso($losDatos)
+    {
+
+        $cursoid = $losDatos->getcursoid();
+        $usuarioid = $losDatos->getusuarioid();
+        $sql = "CALL `cursos`.`aumentaSuProgreso`(" . $usuarioid . "," . $cursoid . ");";
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
+
+            if (!$result) {
+                echo "Problema al hacer un query: " . $db->error;
+            } else {
+                echo '{"message" : { "status": "200" , "text": "Progreso actualizado"}}';
+            }
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
+
     public static function addContrata($CarritoInfo)
     {
         $cursoid = $CarritoInfo->getcursoid();
         $usuarioid = $CarritoInfo->getusuarioid();
 
-        $sql = "INSERT INTO `cursos`.`contrata`(`id_contrata`,`ususarioid`,`cursoid`,`calificacion`,`progreso`)VALUES(null," . $usuarioid . "," . $cursoid . ",null,null);";
+        $sql = "INSERT INTO `cursos`.`contrata`(`id_contrata`,`usuarioid`,`cursoid`,`calificacioncurso`,`contadorLecciones`,`progreso`)VALUES(null," . $usuarioid . "," . $cursoid . ", null, null,null);";
 
         try {
             $db = new db();

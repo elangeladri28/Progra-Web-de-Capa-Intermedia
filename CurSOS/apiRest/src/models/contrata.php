@@ -5,13 +5,15 @@
         private $usuarioid;
         private $cursoid;
         private $calificacioncurso;
+        private $contadorLecciones;
         private $progreso;
 
-        public function __construct($id_contrata, $usuarioid, $cursoid, $calificacioncurso,$progreso) {
+        public function __construct($id_contrata, $usuarioid, $cursoid, $calificacioncurso, $contadorLecciones,$progreso) {
             $this->id_contrata = $id_contrata;
             $this->usuarioid = $usuarioid;
             $this->cursoid = $cursoid;
             $this->calificacioncurso = $calificacioncurso;
+            $this->contadorLecciones = $contadorLecciones;
             $this->progreso = $progreso;
         }
        
@@ -45,6 +47,14 @@
 
         public function getcalificacioncurso() {
             return $this->calificacioncurso;
+        }
+
+        public function setcontadorLecciones($contadorLecciones) {
+            $this->contadorLecciones = $contadorLecciones;
+        }
+
+        public function getcontadorLecciones() {
+            return $this->contadorLecciones;
         }
 
         public function setprogreso($progreso) {

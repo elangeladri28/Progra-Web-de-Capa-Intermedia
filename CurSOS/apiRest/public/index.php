@@ -36,6 +36,9 @@
     //Carrito routes
     require '../src/routes/carrito.php';
 
+    //Contrata routes
+    require '../src/routes/contrata.php';
+
     // Run app
     $app->run();
 ?>

@@ -214,8 +214,6 @@ include 'navbar.php';
                 });
 
             });
-
-
         }
 
         function getCursos(idactual) {

@@ -5,7 +5,7 @@ require_once 'C:/xampp/htdocs/Progra-Web-de-Capa-Intermedia/CurSOS/apiRest/src/c
 class LeccionController
 {
 
-    public static function getLecciones($idcurso)
+    public static function getLeccionesCurso($idcurso)
     {
 
         $sql = "Select * FROM LasLecciones WHERE cursoid = " . $idcurso . ";";
@@ -25,6 +25,32 @@ class LeccionController
             } else {
 
                 return json_encode("No existen Categorias en la BBDD.");
+            }
+
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
+
+    public static function getLeccionEspecifica($leccionid)
+    {
+
+        $sql = "Select * FROM LasLecciones WHERE id_leccion = " . $leccionid . ";";
+
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
+
+            if ($result) {
+                $leccion = $result->fetch_assoc();
+                
+                return $leccion;
+            } else {
+
+                return json_encode("No existe esta leccion en la BBDD.");
             }
 
             $result = null;
