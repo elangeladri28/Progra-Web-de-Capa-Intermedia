@@ -49,12 +49,13 @@ Constraint FK_ComentarioCurso3 FOREIGN KEY (usuid) REFERENCES Usuario(id_usuario
 
 CREATE TABLE IF NOT EXISTS Contrata(
 id_contrata INT AUTO_INCREMENT,
-ususarioid INT NOT NULL,
+usuarioid INT NOT NULL,
 cursoid INT NOT NULL,
-calificacion DOUBLE NULL,
+calificacioncurso DOUBLE NULL,
 progreso DOUBLE NULL,
 Constraint PK_Contrata PRIMARY KEY (id_contrata),
-Constraint FK_Contrata  FOREIGN KEY(cursoid) References Curso(id_curso)
+Constraint FK_Contrata  FOREIGN KEY(cursoid) References Curso(id_curso),
+Constraint FK_Contrata2  FOREIGN KEY(usuarioid) References Usuario(id_usuario)
 );
 
 CREATE TABLE IF NOT EXISTS Leccion( 
@@ -109,7 +110,6 @@ DROP TABLE Leccion;
 DROP TABLE Contrata;
 DROP TABLE ComentarioCurso;
 DROP TABLE Curso;
-DROP TABLE ComentarioUsuario;
 DROP TABLE Categoria;
 DROP TABLE Usuario;
 
@@ -127,8 +127,6 @@ VALUES(null,"QueOnda",1,2,now());
 INSERT INTO `cursos`.`chatprivado`(`id_cp`,`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
 VALUES(null,"QuechingaosQuieres",2,1,now());
 
-INSERT INTO `cursos`.`leccion`(`id_leccion`,`cursoid`,`nivel`,`archivo`,`foto`,`video`,`extra`,`activo`,`fechaCreado`)VALUES
-(null ,<{cursoid: }>,<{nivel: }>,<{archivo: }>,<{foto: }>,<{video: }>,<{extra: }>,1,now());
 
 
 SET GLOBAL log_bin_trust_function_creators = 1;
@@ -156,8 +154,7 @@ INSERT INTO `cursos`.`categoria`(`id_categoria`,`categoria`,`descripcion`,`activ
 VALUES(null,'PHP2','Cursos de PHP2',1);
 SELECT id_categoria AS LastID FROM categoria WHERE id_categoria = @@Identity;
 
-INSERT INTO `cursos`.`curso`(`nombre`,`descripcion`,`costo`,`foto`,`video`,`categoriaid`)
-VALUES(<{nombre: }>,<{descripcion: }>,<{costo: }>,<{foto: }>,<{video: }>,<{categoriaid: }>);
+
 
 TRUNCATE TABLE categoria;
 Delete from categoria where id_categoria != 10;

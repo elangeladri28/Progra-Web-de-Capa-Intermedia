@@ -33,6 +33,9 @@
     //Lesson routes
     require '../src/routes/leccion.php';
 
+    //Carrito routes
+    require '../src/routes/carrito.php';
+
     // Run app
     $app->run();
 ?>

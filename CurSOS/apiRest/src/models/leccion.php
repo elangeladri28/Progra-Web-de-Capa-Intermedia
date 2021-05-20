@@ -11,8 +11,9 @@
         private $activo;
         private $fechaCreado;
 
-        public function __construct($id_leccion, $cursoid, $nivel, $archivo, $foto, $video, $extra, $activo, $fechaCreado) {
+        public function __construct($id_leccion,$nombre, $cursoid, $nivel, $archivo, $foto, $video, $extra, $activo, $fechaCreado) {
             $this->id_leccion = $id_leccion;
+            $this->nombre = $nombre;
             $this->cursoid = $cursoid;
             $this->nivel = $nivel;
             $this->archivo = $archivo;
@@ -29,6 +30,14 @@
 
         public function getid_leccion() {
             return $this->id_leccion;
+        }
+
+        public function setnombre($nombre) {
+            $this->nombre = $nombre;
+        }
+
+        public function getnombre() {
+            return $this->nombre;
         }
 
         public function setcursoid($cursoid) {

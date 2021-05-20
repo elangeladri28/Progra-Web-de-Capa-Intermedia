@@ -36,6 +36,7 @@ class LeccionController
 
     public static function addLeccion($laLeccion)
     {
+        $nombre = $laLeccion->getnombre();
         $cursoid = $laLeccion->getcursoid();
         $nivel = $laLeccion->getnivel();
         $archivo = $laLeccion->getarchivo();
@@ -43,8 +44,7 @@ class LeccionController
         $video = $laLeccion->getvideo();
         $extra = $laLeccion->getextra();
 
-        $sql = "INSERT INTO `cursos`.`leccion`(`id_leccion`,`cursoid`,`nivel`,`archivo`,`foto`,`video`,`extra`,`activo`,`fechaCreado`)VALUES
-        (null ," . $cursoid . "," . $nivel . ",'" . $archivo . "','" . $foto . "','" . $video . "','" . $extra . "', 1, now());";
+        $sql = "INSERT INTO `cursos`.`leccion`(`id_leccion`,`nombre`,`cursoid`,`nivel`,`archivo`,`foto`,`video`,`extra`,`activo`,`fechaCreado`)VALUES(null ,'" . $nombre . "'," . $cursoid . "," . $nivel . ",'" . $archivo . "','" . $foto . "','" . $video . "','" . $extra . "', 1, now());";
 
         try {
             $db = new db();

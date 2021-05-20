@@ -84,9 +84,9 @@ include 'navbar.php';
         debugger
         getCursos(idactual);
         //Obtenemos la información del curso
-        $('#btn-crearcurso').on('click', (event) => {
+        $('#btn-crearleccion').on('click', (event) => {
             event.preventDefault();
-            if ($('#nombreleccion').val() == "" ||
+            if ($('#nombreleccion').val() == "" ||$('#notaextraleccion').val() == "" ||
                 $('input[name="archivoleccion"]')[0].files[0] == null || $('input[name="imagenleccion"]')[0].files[0] == null ||
                 $('input[name="videoleccion"]')[0].files[0] == null || document.getElementById("cursos").selectedIndex == null) {
                 debugger
@@ -99,9 +99,8 @@ include 'navbar.php';
                 var videoleccion = $('input[name="videoleccion"]')[0].files[0];
                 var archivoleccion = $('input[name="archivoleccion"]')[0].files[0];
                 debugger
-
-                let leccionData = new Leccion(null, coursevalue, 1, archivoleccion, fotoleccion, videoleccion, categoriavalue, null, null);
-
+                let leccionData = new Leccion(null, $('#nombreleccion').val(), coursevalue, 1, archivoleccion, fotoleccion, videoleccion, $('#notaextraleccion').val(), null, null);
+                debugger
                 crearLeccion(leccionData);
             }
 
@@ -111,6 +110,7 @@ include 'navbar.php';
         function crearLeccion(LaLeccion) {
             var dataToSend = {
                 cursoid: LaLeccion.cursoid,
+                nombre: LaLeccion.nombre,
                 nivel: LaLeccion.nivel,
                 archivo: LaLeccion.archivo,
                 foto: LaLeccion.foto,
@@ -119,7 +119,7 @@ include 'navbar.php';
             };
             //Agregamos la imagen de la lecccion
             // Create an FormData object 
-            var imageCourse = document.getElementById('imagencurso');
+            var imageCourse = document.getElementById('imagenleccion');
             var myFormData = new FormData();
             myFormData.append('foto', imageCourse.files[0]);
             debugger
@@ -204,7 +204,7 @@ include 'navbar.php';
                             dataType: 'json',
                             contentType: 'application/json; charset=utf-8',
                             success: function(data) {
-                                alert("Leccion agregado correctamente");
+                                alert("Leccion agregada correctamente");
                             },
                             error: function() {
                                 alert("Error agregando leccion");

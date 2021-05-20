@@ -41,54 +41,6 @@
                 <h2>Los cursos mas recientes</h2>
                 <hr>
                 <div class="row" id="CursosRecientes">
-                    <!-- <div class="col-md-4 mb-5">
-                        <div class="card h-100">
-                            <img class="card-img-top" src="https://miro.medium.com/max/3960/0*HICLyAdNSIyT0ODU.jpg" alt="">
-                            <div class="card-body">
-                                <h4 class="card-title">Master en Desarrollo Web.</h4>
-                                <p class="card-text">Aprende a programar desde cero y desarrollo web con JavaScript, jQuery, JSON, TypeScript, Angular, Node, MEAN, +30 horas.</p>
-                                <p class="card-text"><small class="text-muted">Angel Adrian Hernandez Martinez</small>
-                                </p>
-                                <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> 4.0 stars
-                                <p class="card-text"><small class="text-muted">30 horas</small></p>
-                            </div>
-                            <div class="card-footer">
-                                <a href="seleccionado.html" class="btn btn-primary">Find Out More!</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card h-100">
-                            <img class="card-img-top" src="https://miro.medium.com/max/3960/0*HICLyAdNSIyT0ODU.jpg" alt="">
-                            <div class="card-body">
-                                <h4 class="card-title">Master en Desarrollo Web.</h4>
-                                <p class="card-text">Aprende a programar desde cero y desarrollo web con JavaScript, jQuery, JSON, TypeScript, Angular, Node, MEAN, +30 horas.</p>
-                                <p class="card-text"><small class="text-muted">Angel Adrian Hernandez Martinez</small>
-                                </p>
-                                <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> 4.0 stars
-                                <p class="card-text"><small class="text-muted">30 horas</small></p>
-                            </div>
-                            <div class="card-footer">
-                                <a href="seleccionado.html" class="btn btn-primary">Find Out More!</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card h-100">
-                            <img class="card-img-top" src="https://miro.medium.com/max/3960/0*HICLyAdNSIyT0ODU.jpg" alt="">
-                            <div class="card-body">
-                                <h4 class="card-title">Master en Desarrollo Web.</h4>
-                                <p class="card-text">Aprende a programar desde cero y desarrollo web con JavaScript, jQuery, JSON, TypeScript, Angular, Node, MEAN, +30 horas.</p>
-                                <p class="card-text"><small class="text-muted">Angel Adrian Hernandez Martinez</small>
-                                </p>
-                                <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> 4.0 stars
-                                <p class="card-text"><small class="text-muted">30 horas</small></p>
-                            </div>
-                            <div class="card-footer">
-                                <a href="seleccionado.html" class="btn btn-primary">Find Out More!</a>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
             </div>
             <div class="col-md-12 mb-5">
@@ -158,115 +110,12 @@
     } from '../js/urlglobal.js'
 
     $(document).ready(function() {
-        var idactual = <?php echo $_SESSION['id_usuario'] ?>;
+        <?php
+        if (isset($_SESSION['id_usuario'])) { ?>
+            var idactual = <?php echo $_SESSION['id_usuario'] ?>;
+        <?php } ?>
+
         get3CursosRecientes();
-
-        // //Obtenemos la información del curso
-        // $('#btn-crearcurso').on('click', (event) => {
-        //     event.preventDefault();
-        //     if ($('#nombrecurso').val() == "" || $('#descripcioncurso').val() == "" ||
-        //         $('#preciocurso').val() == "" || $('input[name="imagencurso"]')[0].files[0] == null ||
-        //         $('input[name="videocurso"]')[0].files[0] == null || document.getElementById("categorias").selectedIndex == null) {
-        //         debugger
-        //         alert("Asegurate que los campos este completos");
-        //     } else {
-        //         var categorie = document.getElementById("categorias").selectedIndex;
-        //         let categoriavalue = document.getElementsByTagName("option")[categorie].value;
-
-        //         var fotocurso = $('input[name="imagencurso"]')[0].files[0];
-        //         var videocurso = $('input[name="videocurso"]')[0].files[0];
-        //         debugger
-        //         let cursoData = new Curso(null, $('#nombrecurso').val(), $('#descripcioncurso').val(), $('#preciocurso').val(), fotocurso, videocurso, categoriavalue, null, null, idactual);
-
-        //         crearCurso(cursoData);
-        //     }
-
-
-        // });
-
-        // //Funcion CreamosCurso
-        // function crearCurso(ElCurso) {
-        //     var dataToSend = {
-        //         nombre: ElCurso.nombre,
-        //         descripcion: ElCurso.descripcion,
-        //         costo: ElCurso.costo,
-        //         foto: ElCurso.foto,
-        //         video: ElCurso.video,
-        //         categoriaid: ElCurso.categoriaid,
-        //         usuid: ElCurso.usuid
-        //     };
-        //     //Agregamos la imagen del curso
-        //     // Create an FormData object 
-        //     var imageCourse = document.getElementById('imagencurso');
-        //     var myFormData = new FormData();
-        //     myFormData.append('foto', imageCourse.files[0]);
-        //     debugger
-        //     var promise = $.ajax({
-        //         type: 'POST',
-        //         enctype: 'multipart/form-data',
-        //         url: "../Js/subir-imagen-curso.php",
-        //         data: myFormData,
-        //         processData: false,
-        //         contentType: false,
-        //         cache: false,
-        //         timeout: 800000,
-        //         success: function(data) {
-        //             dataToSend.foto = data;
-        //             alert("Imagen agregada");
-        //             debugger
-        //         },
-        //         error: function(data) {
-        //             console.log(data);
-        //             debugger
-        //         }
-        //     });
-        //     var videoCourse = document.getElementById('videocurso');
-        //     var myFormData2 = new FormData();
-        //     myFormData2.append('video', videoCourse.files[0]);
-        //     //Agregamos el video del curso
-        //     promise.then(() => {
-        //         debugger
-        //         var promise2 = $.ajax({
-        //             type: 'POST',
-        //             enctype: 'multipart/form-data',
-        //             url: "../Js/subir-video-curso.php",
-        //             data: myFormData2,
-        //             processData: false,
-        //             contentType: false,
-        //             cache: false,
-        //             timeout: 800000,
-        //             success: function(data) {
-        //                 dataToSend.video = data;
-        //                 alert("Video agregado");
-        //                 debugger
-        //             },
-        //             error: function(data) {
-        //                 console.log(data);
-        //                 debugger
-        //             }
-        //         });
-        //         //Mandamos la info a la BD
-        //         promise2.then(() => {
-        //             var dataToSendJson = JSON.stringify(dataToSend);
-        //             debugger
-        //             $.ajax({
-        //                 url: urlglobal.url + "/addCurso",
-        //                 async: true,
-        //                 type: 'POST',
-        //                 data: dataToSendJson,
-        //                 dataType: 'json',
-        //                 contentType: 'application/json; charset=utf-8',
-        //                 success: function(data) {
-        //                     alert("Curso agregado correctamente");
-        //                 },
-        //                 error: function() {
-        //                     alert("Error agregando curso, posiblemente ya exista uno con el mismo nombre");
-        //                 }
-        //             });
-        //         });
-
-        //     });
-        // }
 
         function get3CursosRecientes() {
             debugger
@@ -280,13 +129,13 @@
                     for (let dato of datos) {
                         var html = '<div class="col-md-4 mb-5">';
                         html += '<div class="card h-100">';
-                        html += '<img class="card-img-top" src="'+ dato.foto +'" alt="">';
+                        html += '<img class="card-img-top" src="' + dato.foto + '" alt="">';
                         html += '<div class="card-body">';
-                        html += '<h4 class="card-title">'+ dato.nombre +'</h4>';
-                        html += '<p class="card-text">'+ dato.descripcion +'</p>';
+                        html += '<h4 class="card-title">' + dato.nombre + '</h4>';
+                        html += '<p class="card-text">' + dato.descripcion + '</p>';
                         html += '</div>';
                         html += '<div class="card-footer">';
-                        html += '<a href="seleccionado.php?idcurso='+ dato.id_curso +'" class="btn btn-primary">Find Out More!</a>';
+                        html += '<a href="seleccionado.php?idcurso=' + dato.id_curso + '" class="btn btn-primary">Find Out More!</a>';
                         html += '</div>';
                         html += '</div>';
                         html += '</div>';
@@ -294,7 +143,7 @@
                     }
                 },
                 error: function() {
-                    alert("Error con los cursos mas recientes");
+                    alert("Error con los cursos mas recientes, posiblemente no hay ni uno");
                 }
             })
         }

@@ -52,5 +52,22 @@ SELECT `curso`.`id_curso`,`curso`.`nombre`,`curso`.`descripcion`,`curso`.`costo`
 CREATE VIEW LasLecciones AS    
 SELECT `leccion`.`id_leccion`,`leccion`.`cursoid`,`leccion`.`nivel`,`leccion`.`archivo`,`leccion`.`foto`,`leccion`.`video`,`leccion`.`extra`,`leccion`.`activo`,`leccion`.`fechaCreado`FROM `cursos`.`leccion`;
 
-Drop VIEW LasCategorias;
+CREATE VIEW ElCarrito AS    
+SELECT id_carrito,Curso.nombre as NombreCurso,Usuario.nombre as NombreUsuario, usuarioid, cursoid FROM `cursos`.`carrito`
+inner join Usuario on Usuario.id_usuario = Carrito.usuarioid
+inner join Curso on Curso.id_curso = Carrito.cursoid;
+INSERT INTO `cursos`.`carrito`(`id_carrito`,`cursoid`,`usuarioid`)VALUES(null,1,1);
 
+CREATE VIEW LosCursosCarrito AS    
+SELECT id_carrito,Curso.nombre as NombreCurso, Curso.foto as FotoCurso, Curso.descripcion as DescripcionCurso, Curso.costo as PrecioCurso, cursoid, usuarioid FROM `cursos`.`carrito`
+inner join Curso on Curso.id_curso = Carrito.cursoid;
+
+Select * from LosCursosCarrito Where usuarioid = 1;
+Select * from ElCarrito Where usuarioid = 1;
+Select * from ElCarrito Where usuarioid = 1 and cursoid = 1;
+Select * from Carrito;
+Delete from Carrito where id_carrito = 1;
+Drop VIEW ElCarrito;
+Drop VIEW LosCursosCarrito;
+Drop VIEW LasCategorias;
+Drop VIEW LosCursos;

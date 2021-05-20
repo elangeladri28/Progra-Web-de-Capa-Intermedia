@@ -19,7 +19,7 @@
         }
 
         public function getid_cp() {
-            return $this->id_usuario;
+            return $this->id_cp;
         }
 
         public function setidusuario($idusuario) {

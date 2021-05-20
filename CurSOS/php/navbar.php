@@ -26,7 +26,7 @@
                         <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-success my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
                     </form>
-                    <a href="vendiendo.html"><img id="carrito" src="https://image.flaticon.com/icons/png/512/34/34568.png" alt=""></a>
+                    <a href="vendiendo.php"><img id="carrito" src="https://image.flaticon.com/icons/png/512/34/34568.png" alt=""></a>
 
                     <img id="imagenUser" src="<?php echo $_SESSION['avatar'] ?>" alt="ImagenPerfil" width="50" height="30" style="padding-left: 10px; padding-right: 10px;">
                     <a id="NombreUser" style="color: #ecfdf9"><?php echo $_SESSION['usuario'] ?></a>
@@ -60,7 +60,7 @@
                         <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-success my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
                     </form>
-                    <a href="vendiendo.html"><img id="carrito" src="https://image.flaticon.com/icons/png/512/34/34568.png" alt=""></a>
+                    <a href="vendiendo.php"><img id="carrito" src="https://image.flaticon.com/icons/png/512/34/34568.png" alt=""></a>
 
                     <img id="imagenUser" src="<?php echo $_SESSION['avatar'] ?>" alt="ImagenPerfil" width="50" height="30" style="padding-left: 10px; padding-right: 10px;">
                     <a id="NombreUser" style="color: #ecfdf9"><?php echo $_SESSION['usuario'] ?></a>
@@ -88,7 +88,6 @@
                     <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-success my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
                 </form>
-                <a href="vendiendo.html"><img id="carrito" src="https://image.flaticon.com/icons/png/512/34/34568.png" alt=""></a>
                 <a id="Login" class="btn btn-outline-light" href="Login.php" role="button" style="margin-left: 10px;">Acceder</a>
             </div>
         </nav>

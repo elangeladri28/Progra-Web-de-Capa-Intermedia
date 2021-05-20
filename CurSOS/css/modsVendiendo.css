@@ -17,7 +17,10 @@ section {
 }
 
 #footer {
-    background: #323232 !important;
+    background: #7952b3 !important;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 #footer a {
@@ -26,26 +29,19 @@ section {
     background-color: transparent;
 }
 
-#Pegado{
+#Pegado {
     margin-left: 70%;
 }
 
-#exampleModalLabel{
+#exampleModalLabel {
     margin-left: 20%;
 }
 
-
-@media screen and (max-width: 850px){
-
-    #exampleModalLabel{
-       margin-left: 0%;
+@media screen and (max-width: 850px) {
+    #exampleModalLabel {
+        margin-left: 0%;
     }
-
-    #Pegado{
+    #Pegado {
         margin-left: 38%;
-        
     }
-
-    
-
 }

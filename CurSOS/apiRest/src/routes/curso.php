@@ -37,7 +37,7 @@ $app->post('/get3CursosRecientes', function (Request $request, Response $respons
     if ($cursos != null) {
         echo json_encode($cursos);
     }else {
-        return json_encode("No existen Categorias en la BBDD.");
+        echo '{"message" : { "status": "500" , "text": "Server error"  }';
     }
 });
 

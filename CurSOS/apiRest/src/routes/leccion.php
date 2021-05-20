@@ -19,10 +19,11 @@ $app->post('/getLecciones', function (Request $request, Response $response) {
 
 // Agrega una nueva leccion
 $app->post('/addLeccion', function (Request $request, Response $response) {
-    if ($request->getParam('cursoid') && $request->getParam('nivel') && 
+    if ($request->getParam('cursoid') && $request->getParam('nombre') && $request->getParam('nivel') && 
     $request->getParam('archivo') && $request->getParam('foto') && 
     $request->getParam('video') && $request->getParam('extra')) {
-        $laLeccion = new LeccionModel(null, $request->getParam('cursoid'), $request->getParam('nivel'),
+        $laLeccion = new LeccionModel(null, $request->getParam('nombre'),$request->getParam('cursoid'),
+        $request->getParam('nivel'),
         $request->getParam('archivo'), $request->getParam('foto'),
         $request->getParam('video'), $request->getParam('extra'),null, null);
         LeccionController::addLeccion($laLeccion);
