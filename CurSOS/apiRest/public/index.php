@@ -39,6 +39,9 @@
     //Contrata routes
     require '../src/routes/contrata.php';
 
+    //Comentario routes
+    require '../src/routes/comentariocurso.php';
+
     // Run app
     $app->run();
 ?>

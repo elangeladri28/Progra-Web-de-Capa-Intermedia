@@ -5,6 +5,33 @@ require_once 'C:/xampp/htdocs/Progra-Web-de-Capa-Intermedia/CurSOS/apiRest/src/c
 class ContrataController
 {
 
+    public static function getCursosContratados($iduser)
+    {
+        $sql = "Select * from CursosDelUsuario Where usuarioid = " . $iduser . ";";
+
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
+
+            if ($result) {
+                // Recorremos los resultados devueltos
+                $carritos = array();
+                while ($carrito = $result->fetch_assoc()) {
+                    $carritos[] = $carrito;
+                }
+                return $carritos;
+            } else {
+
+                return json_encode("No ha contratado ni un Curso.");
+            }
+
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
     public static function getContrataPersona($iduser)
     {
         $sql = "Select * from LosCursosCarrito Where usuarioid = " . $iduser . ";";
@@ -23,7 +50,7 @@ class ContrataController
                 return $carritos;
             } else {
 
-                return json_encode("No existen Chats en la BBDD.");
+                return json_encode("No hay nada en el carrito");
             }
 
             $result = null;
@@ -104,6 +131,30 @@ class ContrataController
                 echo "Problema al hacer un query: " . $db->error;
             } else {
                 echo '{"message" : { "status": "200" , "text": "Progreso actualizado"}}';
+            }
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
+
+    public static function CalificaCurso($CarritoInfo)
+    {
+        $cursoid = $CarritoInfo->getcursoid();
+        $usuarioid = $CarritoInfo->getusuarioid();
+        $calificacion = $CarritoInfo->getcalificacioncurso();
+
+        $sql = "UPDATE `cursos`.`contrata` SET `calificacioncurso` = " . $calificacion . " WHERE `usuarioid` = " . $usuarioid . " and `cursoid` = " . $cursoid . ";";
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
+
+            if (!$result) {
+                echo "Problema al hacer un query: " . $db->error;
+            } else {
+                echo '{"message" : { "status": "200" , "text": "Calificacion ingresada exitosamente."}}';
             }
             $result = null;
             $db = null;

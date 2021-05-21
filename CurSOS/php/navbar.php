@@ -21,9 +21,17 @@
                         <li class="nav-item">
                             <a class="nav-link" href="Perfil.php"> Mi Perfil</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="historial.php"> Historial</a>
+                        </li>
+
                     </ul>
-                    <form action="#" class="form-inline my-2 my-lg-0">
-                        <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <form action="User.php" method="post" class="form-inline my-2 my-lg-0" style="padding-right: 15px;">
+                        <input name="searchUser" class="form-control mr-sm-2" type="search" placeholder="Busca Usuario" aria-label="Search">
+                        <button class="btn btn-primary my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
+                    </form>
+                    <form action="busqueda.php" method="post" class="form-inline my-2 my-lg-0">
+                        <input name="searchCourse" class="form-control mr-sm-2" type="search" placeholder="Busca Curso" aria-label="Search">
                         <button class="btn btn-success my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
                     </form>
                     <a href="vendiendo.php"><img id="carrito" src="https://image.flaticon.com/icons/png/512/34/34568.png" alt=""></a>
@@ -55,9 +63,16 @@
                         <li class="nav-item">
                             <a class="nav-link" href="Create.php"> Crear Curso</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="historial.php"> Historial</a>
+                        </li>
                     </ul>
-                    <form action="#" class="form-inline my-2 my-lg-0">
-                        <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <form action="User.php" method="post" class="form-inline my-2 my-lg-0" style="padding-right: 15px;">
+                        <input name="searchUser" class="form-control mr-sm-2" type="search" placeholder="Busca Usuario" aria-label="Search">
+                        <button class="btn btn-primary my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
+                    </form>
+                    <form action="busqueda.php" method="post" class="form-inline my-2 my-lg-0">
+                        <input name="searchCourse" class="form-control mr-sm-2" type="search" placeholder="Busca Curso" aria-label="Search">
                         <button class="btn btn-success my-2 my-sm-0" type="submit"><img src="https://www.seekpng.com/png/full/920-9209972_magnifying-glass-png-white-search-icon-white-png.png" width="20" height="20" alt=""></button>
                     </form>
                     <a href="vendiendo.php"><img id="carrito" src="https://image.flaticon.com/icons/png/512/34/34568.png" alt=""></a>

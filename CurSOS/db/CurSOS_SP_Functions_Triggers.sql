@@ -33,16 +33,20 @@ DELIMITER ;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `aumentaSuProgreso`(idusuario int,idcurso int)
 BEGIN
-	DECLARE contadorLecciones INT;
+	DECLARE cuentamelasLecciones INT;
     DECLARE contadorleccionesvistas INT;
-    SET contadorLecciones =( Select Count(id_leccion) FROM LasLecciones WHERE cursoid = 1); -- Traemos el numero de lecciones
-    SET contadorleccionesvistas = ( Select contadorLecciones from Contrata);
-	Select id_cp, persona.usuario, mensaje, persona2.usuario as usuario2 from chatPrivado
-	inner join Usuario as persona on persona.id_usuario = usuarioid
-	inner join Usuario as persona2 on persona2.id_usuario = usuarioid2
-	Where (usuarioid = idprimero and usuarioid2 = idsegundo) or (usuarioid = idsegundo and usuarioid2 = idprimero) order by fechamensaje desc;
+    DECLARE progresoactual DOUBLE;
+    SET cuentamelasLecciones = ( Select Count(id_leccion) FROM LasLecciones WHERE cursoid = idcurso); -- Traemos el numero de lecciones
+    SET contadorleccionesvistas = ( Select contadorLecciones from Contrata WHERE usuarioid = idusuario and cursoid = idcurso)+1;
+    SET progresoactual = contadorleccionesvistas * 100 / cuentamelasLecciones;
+	UPDATE Contrata SET progreso = progresoactual, contadorLecciones = contadorleccionesvistas WHERE usuarioid = idusuario and cursoid = idcurso;
 END$$
 DELIMITER ;
+Select contadorLecciones from Contrata WHERE usuarioid = 1 and cursoid = 1;
+CALL `cursos`.`aumentaSuProgreso`(1, 1);
+SELECT * FROM CONTRATA;
+UPDATE CONTRATA SET contadorLecciones = 0, progreso = 0 WHERE id_contrata = 1;
+
 -- Funciones
 SET GLOBAL log_bin_trust_function_creators = 1;
 DELIMITER $$
@@ -61,6 +65,8 @@ BEGIN
 	RETURN numero;
 END$$
 DELIMITER ;
+SELECT * FROM CONTRATA
+UPDATE CONTRATA SET contadorLecciones = 0, progreso = 0 WHERE id_contrata = 1
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` FUNCTION `RevisaSiYaTienesLasLecciones`(idusuario int,idcurso int ) RETURNS int
 BEGIN
@@ -86,6 +92,18 @@ BEGIN
 END$$
 
 DELIMITER ;
+DELIMITER $$
+
+CREATE TRIGGER after_contrata_insert2
+AFTER INSERT
+ON Contrata FOR EACH ROW
+BEGIN
+        INSERT INTO `cursos`.`historial`(`id_historial`,`cursoid`,`usuarioid`)VALUES(null,NEW.cursoid,NEW.usuarioid);
+
+
+END$$
+
+DELIMITER ;
 -- Views
 use cursos;
 
@@ -94,6 +112,11 @@ SELECT `categoria`.`id_categoria`, `categoria`.`categoria`,`categoria`.`descripc
 
 CREATE VIEW LosCursos AS    
 SELECT `curso`.`id_curso`,`curso`.`nombre`,`curso`.`descripcion`,`curso`.`costo`,`curso`.`foto`,`curso`.`video`,`curso`.`categoriaid`,`curso`.`activo`,`curso`.`fechaCreado`,`curso`.`usuid`FROM `cursos`.`curso`;
+
+CREATE VIEW LosCursosBuscados AS    
+SELECT `curso`.`id_curso`,`curso`.`nombre`,`curso`.`descripcion`,`curso`.`costo`,`curso`.`foto`,`curso`.`video`,`curso`.`categoriaid`,`curso`.`activo`,`curso`.`fechaCreado`,`curso`.`usuid`,Usuario.nombre as CreadorCurso FROM `cursos`.`curso`
+inner join Usuario on Usuario.id_usuario = curso.usuid;
+
 
 DROP VIEW IF EXISTS LasLecciones;
 CREATE VIEW LasLecciones AS    
@@ -109,14 +132,29 @@ CREATE VIEW LosCursosCarrito AS
 SELECT id_carrito,Curso.nombre as NombreCurso, Curso.foto as FotoCurso, Curso.descripcion as DescripcionCurso, Curso.costo as PrecioCurso, cursoid, usuarioid FROM `cursos`.`carrito`
 inner join Curso on Curso.id_curso = Carrito.cursoid;
 
+CREATE VIEW ComentariosDelCurso AS    
+SELECT id_comencurs,cursoid, comentario, Usuario.nombre as NombreUsuario, usuid FROM `cursos`.`ComentarioCurso`
+inner join Usuario on Usuario.id_usuario = ComentarioCurso.usuid;
+
+CREATE VIEW CursosDelUsuario AS    
+SELECT `contrata`.`id_contrata`,`contrata`.`usuarioid`,`contrata`.`cursoid`,`contrata`.`calificacioncurso`,`contrata`.`progreso`,Curso.nombre as Nombrecurso FROM `cursos`.`contrata`
+inner join Curso on Curso.id_curso = Contrata.cursoid;
+
+Select * FROM LosCursosBuscados WHERE nombre like '%PHP%';
+Select * from CursosDelUsuario where usuarioid = 1;
 Select * from LosCursosCarrito Where usuarioid = 1;
 Select * from ElCarrito Where usuarioid = 1;
 Select * from ElCarrito Where usuarioid = 1 and cursoid = 1;
 Select * from Carrito;
 Delete from Carrito where id_carrito = 1;
 Select * FROM LasLecciones WHERE id_leccion = 1;
+Select RevisaSiYaTienesLasLecciones(1,1) as resultado;
+Select * from ComentariosDelCurso Where cursoid = 1;
+
 
 Drop VIEW ElCarrito;
 Drop VIEW LosCursosCarrito;
 Drop VIEW LasCategorias;
 Drop VIEW LosCursos;
+
+

@@ -21,7 +21,20 @@ $app->post('/RevisaEstaContratado', function (Request $request, Response $respon
 
 });
 
-//Busca si el curso ya esta contratado
+//Busca los cursos que llevas contratados
+$app->post('/getCursosContratados', function (Request $request, Response $response) {
+    if($request->getParam('usuarioid')){
+        $respuesta = ContrataController::getCursosContratados($request->getParam('usuarioid'));
+        if ($respuesta != null) {
+            echo json_encode($respuesta);
+        }else {
+            return json_encode("");
+        }
+    }
+
+});
+
+//Busca si el curso ya esta completo
 $app->post('/RevisaSiYaTienesLasLecciones', function (Request $request, Response $response) {
     if($request->getParam('cursoid') && $request->getParam('usuarioid')){
         $losDatos = new ContrataModel(null, $request->getParam('usuarioid'), $request->getParam('cursoid'),null,null,null);
@@ -34,7 +47,7 @@ $app->post('/RevisaSiYaTienesLasLecciones', function (Request $request, Response
     }
 });
 
-//Busca si el curso ya esta contratado
+//Aumentamos el progreso del usuario en su curso
 $app->post('/aumentaSuProgreso', function (Request $request, Response $response) {
     if($request->getParam('cursoid') && $request->getParam('usuarioid')){
         $losDatos = new ContrataModel(null, $request->getParam('usuarioid'), $request->getParam('cursoid'),null,null,null);
@@ -44,11 +57,20 @@ $app->post('/aumentaSuProgreso', function (Request $request, Response $response)
         echo '{"message" : { "status": "500" , "text": "Server error" } }';
     }
 });
-// Agrega el curso al carrito
+// Agrega a Contrata
 $app->post('/AgregaContrata', function (Request $request, Response $response) {
     if ($request->getParam('cursoid') && $request->getParam('usuarioid')) {
         $losDatos = new ContrataModel(null, $request->getParam('cursoid'), $request->getParam('usuarioid'),null,null,null);
         ContrataController::addContrata($losDatos);
+    } else {
+        echo '{"message" : { "status": "500" , "text": "Server error" } }';
+    }
+});
+// Califica el Curso
+$app->post('/CalificaCurso', function (Request $request, Response $response) {
+    if ($request->getParam('cursoid') && $request->getParam('usuarioid') && $request->getParam('calificacion')) {
+        $losDatos = new ContrataModel(null, $request->getParam('cursoid'), $request->getParam('usuarioid'),$request->getParam('calificacion'),null,null);
+        ContrataController::CalificaCurso($losDatos);
     } else {
         echo '{"message" : { "status": "500" , "text": "Server error" } }';
     }

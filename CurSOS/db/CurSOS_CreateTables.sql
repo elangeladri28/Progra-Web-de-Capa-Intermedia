@@ -122,6 +122,7 @@ Select * FROM LasCategorias;
 Select * FROM LosCursos WHERE usuid = 1;
 Select * FROM LosCursos ORDER BY fechaCreado ASC LIMIT 3;
 Select * FROM LasLecciones WHERE id_leccion = 1;
+Select * from Leccion;
 Select * from Contrata;
 Select * from Carrito;
 Truncate table Contrata;

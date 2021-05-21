@@ -17,6 +17,27 @@ $app->post('/getCursos', function (Request $request, Response $response) {
     }
 });
 
+//Busca los cursos existentes
+$app->post('/LosCursosBuscados', function (Request $request, Response $response) {
+    $cursos = CursoController::LosCursosBuscados($request->getParam('nombre'));
+    if ($cursos != null) {
+        echo json_encode($cursos);
+    }else {
+        return json_encode("");
+    }
+});
+///////////////////////////////////////////////////////////////////////////////////////
+//HISTORIAL
+//Busca los cursos del historial
+$app->post('/HistorialDeCursos', function (Request $request, Response $response) {
+    $cursos = CursoController::HistorialDeCursos($request->getParam('UsuarioIDHistorial'));
+    if ($cursos != null) {
+        echo json_encode($cursos);
+    }else {
+        return json_encode("");
+    }
+});
+///////////////////////////////////////////////////////////////////////////////////////
 // Agrega una nueva categoria
 $app->post('/addCurso', function (Request $request, Response $response) {
     if ($request->getParam('nombre') && $request->getParam('descripcion') && 

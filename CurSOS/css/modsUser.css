@@ -12,45 +12,46 @@
     object-fit: cover;
     max-height: 500px;
 }
+
 .checked {
     color: orange;
 }
+
 section {
     padding: 10px 0;
 }
 
 #footer {
-    background: #7952b3 ;
-    margin-top: 50px;
+    background: #7952b3 !important;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 #footer a {
     color: #ffffff;
-    text-decoration: none ;
+    text-decoration: none;
     background-color: transparent;
 }
 
-#upload{
+#upload {
     display: none;
 }
 
-div div h1, h2, h3{
-text-align: center;
-
-
+div div h1,
+h2,
+h3 {
+    text-align: center;
 }
 
-.cursos p{
-   float: left;
-   margin-right:10px;
+.cursos p {
+    float: left;
+    margin-right: 10px;
 }
-
 
 @media screen and (max-width: 850px) {
-    .cursos p{
-
+    .cursos p {
         float: none;
         margin-bottom: 5px;
-
     }
 }

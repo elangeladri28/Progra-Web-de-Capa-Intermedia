@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../imagenes/Logo.png">
     <title>CurSOS</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" />
     <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
@@ -14,6 +15,7 @@
     <script type="text/javascript" src="../js/modelosJS/carrito.js"></script>
     <script type="text/javascript" src="../js/modelosJS/leccion.js"></script>
     <script type="text/javascript" src="../js/modelosJS/contrata.js"></script>
+    <script type="text/javascript" src="../js/modelosJS/comentario.js"></script>
 
 </head>
 
@@ -42,39 +44,32 @@
                 <!-- /.card -->
 
                 <div class="card card-outline-secondary my-4">
-                    <div class="card-header">
-                        Reseñas
-                    </div>
+                    <div class="card-header"> Comentarios </div>
                     <div class="card-body">
-                        <p>No crei aprender tan facilmente, MUY BUEN CURSO!!.</p>
-                        <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                        <hr>
-                        <p>Es un poco extenso pero vale la pena verlo, recomendado.</p>
-                        <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                        <hr>
-                        <p>Demasiado largo, creo que deberia ser un poco mas corto, dinero tirado a la basura.</p>
-                        <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                        <hr>
-                        <a href="#" class="btn btn-success" onclick="alert('Comentario posteado');">Deja una reseña</a>
+                        <div id="LosComentarios">
+
+                        </div>
+                        <div>
+                            <input type="text" class="form-control" id="Input-Comentar" disabled>
+                            <br>
+                            <button id="btn-Comentar" class="btn btn-success" disabled>Dejar Comentario</button>
+                            <hr>
+                            <input type="number" class="form-control" id="Input-Calificar" disabled>
+                            <br>
+                            <button id="btn-Calificar" class="btn btn-success" disabled>Calificar Curso</button>
+
+                        </div>
                     </div>
                 </div>
                 <!-- /.card -->
-
             </div>
-
-
             <div class="col-lg-3">
                 <h1 class="my-4">Lecciones</h1>
                 <div id="laslecciones" class="list-group">
                 </div>
             </div>
             <!-- /.col-lg-3 -->
-
-
-
         </div>
-
-
     </div>
     <br>
     <?php
@@ -88,6 +83,9 @@
     } from '../js/urlglobal.js'
 
     var SeleccionoLeccion = false; //True significa que si esta contratado, podemos traer lecciones
+    var queLeccionEs;
+    var LeccionesVistas;
+
     $(document).ready(function() {
         let searchParams = new URLSearchParams(window.location.search) //Busca si fue mandado algun parametro
         var idDelCurso = searchParams.get('idcurso'); //Revisa el valor del id del curso
@@ -119,6 +117,7 @@
                     html += '<p class="card-text">' + datos.descripcion + '</p>';
                     html += '</div>';
                     $('#cursoData').append(html);
+                    getComentarios(idDelCurso);
 
                 },
                 error: function() {
@@ -136,19 +135,41 @@
             RevisaCarro(CarritoData);
 
 
+
         <?php } ?>
         $('#ComprarCurso').on('click', (event) => {
             AgregaEnCarrito(idDelCurso);
         });
+        $('#btn-Comentar').on('click', (event) => {
+            if ($('#Input-Comentar').val() != "") {
+
+                debugger
+                var elComentario = new ComentarioCurso(null, idDelCurso, $('#Input-Comentar').val(), idactual)
+                $('#Input-Comentar').val("");
+                AgregaComentario(elComentario);
+
+            }
+        });
+        $('#btn-Calificar').on('click', (event) => {
+            if ($('#Input-Calificar').val() != "") {
+                let calificacion = parseInt($('#Input-Calificar').val());
+                if (calificacion > 0 && calificacion <= 100) {
+                    debugger
+                    var CalificacionData = new Contrata(null, idactual, idDelCurso, calificacion, null)
+                    $('#Input-Calificar').val("");
+                    CalificaCurso(CalificacionData);
+                }
+            }
+        });
+
         $('#CursoCertificado').on('click', (event) => {
-            window.location.href = "../Diplomaservice/DiplomaGenerate.php?user="+nombreactual;
+            window.location.href = "../Diplomaservice/DiplomaGenerate.php?user=" + nombreactual;
         });
         $("body").on("click", ".botonLeccion", function() {
-            let queLeccionEs = $(this).attr("idLeccion");
+            queLeccionEs = $(this).attr("idLeccion");
             debugger
             SeleccionoLeccion = true;
             RevisaSiYaTienesLasLecciones(idDelCurso);
-            SeleccionaLaLeccion(queLeccionEs);
         });
 
         function RevisaCarro(CarritoData) {
@@ -192,6 +213,11 @@
                             debugger
                             // alert("Este curso ya esta contratado");
                             getLeccionesCurso(idDelCurso);
+                            $('#btn-Calificar').removeAttr("disabled");
+                            $('#Input-Comentar').removeAttr("disabled");
+                            $('#Input-Calificar').removeAttr("disabled");
+                            $('#btn-Comentar').removeAttr("disabled");
+
                         } else {
                             debugger
                             $('#ComprarCurso').removeAttr("disabled");
@@ -263,48 +289,6 @@
             });
         };
 
-        function SeleccionaLaLeccion(idDeLaLeccion) {
-            var dataToSend = {
-                leccionid: idDeLaLeccion
-            };
-            var dataToSendJson = JSON.stringify(dataToSend);
-            debugger
-            $.ajax({
-                url: urlglobal.url + "/getLeccionEspecifica",
-                async: true,
-                type: 'POST',
-                data: dataToSendJson,
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                success: function(datos) {
-                    let cursitoData = document.getElementById('cursoData');
-                    while (cursitoData.firstChild) {
-                        cursitoData.removeChild(cursitoData.firstChild);
-                    }
-                    debugger
-                    var html = '<div class="embed-responsive embed-responsive-16by9">';
-                    html += '<video controls><source src="' + datos.video + '" type="video/mp4"></video>';
-                    html += '</div>';
-                    html += '<div class="card-body">';
-                    html += '<h3 class="card-title">' + datos.nombre + '</h3>';
-                    html += '<p class="card-text">' + datos.extra + '</p>';
-                    html += '<h2 class="udlite-heading-xl styles--audience__title--1Sob_">Archivo asociado</h2>';
-                    html += '<ul class="styles--audience__list--3NCqY">';
-                    html += '<li>';
-                    html += '<a href="' + datos.archivo + '" download="Archivo">Prueba 1</a>';
-                    html += '</li>';
-                    html += '</ul>';
-                    html += '</div>';
-                    $('#cursoData').append(html);
-                },
-                error: function() {
-                    debugger
-                    alert("Error trayendo la leccion");
-                }
-            });
-
-        };
-
         function RevisaSiYaTienesLasLecciones(idDelCurso) {
             var dataToSend2 = {
                 usuarioid: idactual, //IdDelUsuarioQueVasARevisar
@@ -312,7 +296,6 @@
             };
             var dataToSendJson2 = JSON.stringify(dataToSend2);
             debugger
-            var LeccionesVistas;
             var promise2 = $.ajax({
                 url: urlglobal.url + "/RevisaSiYaTienesLasLecciones",
                 async: true,
@@ -327,9 +310,8 @@
                         $('#CursoCertificado').removeAttr("disabled");
                         debugger
                     } else {
-                        LeccionesVistas = 0; //le faltan lecciones
-
-                        alert("Todavia no completa el curso")
+                        LeccionesVistas = 20; //le faltan lecciones
+                        // alert("Todavia no completa el curso")
                         debugger
                     }
 
@@ -340,30 +322,155 @@
             });
             promise2.then(() => {
                 debugger
-                if (LeccionesVistas = 0 && SeleccionoLeccion) {
-                    var dataToSend2 = {
-                        usuarioid: idactual, //IdDelUsuarioQueVasARevisar
-                        cursoid: idDelCurso //IdDelCursoARevisar
+                if (SeleccionoLeccion) { //Selecciono una leccion, vamos a darle la info
+                    let cursitoData = document.getElementById('cursoData');
+                    while (cursitoData.firstChild) {
+                        cursitoData.removeChild(cursitoData.firstChild);
+                    }
+                    var dataToSend = {
+                        leccionid: queLeccionEs
                     };
-                    var dataToSendJson2 = JSON.stringify(dataToSend2);
+                    var dataToSendJson = JSON.stringify(dataToSend);
                     debugger
-                    $.ajax({
-                        url: urlglobal.url + "/aumentaSuProgreso",
+                    var promise3 = $.ajax({
+                        url: urlglobal.url + "/getLeccionEspecifica",
                         async: true,
                         type: 'POST',
-                        data: dataToSendJson3,
+                        data: dataToSendJson,
                         dataType: 'json',
                         contentType: 'application/json; charset=utf-8',
-                        success: function(data) {
-                            alert("ProgresoAumentado");
+                        success: function(datos) {
+                            debugger
+                            var html = '<div class="embed-responsive embed-responsive-16by9">';
+                            html += '<video controls><source src="' + datos.video + '" type="video/mp4"></video>';
+                            html += '</div>';
+                            html += '<div class="card-body">';
+                            html += '<h3 class="card-title">' + datos.nombre + '</h3>';
+                            html += '<p class="card-text">' + datos.extra + '</p>';
+                            html += '<h2 class="udlite-heading-xl styles--audience__title--1Sob_">Archivo asociado</h2>';
+                            html += '<ul class="styles--audience__list--3NCqY">';
+                            html += '<li>';
+                            html += '<a href="' + datos.archivo + '" download="Archivo">Prueba 1</a>';
+                            html += '</li>';
+                            html += '</ul>';
+                            html += '</div>';
+                            $('#cursoData').append(html);
                         },
                         error: function() {
-                            alert("Error aumentando contador");
+                            debugger
+                            alert("Error trayendo la leccion");
                         }
                     });
+                    promise3.then(() => {
+                        if (LeccionesVistas > 10) {
+                            var dataToSend3 = {
+                                usuarioid: idactual, //IdDelUsuarioQueVasARevisar
+                                cursoid: idDelCurso //IdDelCursoARevisar
+                            };
+                            var dataToSendJson3 = JSON.stringify(dataToSend3);
+                            debugger
+                            var promise3 = $.ajax({
+                                url: urlglobal.url + "/aumentaSuProgreso",
+                                async: true,
+                                type: 'POST',
+                                data: dataToSendJson3,
+                                dataType: 'json',
+                                contentType: 'application/json; charset=utf-8',
+                                success: function(data) {
+                                    alert("ProgresoAumentado");
+                                },
+                                error: function() {
+                                    alert("Error aumentando contador");
+                                }
+                            });
+                        }
+
+                    });
+
                 }
             });
 
+        }
+
+        function getComentarios(idDelCurso) {
+            var dataToSend2 = {
+                cursoid: idDelCurso //IdDelCursoARevisar
+            };
+            var dataToSendJson2 = JSON.stringify(dataToSend2);
+            debugger
+            var promise2 = $.ajax({
+                url: urlglobal.url + "/getComentarios",
+                async: true,
+                type: 'POST',
+                data: dataToSendJson2,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(datos) {
+                    let comentarios = document.getElementById('LosComentarios'); //limpias el chat de con quien chateas
+                    while (comentarios.firstChild) {
+                        comentarios.removeChild(comentarios.firstChild);
+                    }
+
+                    for (let dato of datos) {
+                        var html = '<p>' + dato.comentario + '</p>';
+                        html += '<small class="text-muted">Posted by ' + dato.NombreUsuario + '</small>';
+                        html += '<hr>';
+                        $('#LosComentarios').append(html);
+                    }
+                },
+                error: function() {
+                    alert("Error revisando");
+                }
+            });
+        }
+
+        function CalificaCurso(CalificacionData) {
+            var dataToSend2 = {
+                usuarioid: CalificacionData.usuarioid, //IdDelUsuarioQueVasARevisar
+                cursoid: CalificacionData.cursoid, //IdDelCursoARevisar
+                calificacion: CalificacionData.calificacioncurso //elComentario
+            };
+            var dataToSendJson2 = JSON.stringify(dataToSend2);
+            debugger
+            $.ajax({
+                url: urlglobal.url + "/CalificaCurso",
+                async: true,
+                type: 'POST',
+                data: dataToSendJson2,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    alert("La calificacion " + CalificacionData.calificacioncurso + " fue ingresada");
+                },
+                error: function() {
+                    alert("Error comentando");
+                }
+            });
+        }
+
+        function AgregaComentario(ComentarioData) {
+            var dataToSend2 = {
+                usuid: ComentarioData.usuid, //IdDelUsuarioQueVasARevisar
+                cursoid: ComentarioData.cursoid, //IdDelCursoARevisar
+                comentario: ComentarioData.comentario //elComentario
+            };
+            var dataToSendJson2 = JSON.stringify(dataToSend2);
+            debugger
+            $.ajax({
+                url: urlglobal.url + "/addComentario",
+                async: true,
+                type: 'POST',
+                data: dataToSendJson2,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(data) {
+                    debugger
+                    getComentarios(idDelCurso);
+                },
+                error: function() {
+                    alert("Error comentando");
+                }
+            });
         }
 
     });

@@ -33,6 +33,62 @@ class CursoController
             echo '{"error" : {"text":' . $e->getMessage() . '}}';
         }
     }
+    
+    public static function LosCursosBuscados($nombre)
+    {
+
+        $sql = "Select * FROM LosCursosBuscados WHERE nombre like '%" . $nombre . "%';";
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
+
+            if ($result) {
+                // Recorremos los resultados devueltos
+                $cursos = array();
+                while ($curso = $result->fetch_assoc()) {
+                    $cursos[] = $curso;
+                }
+                return $cursos;
+            } else {
+
+                return json_encode("No existen Cursos en la BBDD.");
+            }
+
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
+    public static function HistorialDeCursos($UsuarioIDHistorial)
+    {
+
+        $sql = "Select * FROM HistorialDeCursos WHERE UsuarioIDHistorial = " . $UsuarioIDHistorial . ";";
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
+
+            if ($result) {
+                // Recorremos los resultados devueltos
+                $cursos = array();
+                while ($curso = $result->fetch_assoc()) {
+                    $cursos[] = $curso;
+                }
+                return $cursos;
+            } else {
+
+                return json_encode("No existen Cursos en la BBDD.");
+            }
+
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
+
     public static function getInfoCurso($idcurso)
     {
 

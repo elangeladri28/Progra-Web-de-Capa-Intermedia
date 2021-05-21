@@ -41,7 +41,7 @@
 
                     echo json_encode($user);
                 } else {
-                    echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';
+                    echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } ';
                 }
             } else {
                 echo '{"message" : { "status": "400" , "text": "Bad Request" } }';
