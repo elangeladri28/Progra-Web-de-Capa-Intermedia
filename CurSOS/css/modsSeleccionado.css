@@ -18,13 +18,10 @@ section {
 
 #footer {
     background: #7952b3 !important;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
 }
 
 #footer a {
     color: #ffffff;
-    text-decoration: none;
+    text-decoration: none !important;
     background-color: transparent;
 }

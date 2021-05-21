@@ -33,7 +33,20 @@ $app->post('/getCursosContratados', function (Request $request, Response $respon
     }
 
 });
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//Busca los cursos que has creado y trae su id
+$app->post('/SusCursosYData', function (Request $request, Response $response) {
+    if($request->getParam('usuarioid')){
+        $respuesta = ContrataController::SusCursosYData($request->getParam('usuarioid'));
+        if ($respuesta != null) {
+            echo json_encode($respuesta);
+        }else {
+            return json_encode("");
+        }
+    }
 
+});
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 //Busca si el curso ya esta completo
 $app->post('/RevisaSiYaTienesLasLecciones', function (Request $request, Response $response) {
     if($request->getParam('cursoid') && $request->getParam('usuarioid')){

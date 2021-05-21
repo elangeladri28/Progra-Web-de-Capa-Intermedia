@@ -32,6 +32,32 @@ class ContrataController
             echo '{"error" : {"text":' . $e->getMessage() . '}}';
         }
     }
+    public static function SusCursosYData($iduser)
+    {
+        $sql = "Select id_curso from Curso where usuid = " . $iduser . ";";
+
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
+
+            if ($result) {
+                // Recorremos los resultados devueltos
+                $cursos = array();
+                while ($curso = $result->fetch_assoc()) {
+                    $cursos[] = $curso;
+                }
+                return $cursos;
+            } else {
+                return json_encode("No ha contratado ni un Curso.");
+            }
+
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
     public static function getContrataPersona($iduser)
     {
         $sql = "Select * from LosCursosCarrito Where usuarioid = " . $iduser . ";";

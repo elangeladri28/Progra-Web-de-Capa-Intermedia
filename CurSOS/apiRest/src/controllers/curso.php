@@ -34,6 +34,61 @@ class CursoController
         }
     }
     
+    public static function getCursoVentas($idcurso)
+    {
+
+        $sql = "CALL `cursos`.`getCursoVentas`(" . $idcurso . ");";
+        
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
+
+            if ($result) {
+                // Recorremos los resultados devueltos
+                $cursos = array();
+                while ($curso = $result->fetch_assoc()) {
+                    $cursos[] = $curso;
+                }
+                return $cursos;
+            }
+
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
+    
+    public static function TraerCursosDeCategoria($idcategoria)
+    {
+
+        $sql = "Select * FROM LosCursos WHERE categoriaid = " . $idcategoria . ";";
+
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
+
+            if ($result) {
+                // Recorremos los resultados devueltos
+                $cursos = array();
+                while ($curso = $result->fetch_assoc()) {
+                    $cursos[] = $curso;
+                }
+                return $cursos;
+            } else {
+
+                return json_encode("");
+            }
+
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
+    
     public static function LosCursosBuscados($nombre)
     {
 

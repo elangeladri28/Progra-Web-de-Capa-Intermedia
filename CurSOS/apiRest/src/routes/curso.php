@@ -13,7 +13,23 @@ $app->post('/getCursos', function (Request $request, Response $response) {
     if ($cursos != null) {
         echo json_encode($cursos);
     }else {
-        return json_encode("No existen Categorias en la BBDD.");
+        return json_encode("");
+    }
+});
+
+//Busca los cursos de esa categoria
+$app->post('/TraerCursosDeCategoria', function (Request $request, Response $response) {
+    $cursos = CursoController::TraerCursosDeCategoria($request->getParam('idcategoria'));
+    if ($cursos != null) {
+        echo json_encode($cursos);
+    }
+});
+
+//Busca los cursos existentes
+$app->post('/getCursoVentas', function (Request $request, Response $response) {
+    $cursos = CursoController::getCursoVentas($request->getParam('idcurso'));
+    if ($cursos != null) {
+        echo json_encode($cursos);
     }
 });
 
