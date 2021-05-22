@@ -119,7 +119,8 @@ class CursoController
     public static function HistorialDeCursos($UsuarioIDHistorial)
     {
 
-        $sql = "Select * FROM HistorialDeCursos WHERE UsuarioIDHistorial = " . $UsuarioIDHistorial . ";";
+        $sql = "Select * FROM HistorialDeCursos WHERE usuarioid = " . $UsuarioIDHistorial . ";";
+
         try {
             $db = new db();
             $db = $db->connectionDB();
@@ -169,10 +170,39 @@ class CursoController
             echo '{"error" : {"text":' . $e->getMessage() . '}}';
         }
     }
+    public static function get3CursosMasVendidos()
+    {
+
+        $sql = "Select id_curso, nombre, descripcion,foto, ContadorContratados(id_curso) as Contador from Curso Order by Contador DESC LIMIT 3";
+
+        try {
+            $db = new db();
+            $db = $db->connectionDB();
+            $result = $db->query($sql);
+
+            if ($result) {
+                // Recorremos los resultados devueltos
+                $cursos = array();
+                while ($curso = $result->fetch_assoc()) {
+                    $cursos[] = $curso;
+                }
+                return $cursos;
+            } else {
+
+                return json_encode("No existen los Cursos en la BBDD.");
+            }
+
+            $result = null;
+            $db = null;
+        } catch (PDOException $e) {
+            echo '{"error" : {"text":' . $e->getMessage() . '}}';
+        }
+    }
+
     public static function get3CursosRecientes()
     {
 
-        $sql = "Select * FROM LosCursos ORDER BY fechaCreado ASC LIMIT 3;";
+        $sql = "Select * FROM LosCursos ORDER BY fechaCreado DESC LIMIT 3;";
 
         try {
             $db = new db();

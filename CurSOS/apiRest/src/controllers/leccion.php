@@ -50,7 +50,7 @@ class LeccionController
                 return $leccion;
             } else {
 
-                return json_encode("No existe esta leccion en la BBDD.");
+                return json_encode("");
             }
 
             $result = null;

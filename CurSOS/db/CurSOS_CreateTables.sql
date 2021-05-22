@@ -1,5 +1,15 @@
 use cursos;
 
+DROP TABLE IF EXISTS chatPrivado;
+DROP TABLE IF EXISTS Carrito;
+DROP TABLE IF EXISTS Historial;
+DROP TABLE IF EXISTS Leccion;
+DROP TABLE IF EXISTS Contrata;
+DROP TABLE IF EXISTS ComentarioCurso;
+DROP TABLE IF EXISTS Curso;
+DROP TABLE IF EXISTS Categoria;
+DROP TABLE IF EXISTS Usuario;
+
 CREATE TABLE IF NOT EXISTS Usuario (
 id_usuario INT AUTO_INCREMENT,
 rol BOOL DEFAULT TRUE, /* True para maestro, false para alumno*/
@@ -51,9 +61,9 @@ CREATE TABLE IF NOT EXISTS Contrata(
 id_contrata INT AUTO_INCREMENT,
 usuarioid INT NOT NULL,
 cursoid INT NOT NULL,
-calificacioncurso DOUBLE NULL,
+calificacioncurso DOUBLE DEFAULT 0,
 contadorLecciones INT DEFAULT 0,
-progreso DOUBLE NULL,
+progreso DOUBLE DEFAULT 0,
 Constraint PK_Contrata PRIMARY KEY (id_contrata),
 Constraint FK_Contrata  FOREIGN KEY(cursoid) References Curso(id_curso),
 Constraint FK_Contrata2  FOREIGN KEY(usuarioid) References Usuario(id_usuario)
@@ -104,59 +114,6 @@ Constraint PK_chatPrivado PRIMARY KEY (id_cp),
 Constraint FK_chatPrivado FOREIGN KEY (usuarioid) REFERENCES Usuario(id_usuario),
 Constraint FK_chatPrivado2  FOREIGN KEY (usuarioid2) REFERENCES Usuario(id_usuario)
 );
-
-DROP TABLE chatPrivado;
-DROP TABLE Carrito;
-DROP TABLE Historial;
-DROP TABLE Leccion;
-DROP TABLE Contrata;
-DROP TABLE ComentarioCurso;
-DROP TABLE Curso;
-DROP TABLE Categoria;
-DROP TABLE Usuario;
-
-SELECT * FROM Usuario;
-SELECT * FROM comentariousuario;
-SELECT * FROM curso;
-Select * FROM LasCategorias;
-Select * FROM LosCursos WHERE usuid = 1;
-Select * FROM LosCursos ORDER BY fechaCreado ASC LIMIT 3;
-Select * FROM LasLecciones WHERE id_leccion = 1;
-Select * from Leccion;
-Select * from Contrata;
-Select * from Carrito;
-Truncate table Contrata;
-Truncate table Carrito;
-
-Select * from chatPrivado;
-INSERT INTO `cursos`.`chatprivado`(`id_cp`,`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
-VALUES(null,"QueOnda",1,2,now());
-INSERT INTO `cursos`.`chatprivado`(`id_cp`,`mensaje`,`usuarioid`,`usuarioid2`,`fechamensaje`)
-VALUES(null,"QuechingaosQuieres",2,1,now());
-
-
-
-SET GLOBAL log_bin_trust_function_creators = 1;
-
-
-Select TraerIDPersonaChateas('PainChip') as resultado;
-Select RevisaEstaContratado(1,1) as resultado;
-
-CALL `cursos`.`getChatEntero`(1, 2);
-
-CALL `cursos`.`getPersonasChateas`(1);
-
-INSERT INTO `cursos`.`categoria`(`id_categoria`,`categoria`,`descripcion`,`activo`)
-VALUES(null,'PHP2','Cursos de PHP2',1);
-SELECT id_categoria AS LastID FROM categoria WHERE id_categoria = @@Identity;
-
-
-
-TRUNCATE TABLE categoria;
-Delete from categoria where id_categoria != 10;
-
-
-
 
 
 

@@ -73,7 +73,7 @@ $app->post('/aumentaSuProgreso', function (Request $request, Response $response)
 // Agrega a Contrata
 $app->post('/AgregaContrata', function (Request $request, Response $response) {
     if ($request->getParam('cursoid') && $request->getParam('usuarioid')) {
-        $losDatos = new ContrataModel(null, $request->getParam('cursoid'), $request->getParam('usuarioid'),null,null,null);
+        $losDatos = new ContrataModel(null, $request->getParam('usuarioid'), $request->getParam('cursoid'),null,null,null);
         ContrataController::addContrata($losDatos);
     } else {
         echo '{"message" : { "status": "500" , "text": "Server error" } }';
@@ -82,7 +82,7 @@ $app->post('/AgregaContrata', function (Request $request, Response $response) {
 // Califica el Curso
 $app->post('/CalificaCurso', function (Request $request, Response $response) {
     if ($request->getParam('cursoid') && $request->getParam('usuarioid') && $request->getParam('calificacion')) {
-        $losDatos = new ContrataModel(null, $request->getParam('cursoid'), $request->getParam('usuarioid'),$request->getParam('calificacion'),null,null);
+        $losDatos = new ContrataModel(null, $request->getParam('usuarioid'), $request->getParam('cursoid'),$request->getParam('calificacion'),null,null);
         ContrataController::CalificaCurso($losDatos);
     } else {
         echo '{"message" : { "status": "500" , "text": "Server error" } }';

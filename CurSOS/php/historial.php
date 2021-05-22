@@ -67,7 +67,7 @@
                             html += '<div class="card-body">';
                             html += '<h5 class="card-title">'+ dato.nombre +'</h5>';
                             html += '<p class="card-text">' + dato.descripcion + '</p>';
-                            html += '<p class="card-text"><small class="text-muted">' + dato.CreadorCurso + '</small></p>';
+                            html += '<p class="card-text"><small class="text-muted">' + dato.NombreUsuario + '</small></p>';
                             html += '</div>';
                             html += '</div>';
                             html += '</div>';

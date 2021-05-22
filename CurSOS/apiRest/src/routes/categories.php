@@ -15,7 +15,7 @@ $app->post('/getCategorias', function (Request $request, Response $response) {
         echo json_encode($categories);
     }else {
 
-        return json_encode("No existen Categorias en la BBDD.");
+        return json_encode("");
     }
 });
 // Agrega una nueva categoria

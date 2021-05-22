@@ -25,7 +25,7 @@ $app->post('/TraerCursosDeCategoria', function (Request $request, Response $resp
     }
 });
 
-//Busca los cursos existentes
+//Busca los cursos para traer usuarios registrados y dinero ganado
 $app->post('/getCursoVentas', function (Request $request, Response $response) {
     $cursos = CursoController::getCursoVentas($request->getParam('idcurso'));
     if ($cursos != null) {
@@ -74,7 +74,17 @@ $app->post('/get3CursosRecientes', function (Request $request, Response $respons
     if ($cursos != null) {
         echo json_encode($cursos);
     }else {
-        echo '{"message" : { "status": "500" , "text": "Server error"  }';
+        echo json_encode("");
+    }
+});
+
+//Busca los 3 cursos mas vendidos
+$app->post('/get3CursosMasVendidos', function (Request $request, Response $response) {
+    $cursos = CursoController::get3CursosMasVendidos();
+    if ($cursos != null) {
+        echo json_encode($cursos);
+    }else {
+        echo json_encode("");
     }
 });
 

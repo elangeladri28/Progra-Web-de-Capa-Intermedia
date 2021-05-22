@@ -45,53 +45,9 @@
                 </div>
             </div>
             <div class="col-md-12 mb-5">
-                <h2>Lo mejor de Marketing</h2>
+                <h2>Cursos Mas Vendidos</h2>
                 <hr>
-                <div class="row">
-                    <div class="col-md-4 mb-5">
-                        <div class="card h-100">
-                            <img class="card-img-top" src="https://miro.medium.com/max/8000/1*JrHDbEdqGsVfnBYtxOitcw.jpeg" alt="">
-                            <div class="card-body">
-                                <h4 class="card-title">Scrum Master + Liderar Equipos Scrum y Ágil.</h4>
-                                <p class="card-text">Gestión de Proyectos Agiles con Scrum y manejo de incertidumbre en tiempos de crisis.</p>
-                            </div>
-                            <div class="card-footer">
-                                <a href="seleccionado.php" class="btn btn-primary">Find Out More!</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card h-100">
-                            <img class="card-img-top" src="https://miro.medium.com/max/8000/1*JrHDbEdqGsVfnBYtxOitcw.jpeg" alt="">
-                            <div class="card-body">
-                                <h4 class="card-title">Scrum Master + Liderar Equipos Scrum y Ágil.</h4>
-                                <p class="card-text">Gestión de Proyectos Agiles con Scrum y manejo de incertidumbre en tiempos de crisis.</p>
-                                <p class="card-text"><small class="text-muted">Carlos Adrian Betancourt</small>
-                                </p>
-                                <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> 4.0 stars
-                                <p class="card-text"><small class="text-muted">100 horas</small></p>
-                            </div>
-                            <div class="card-footer">
-                                <a href="seleccionado.html" class="btn btn-primary">Find Out More!</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card h-100">
-                            <img class="card-img-top" src="https://miro.medium.com/max/8000/1*JrHDbEdqGsVfnBYtxOitcw.jpeg" alt="">
-                            <div class="card-body">
-                                <h4 class="card-title">Scrum Master + Liderar Equipos Scrum y Ágil.</h4>
-                                <p class="card-text">Gestión de Proyectos Agiles con Scrum y manejo de incertidumbre en tiempos de crisis.</p>
-                                <p class="card-text"><small class="text-muted">Carlos Adrian Betancourt</small>
-                                </p>
-                                <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> 4.0 stars
-                                <p class="card-text"><small class="text-muted">100 horas</small></p>
-                            </div>
-                            <div class="card-footer">
-                                <a href="seleccionado.html" class="btn btn-primary">Find Out More!</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row" id="CursosMasVendidos">
                 </div>
             </div>
         </div>
@@ -116,11 +72,11 @@
             var idactual = <?php echo $_SESSION['id_usuario'] ?>;
         <?php } ?>
 
-        get3CursosRecientes();
+        getCursos();
 
-        function get3CursosRecientes() {
+        function getCursos() {
             debugger
-            $.ajax({
+            var promise = $.ajax({
                 url: urlglobal.url + "/get3CursosRecientes",
                 async: true,
                 type: 'POST',
@@ -147,6 +103,36 @@
                     alert("Error con los cursos mas recientes, posiblemente no hay ni uno");
                 }
             })
+            promise.then(() => {
+                $.ajax({
+                    url: urlglobal.url + "/get3CursosMasVendidos",
+                    async: true,
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function(datos) {
+                        for (let dato of datos) {
+                            var html = '<div class="col-md-4 mb-5">';
+                            html += '<div class="card h-100">';
+                            html += '<img class="card-img-top" src="' + dato.foto + '" alt="">';
+                            html += '<div class="card-body">';
+                            html += '<h4 class="card-title">' + dato.nombre + '</h4>';
+                            html += '<p class="card-text">' + dato.descripcion + '</p>';
+                            html += '</div>';
+                            html += '<div class="card-footer">';
+                            html += '<a href="seleccionado.php?idcurso=' + dato.id_curso + '" class="btn btn-primary">Ver Curso</a>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            $('#CursosMasVendidos').append(html);
+                        }
+                    },
+                    error: function() {
+                        alert("Error con los cursos mas recientes, posiblemente no hay ni uno");
+                    }
+                })
+
+            });
         }
     });
 </script>

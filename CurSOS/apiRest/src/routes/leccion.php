@@ -13,7 +13,7 @@ $app->post('/getLeccionesCurso', function (Request $request, Response $response)
     if ($lecciones != null) {
         echo json_encode($lecciones);
     }else {
-        return json_encode("No existen Lecciones en la BBDD.");
+        return json_encode("");
     }
 });
 
@@ -23,7 +23,7 @@ $app->post('/getLeccionEspecifica', function (Request $request, Response $respon
     if ($leccion != null) {
         echo json_encode($leccion);
     }else {
-        return json_encode("No existe esta leccion en la BBDD.");
+        return json_encode("");
     }
 });
 

@@ -1,4 +1,6 @@
+use cursos;
 -- Stored procedures
+DROP PROCEDURE IF EXISTS getChatEntero;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getChatEntero`(idprimero INT, idsegundo INT)
 BEGIN
@@ -9,6 +11,28 @@ BEGIN
 END$$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS getCursoVentas;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursoVentas`(idcurso INT)
+BEGIN	
+
+    Select nombre,
+    (Select Count(usuarioid) from Contrata where cursoid = idcurso) as cantidad_personas,
+    ((Select Count(usuarioid) from Contrata where cursoid = idcurso) * (Select costo from Curso where id_curso = idcurso)) as cantidad_total from Curso WHERE id_curso = idcurso;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS ContadorContratados;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `ContadorContratados`(idcurso int) RETURNS int
+BEGIN
+	DECLARE numero INT;
+	SET numero = (SELECT COUNT(cursoid) FROM Contrata WHERE cursoid = idcurso);
+	RETURN numero;
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS getPersonasChateas;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPersonasChateas`(idusuario INT)
 BEGIN
@@ -23,6 +47,7 @@ BEGIN
 END$$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS getUserByUsername;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserByUsername`(Username VARCHAR(50))
 BEGIN
@@ -30,6 +55,7 @@ BEGIN
 END$$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS aumentaSuProgreso;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `aumentaSuProgreso`(idusuario int,idcurso int)
 BEGIN
@@ -42,13 +68,11 @@ BEGIN
 	UPDATE Contrata SET progreso = progresoactual, contadorLecciones = contadorleccionesvistas WHERE usuarioid = idusuario and cursoid = idcurso;
 END$$
 DELIMITER ;
-Select contadorLecciones from Contrata WHERE usuarioid = 1 and cursoid = 1;
-CALL `cursos`.`aumentaSuProgreso`(1, 1);
-SELECT * FROM CONTRATA;
-UPDATE CONTRATA SET contadorLecciones = 0, progreso = 0 WHERE id_contrata = 1;
 
 -- Funciones
 SET GLOBAL log_bin_trust_function_creators = 1;
+
+DROP FUNCTION IF EXISTS TraerIDPersonaChateas;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` FUNCTION `TraerIDPersonaChateas`(nombre VARCHAR(255)) RETURNS int
 BEGIN
@@ -57,6 +81,8 @@ BEGIN
 	RETURN suid;
 END$$
 DELIMITER ;
+
+DROP FUNCTION IF EXISTS RevisaEstaContratado;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` FUNCTION `RevisaEstaContratado`(idusuario int,idcurso int) RETURNS int
 BEGIN
@@ -65,8 +91,8 @@ BEGIN
 	RETURN numero;
 END$$
 DELIMITER ;
-SELECT * FROM CONTRATA
-UPDATE CONTRATA SET contadorLecciones = 0, progreso = 0 WHERE id_contrata = 1
+
+DROP FUNCTION IF EXISTS RevisaSiYaTienesLasLecciones;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` FUNCTION `RevisaSiYaTienesLasLecciones`(idusuario int,idcurso int ) RETURNS int
 BEGIN
@@ -82,79 +108,69 @@ BEGIN
 END$$
 DELIMITER ;
 -- Triggers
-DELIMITER $$
 
+DELIMITER $$
 CREATE TRIGGER after_contrata_insert
 AFTER INSERT
 ON Contrata FOR EACH ROW
 BEGIN
         DELETE FROM Carrito WHERE NEW.usuarioid = Carrito.usuarioid  AND NEW.cursoid = Carrito.cursoid;
 END$$
-
 DELIMITER ;
-DELIMITER $$
 
+DELIMITER $$
 CREATE TRIGGER after_contrata_insert2
 AFTER INSERT
 ON Contrata FOR EACH ROW
 BEGIN
         INSERT INTO `cursos`.`historial`(`id_historial`,`cursoid`,`usuarioid`)VALUES(null,NEW.cursoid,NEW.usuarioid);
-
-
 END$$
-
 DELIMITER ;
--- Views
-use cursos;
 
+-- Views
+
+DROP VIEW IF EXISTS LasCategorias;
 CREATE VIEW LasCategorias AS    
 SELECT `categoria`.`id_categoria`, `categoria`.`categoria`,`categoria`.`descripcion`, `categoria`.`activo` FROM `cursos`.`categoria`;
 
+DROP VIEW IF EXISTS LasCategorias;
 CREATE VIEW LosCursos AS    
 SELECT `curso`.`id_curso`,`curso`.`nombre`,`curso`.`descripcion`,`curso`.`costo`,`curso`.`foto`,`curso`.`video`,`curso`.`categoriaid`,`curso`.`activo`,`curso`.`fechaCreado`,`curso`.`usuid`FROM `cursos`.`curso`;
 
+DROP VIEW IF EXISTS LosCursosBuscados;
 CREATE VIEW LosCursosBuscados AS    
 SELECT `curso`.`id_curso`,`curso`.`nombre`,`curso`.`descripcion`,`curso`.`costo`,`curso`.`foto`,`curso`.`video`,`curso`.`categoriaid`,`curso`.`activo`,`curso`.`fechaCreado`,`curso`.`usuid`,Usuario.nombre as CreadorCurso FROM `cursos`.`curso`
 inner join Usuario on Usuario.id_usuario = curso.usuid;
 
+DROP VIEW IF EXISTS HistorialDeCursos;
+CREATE VIEW HistorialDeCursos AS    
+SELECT curso.id_curso,curso.nombre,curso.descripcion,curso.costo,curso.foto,curso.video,curso.categoriaid,curso.activo,curso.fechaCreado,curso.usuid, Usuario.usuario as CreadorCurso, usuarioid FROM Historial
+inner join curso on curso.usuid = Historial.cursoid
+inner join Usuario on Usuario.id_usuario = Curso.usuid;
 
 DROP VIEW IF EXISTS LasLecciones;
 CREATE VIEW LasLecciones AS    
 SELECT `leccion`.`id_leccion`,`leccion`.`nombre`,`leccion`.`cursoid`,`leccion`.`nivel`,`leccion`.`archivo`,`leccion`.`foto`,`leccion`.`video`,`leccion`.`extra`,`leccion`.`activo`,`leccion`.`fechaCreado`FROM `cursos`.`leccion`;
 
+DROP VIEW IF EXISTS ElCarrito;
 CREATE VIEW ElCarrito AS    
 SELECT id_carrito,Curso.nombre as NombreCurso,Usuario.nombre as NombreUsuario, usuarioid, cursoid FROM `cursos`.`carrito`
 inner join Usuario on Usuario.id_usuario = Carrito.usuarioid
 inner join Curso on Curso.id_curso = Carrito.cursoid;
 INSERT INTO `cursos`.`carrito`(`id_carrito`,`cursoid`,`usuarioid`)VALUES(null,1,1);
 
+DROP VIEW IF EXISTS LosCursosCarrito;
 CREATE VIEW LosCursosCarrito AS    
 SELECT id_carrito,Curso.nombre as NombreCurso, Curso.foto as FotoCurso, Curso.descripcion as DescripcionCurso, Curso.costo as PrecioCurso, cursoid, usuarioid FROM `cursos`.`carrito`
 inner join Curso on Curso.id_curso = Carrito.cursoid;
 
+DROP VIEW IF EXISTS ComentariosDelCurso;
 CREATE VIEW ComentariosDelCurso AS    
 SELECT id_comencurs,cursoid, comentario, Usuario.nombre as NombreUsuario, usuid FROM `cursos`.`ComentarioCurso`
 inner join Usuario on Usuario.id_usuario = ComentarioCurso.usuid;
 
+DROP VIEW IF EXISTS CursosDelUsuario;
 CREATE VIEW CursosDelUsuario AS    
 SELECT `contrata`.`id_contrata`,`contrata`.`usuarioid`,`contrata`.`cursoid`,`contrata`.`calificacioncurso`,`contrata`.`progreso`,Curso.nombre as Nombrecurso FROM `cursos`.`contrata`
 inner join Curso on Curso.id_curso = Contrata.cursoid;
-
-Select * FROM LosCursosBuscados WHERE nombre like '%PHP%';
-Select * from CursosDelUsuario where usuarioid = 1;
-Select * from LosCursosCarrito Where usuarioid = 1;
-Select * from ElCarrito Where usuarioid = 1;
-Select * from ElCarrito Where usuarioid = 1 and cursoid = 1;
-Select * from Carrito;
-Delete from Carrito where id_carrito = 1;
-Select * FROM LasLecciones WHERE id_leccion = 1;
-Select RevisaSiYaTienesLasLecciones(1,1) as resultado;
-Select * from ComentariosDelCurso Where cursoid = 1;
-
-
-Drop VIEW ElCarrito;
-Drop VIEW LosCursosCarrito;
-Drop VIEW LasCategorias;
-Drop VIEW LosCursos;
-
 

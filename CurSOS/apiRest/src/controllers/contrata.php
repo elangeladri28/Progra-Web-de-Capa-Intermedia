@@ -194,8 +194,7 @@ class ContrataController
         $cursoid = $CarritoInfo->getcursoid();
         $usuarioid = $CarritoInfo->getusuarioid();
 
-        $sql = "INSERT INTO `cursos`.`contrata`(`id_contrata`,`usuarioid`,`cursoid`,`calificacioncurso`,`contadorLecciones`,`progreso`)VALUES(null," . $usuarioid . "," . $cursoid . ", null, null,null);";
-
+        $sql = "INSERT INTO `cursos`.`contrata`(`id_contrata`,`usuarioid`,`cursoid`)VALUES(null," . $usuarioid . "," . $cursoid . ");";
         try {
             $db = new db();
             $db = $db->connectionDB();

@@ -173,6 +173,7 @@
         });
 
         function RevisaCarro(CarritoData) {
+            var muestrame;
             var dataToSend = {
                 cursoid: CarritoData.cursoid,
                 usuarioid: CarritoData.usuarioid
@@ -187,7 +188,7 @@
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function(data) {
-                    var muestrame = Object.keys(data).length; //Obtienes el numero de cursos
+                    muestrame = Object.keys(data).length; //Obtienes el numero de cursos
                     if (muestrame > 0) {
                         debugger
                         alert("Este curso ya esta en el carrito");
@@ -219,8 +220,11 @@
                             $('#btn-Comentar').removeAttr("disabled");
 
                         } else {
-                            debugger
-                            $('#ComprarCurso').removeAttr("disabled");
+                            if (muestrame == 0) {
+                                debugger
+                                $('#ComprarCurso').removeAttr("disabled");
+
+                            }
                         }
 
                     },
