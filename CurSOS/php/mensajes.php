@@ -200,14 +200,14 @@
                         if (i == 0) { //el primero
                             // build the new query
                             var html = '<div class="conversation active">';
-                            html += '<img src="../imagenes/andre.jpg" width="40px" alt="" style="opacity: 0;" />';
+                            html += '<img src="" width="40px" alt="" style="opacity: 0;" />';
                             html += '<div class="title-text">' + data[i].usuario + '</div>';
                             html += '</div>';
                             $('#conversation-list').append(html);
 
                         } else {
                             var html = '<div class="conversation">';
-                            html += '<img src="../imagenes/andre.jpg" width="40px" alt="" style="opacity: 0;" />';
+                            html += '<img src="" width="40px" alt="" style="opacity: 0;" />';
                             html += '<div class="title-text">' + data[i].usuario + '</div>';
                             html += '</div>';
                             $('#conversation-list').append(html);

@@ -38,7 +38,8 @@
                     <div class="card-body">
                         <br><br>
                         <button id="ComprarCurso" class="btn btn-success" style="margin-right:15px;" disabled>Añadir al carrito</button>
-                        <button id="CursoCertificado" class="btn btn-success" disabled>Obtener Certificado</button>
+                        <button id="CursoCertificado" class="btn btn-success" style="margin-right:15px;" disabled>Obtener Certificado</button>
+                        <button id="CompartirCurso" class="btn btn-success">Compartir</button>
                     </div>
                 </div>
                 <!-- /.card -->
@@ -91,6 +92,16 @@
         var idDelCurso = searchParams.get('idcurso'); //Revisa el valor del id del curso
         getInfoCurso(idDelCurso);
 
+        // Revisa si esta logueado, en caso de que si, se agrega la funcionalidad
+        <?php
+        if (isset($_SESSION['id_usuario'])) { ?>
+
+            var idactual = <?php echo $_SESSION['id_usuario'] ?>;
+            var nombreactual = <?php echo json_encode($_SESSION['nombre']) ?>;
+            var CarritoData = new Carrito(null, idDelCurso, idactual)
+            RevisaCarro(CarritoData);
+        <?php } ?>
+
         function getInfoCurso(param) {
             var dataToSend = {
                 id_curso: param
@@ -125,18 +136,6 @@
                 }
             })
         };
-        // Revisa si esta logueado, en caso de que si, se agrega la funcionalidad
-        <?php
-        if (isset($_SESSION['id_usuario'])) { ?>
-
-            var idactual = <?php echo $_SESSION['id_usuario'] ?>;
-            var nombreactual = <?php echo json_encode($_SESSION['nombre']) ?>;
-            var CarritoData = new Carrito(null, idDelCurso, idactual)
-            RevisaCarro(CarritoData);
-
-
-
-        <?php } ?>
         $('#ComprarCurso').on('click', (event) => {
             AgregaEnCarrito(idDelCurso);
         });
@@ -476,6 +475,42 @@
                 }
             });
         }
+
+        ///////////////////////////////////// FACEBOOK  ////////////////////////////////////
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: '3496486320412131',
+                xfbml: true,
+                version: 'v9.0'
+            });
+            FB.AppEvents.logPageView();
+        };
+
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        ////Compartir Puntuacion
+        function shareCourse() {
+            FB.ui({
+                method: 'share',
+                href: 'http://157.245.215.151/Progra-Web-de-Capa-Intermedia/CurSOS/',
+                hashtag: '#CurSOS',
+                quote: "Soy " + nombreactual + " y me gusto este curso, esta padre!"
+            }, function(response) {});
+        }
+        $('#CompartirCurso').on('click', (event) => {
+            shareCourse();
+        });
+
+        ///////////////////////////////////// FACEBOOK  ////////////////////////////////////
+
 
     });
 </script>
