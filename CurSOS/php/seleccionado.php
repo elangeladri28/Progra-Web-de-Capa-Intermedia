@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../imagenes/Logo.png">
     <title>CurSOS</title>
+    <script type="text/javascript" src="../Js/jquery-2.1.4.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" />
-    <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/modsSeleccionado.css">
 
-    <script type="text/javascript" src="../js/modelosJS/carrito.js"></script>
-    <script type="text/javascript" src="../js/modelosJS/leccion.js"></script>
-    <script type="text/javascript" src="../js/modelosJS/contrata.js"></script>
-    <script type="text/javascript" src="../js/modelosJS/comentario.js"></script>
+    <script type="text/javascript" src="../Js/modelosJS/carrito.js"></script>
+    <script type="text/javascript" src="../Js/modelosJS/leccion.js"></script>
+    <script type="text/javascript" src="../Js/modelosJS/contrata.js"></script>
+    <script type="text/javascript" src="../Js/modelosJS/comentario.js"></script>
 
 </head>
 
@@ -80,7 +80,7 @@
 <script type="module">
     import {
         urlglobal
-    } from '../js/urlglobal.js'
+    } from '../Js/urlglobal.js'
 
     var SeleccionoLeccion = false; //True significa que si esta contratado, podemos traer lecciones
     var queLeccionEs;
