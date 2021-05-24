@@ -22,16 +22,6 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS ContadorContratados;
-DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `ContadorContratados`(idcurso int) RETURNS int
-BEGIN
-	DECLARE numero INT;
-	SET numero = (SELECT COUNT(cursoid) FROM Contrata WHERE cursoid = idcurso);
-	RETURN numero;
-END$$
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS getPersonasChateas;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPersonasChateas`(idusuario INT)
@@ -107,6 +97,17 @@ BEGIN
 	RETURN numero;
 END$$
 DELIMITER ;
+
+DROP FUNCTION IF EXISTS ContadorContratados;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `ContadorContratados`(idcurso int) RETURNS int
+BEGIN
+	DECLARE numero INT;
+	SET numero = (SELECT COUNT(cursoid) FROM Contrata WHERE cursoid = idcurso);
+	RETURN numero;
+END$$
+DELIMITER ;
+
 -- Triggers
 
 DELIMITER $$
@@ -133,7 +134,7 @@ DROP VIEW IF EXISTS LasCategorias;
 CREATE VIEW LasCategorias AS    
 SELECT `categoria`.`id_categoria`, `categoria`.`categoria`,`categoria`.`descripcion`, `categoria`.`activo` FROM `cursos`.`categoria`;
 
-DROP VIEW IF EXISTS LasCategorias;
+DROP VIEW IF EXISTS LosCursos;
 CREATE VIEW LosCursos AS    
 SELECT `curso`.`id_curso`,`curso`.`nombre`,`curso`.`descripcion`,`curso`.`costo`,`curso`.`foto`,`curso`.`video`,`curso`.`categoriaid`,`curso`.`activo`,`curso`.`fechaCreado`,`curso`.`usuid`FROM `cursos`.`curso`;
 
@@ -157,7 +158,6 @@ CREATE VIEW ElCarrito AS
 SELECT id_carrito,Curso.nombre as NombreCurso,Usuario.nombre as NombreUsuario, usuarioid, cursoid FROM `cursos`.`carrito`
 inner join Usuario on Usuario.id_usuario = Carrito.usuarioid
 inner join Curso on Curso.id_curso = Carrito.cursoid;
-INSERT INTO `cursos`.`carrito`(`id_carrito`,`cursoid`,`usuarioid`)VALUES(null,1,1);
 
 DROP VIEW IF EXISTS LosCursosCarrito;
 CREATE VIEW LosCursosCarrito AS    
